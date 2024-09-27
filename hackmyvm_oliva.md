@@ -381,11 +381,9 @@ linpeas.sh                                      100%[===========================
   1144  /var/www/html/index.html
 ```
 <div>
-        <img src="assets/logo_hacktricks.png" alt="HackTricks Logo">
+        <img src="assets/logo_hacktricks.png" alt="HackTricks Logo" width="16" height="auto">
         <span style="color: red; font-size: 110%;"><strong>HackTricks</strong></span>
 </div>
-
-<br>
 
 [Linux Capabilities](https://book.hacktricks.xyz/linux-hardening/privilege-escalation/linux-capabilities)
 
