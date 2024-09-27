@@ -310,7 +310,7 @@ linpeas.sh                                      100%[===========================
 ```
 [...]
 
-201                  ╔════════════════════════════════════════════════╗
+   201                  ╔════════════════════════════════════════════════╗
    202  ════════════════╣ Processes, Crons, Timers, Services and Sockets ╠════════════════                                                                                                   
    203                  ╚════════════════════════════════════════════════╝                                                                                                                   
    204  ╔══════════╣ Cleaned processes
@@ -343,7 +343,7 @@ linpeas.sh                                      100%[===========================
 
 [...]
 
- 439  ╔══════════╣ Active Ports
+   439  ╔══════════╣ Active Ports
    440  ╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#open-ports                                                                                                        
    441  tcp   LISTEN 0      80         127.0.0.1:3306 ←    0.0.0.0:*                                                                                                                         
    442  tcp   LISTEN 0      511          0.0.0.0:80        0.0.0.0:*          
@@ -353,7 +353,7 @@ linpeas.sh                                      100%[===========================
 
 [...]
 
- 1015  ╔══════════╣ Capabilities                                                                                                                                                            
+  1015  ╔══════════╣ Capabilities                                                                                                                                                            
   1016  ╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#capabilities                                                                                                      
   1017  ══╣ Current shell capabilities                                                                                                                                                       
   1018  CapInh:  0x0000000000000000=                                                                                                                                                         
@@ -381,15 +381,13 @@ linpeas.sh                                      100%[===========================
   1144  /var/www/html/index.html
 ```
 <div>
-        <img src="./../assets/logo_hacktricks.png" alt="HackTricks Logo">
+        <img src="assets/logo_hacktricks.png" alt="HackTricks Logo" width="16" height="auto">
         <span style="color: red; font-size: 110%;"><strong>HackTricks</strong></span>
 </div>
 
-<br>
-
 [Linux Capabilities](https://book.hacktricks.xyz/linux-hardening/privilege-escalation/linux-capabilities)
 
-[**CAP_DAC_READ_SEARCH**](https://man7.org/linux/man-pages/man7/capabilities.7.html) enables a process to **bypass permissions for reading files and for reading and executing directories**. Its primary use is for file searching or reading purposes. However, it also allows a process to use the `open_by_handle_at(2)` function, which can access any file, including those outside the process's mount namespace. The handle used in `open_by_handle_at(2)` is supposed to be a non-transparent identifier obtained through `name_to_handle_at(2)`, but it can include sensitive information like inode numbers that are vulnerable to tampering. The potential for exploitation of this capability, particularly in the context of Docker containers, was demonstrated by Sebastian Krahmer with the shocker exploit, as analyzed [here](https://medium.com/@fun_cuddles/docker-breakout-exploit-analysis-a274fff0e6b3). **This means that you can bypass file read permission checks and directory read/execute permission checks.**
+[**#CAP_DAC_READ_SEARCH**](https://man7.org/linux/man-pages/man7/capabilities.7.html) enables a process to **bypass permissions for reading files and for reading and executing directories**. Its primary use is for file searching or reading purposes. However, it also allows a process to use the `open_by_handle_at(2)` function, which can access any file, including those outside the process's mount namespace. The handle used in `open_by_handle_at(2)` is supposed to be a non-transparent identifier obtained through `name_to_handle_at(2)`, but it can include sensitive information like inode numbers that are vulnerable to tampering. The potential for exploitation of this capability, particularly in the context of Docker containers, was demonstrated by Sebastian Krahmer with the shocker exploit, as analyzed [here](https://medium.com/@fun_cuddles/docker-breakout-exploit-analysis-a274fff0e6b3). **This means that you can bypass file read permission checks and directory read/execute permission checks.**
 
 `ls -l /var/www/html/index.php`:
 ```
