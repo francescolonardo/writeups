@@ -310,7 +310,7 @@ linpeas.sh                                      100%[===========================
 ```
 [...]
 
-201                  ╔════════════════════════════════════════════════╗
+   201                  ╔════════════════════════════════════════════════╗
    202  ════════════════╣ Processes, Crons, Timers, Services and Sockets ╠════════════════                                                                                                   
    203                  ╚════════════════════════════════════════════════╝                                                                                                                   
    204  ╔══════════╣ Cleaned processes
@@ -343,7 +343,7 @@ linpeas.sh                                      100%[===========================
 
 [...]
 
- 439  ╔══════════╣ Active Ports
+   439  ╔══════════╣ Active Ports
    440  ╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#open-ports                                                                                                        
    441  tcp   LISTEN 0      80         127.0.0.1:3306 ←    0.0.0.0:*                                                                                                                         
    442  tcp   LISTEN 0      511          0.0.0.0:80        0.0.0.0:*          
@@ -353,7 +353,7 @@ linpeas.sh                                      100%[===========================
 
 [...]
 
- 1015  ╔══════════╣ Capabilities                                                                                                                                                            
+  1015  ╔══════════╣ Capabilities                                                                                                                                                            
   1016  ╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#capabilities                                                                                                      
   1017  ══╣ Current shell capabilities                                                                                                                                                       
   1018  CapInh:  0x0000000000000000=                                                                                                                                                         
