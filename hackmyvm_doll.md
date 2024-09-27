@@ -123,7 +123,7 @@ Starting gobuster in directory enumeration mode
 
 [Pentesting Docker Registry](https://book.hacktricks.xyz/network-services-pentesting/5000-pentesting-docker-registry)
 
-**Discovering**
+**#Discovering**
 The easiest way to discover this service running is get it on the output of nmap. Anyway, note that as it's a HTTP based service it can be behind HTTP proxies and nmap won't detect it. Some fingerprints:
 - If you access `/` nothing is returned in the response
 - If you access `/v2/` then `{}` is returned
@@ -606,7 +606,7 @@ unknown action: TEST ←
 
 [fzf](https://github.com/junegunn/fzf?tab=readme-ov-file#executing-external-programs)
 
-**Executing external programs**
+**#Executing external programs**
 You can set up key bindings for starting external processes without leaving fzf (`execute`, `execute-silent`).
 ```shell
 # Press F1 to open the file with less without leaving fzf
