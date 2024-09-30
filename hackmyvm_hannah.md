@@ -60,7 +60,7 @@ lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
 192.168.56.129 ←
 ```
 
-`nmap -Pn -sSV -p- -T5 192.168.56.123`:
+`nmap -Pn -sSV -p- -T5 192.168.56.130`:
 ```
 Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-09-30 07:54 EDT
 Nmap scan report for 192.168.56.129
