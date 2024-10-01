@@ -313,6 +313,7 @@ linpeas.sh                                      100%[===========================
 ```
 
 `chmod +x /tmp/linpeas.sh`
+
 `/tmp/linpeas.sh > /tmp/linpeas_output.txt`:
 
 `cat -n /tmp/linpeas_output.txt`:
