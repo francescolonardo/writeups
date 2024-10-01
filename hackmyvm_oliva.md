@@ -491,6 +491,7 @@ MariaDB [easy]> select * from logging; ←
 +--------+------+--------------+
 1 row in set (0,015 sec)
 ```
+
 `exit`
 
 `su root`:
@@ -511,6 +512,7 @@ uid=0(root) gid=0(root) grupos=0(root) ←
 ```
 
 `cd /root`
+
 `ls -alps`:
 ```
 total 32
