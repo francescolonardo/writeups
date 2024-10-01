@@ -10,7 +10,7 @@
 - Machine type: Linux VM <img src="https://hackmyvm.eu/img/linux.png" alt="Linux" width="20"/>
 - Machine difficulty: 🟨 Medium
 
-<img src="https://hackmyvm.eu/img/vm/ez.png" alt="Colors Machine Logo" width="150"/>
+<img src="https://hackmyvm.eu/img/vm/mez.png" alt="Colors Machine Logo" width="150"/>
 
 #### Tools Used
 
