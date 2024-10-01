@@ -450,7 +450,7 @@ This is just an echo PHTML test. ←
 
 [**#Chankro**]
 Your favourite tool to bypass **disable_functions** and **open_basedir** in your pentests.
-**How it works**
+
 PHP in Linux calls a binary (sendmail) when the mail() function is executed. If we have putenv() allowed, we can set the environment variable "LD_PRELOAD", so we can preload an arbitrary shared object. Our shared object will execute our custom payload (a binary or a bash script) without the PHP restrictions, so we can have a reverse shell, for example.
 The syntax is pretty straightforward:
 ```
