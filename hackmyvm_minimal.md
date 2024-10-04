@@ -18,7 +18,7 @@
 - Chankro
 - Cutter
 - ffuf
-- GEF
+- GEF (GDB)
 - Gobuster
 - Netcat
 - Nikto
