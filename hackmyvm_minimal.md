@@ -17,7 +17,6 @@
 - Burp Suite
 - Chankro
 - Cutter
-- ffuf
 - GEF (GDB)
 - Gobuster
 - Netcat
