@@ -12,6 +12,15 @@
 
 <img src="https://hackmyvm.eu/img/vm/hackingtoys.png" alt="HackingToys Machine Logo" width="150"/>
 
+#### Tools Used
+
+- Burp Suite
+- Gobuster
+- Netcat
+- Nmap
+- socat
+- SSTImap
+
 #### Machine Writeup
 
 ![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
