@@ -12,6 +12,13 @@
 
 <img src="https://hackmyvm.eu/img/vm/wave.png" alt="Wave Machine Logo" width="150"/>
 
+#### Tools Used
+
+- ffuf
+- Gobuster
+- Netcat
+- Nmap
+
 #### Machine Writeup
 
 ![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
