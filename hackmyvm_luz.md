@@ -636,7 +636,7 @@ Content-Length: 1
 
 `firefox` > `http://192.168.56.127/admin/index.php?page=menu`
 
-`<Ctrl+Shift+I>` > `Inspect` > `Network` > `Clear` > `Reload` > `Search: TEST`:
+`<Ctrl+Shift+I>` (`Inspect`) > `Network` > `Clear` > `Reload` > `Search: TEST`:
 ```
 228 <img src="assets/img/1727425680_revsh.php" class="card-img-top" alt="..."> ←
 ```
