@@ -163,7 +163,7 @@ StegSeek 0.6 - https://github.com/RickdeJager/StegSeek
 <-MnkFEo!SARTV#+D,Y4D'3_7G9D0LFWbmBCht5'AKYi.Eb-A(Bld^%E,TH.FCeu*@X0)<BOr<.BPD?sF!,R<@<<W;Dfm15Bk2*/F<G+4+EV:*DBND6+EV:.+E)./F!,aHFWb4/A0>E$/g+)2+EV:;Dg*=BAnE0-BOr;qDg-#3DImlA+B)]_C`m/1@<iu-Ec5e;FD,5.F(&Zl+D>2(@W-9>+@BRZ@q[!,BOr<.Ea`Ki+EqO;A9/l-DBO4CF`JUG@;0P!/g*T-E,9H5AM,)nEb/Zr/g*PrF(9-3ATBC1E+s3*3`'O.CG^*/BkJ\:
 ```
 
-`https://cyberchef.org/#recipe=From_Base85('!-u',true,'z')&input=PC1NbmtGRW8hU0FSVFYjK0QsWTREJzNfN0c5RDBMRldibUJDaHQ1J0FLWWkuRWItQShCbGReJUUsVEguRkNldSpAWDApPEJPcjwuQlBEP3NGISxSPEA8PFc7RGZtMTVCazIqL0Y8Rys0K0VWOipEQk5ENitFVjouK0UpLi9GISxhSEZXYjQvQTA%2BRSQvZyspMitFVjo7RGcqPUJBbkUwLUJPcjtxRGctIzNESW1sQStCKV1fQ2BtLzFAPGl1LUVjNWU7RkQsNS5GKCZabCtEPjIoQFctOT4rQEJSWkBxWyEsQk9yPC5FYWBLaStFcU87QTkvbC1EQk80Q0ZgSlVHQDswUCEvZypULUUsOUg1QU0sKW5FYi9aci9nKlByRig5LTNBVEJDMUUrczMqM2AnTy5DR14qL0JrSlw6`
+`https://cyberchef.org/#recipe=Magic(3,false,false,'')&input=PC1NbmtGRW8hU0FSVFYjK0QsWTREJzNfN0c5RDBMRldibUJDaHQ1J0FLWWkuRWItQShCbGReJUUsVEguRkNldSpAWDApPEJPcjwuQlBEP3NGISxSPEA8PFc7RGZtMTVCazIqL0Y8Rys0K0VWOipEQk5ENitFVjouK0UpLi9GISxhSEZXYjQvQTA%2BRSQvZyspMitFVjo7RGcqPUJBbkUwLUJPcjtxRGctIzNESW1sQStCKV1fQ2BtLzFAPGl1LUVjNWU7RkQsNS5GKCZabCtEPjIoQFctOT4rQEJSWkBxWyEsQk9yPC5FYWBLaStFcU87QTkvbC1EQk80Q0ZgSlVHQDswUCEvZypULUUsOUg1QU0sKW5FYi9aci9nKlByRig5LTNBVEJDMUUrczMqM2AnTy5DR14qL0JrSlw6`
 
 `CyberChef Input`:
 ```
@@ -172,8 +172,15 @@ StegSeek 0.6 - https://github.com/RickdeJager/StegSeek
 
 `CyberChef Output`:
 ```
+Recipe:
+[From_Base85('!-u')]
+
+Result snippet:
 Twenty years from now you will be more disappointed by the things that you didn't do than by the ones you did do. So throw off the bowlines. Sail away from the safe harbor. Catch the trade winds in your sails. Explore. Dream. Discover.
 pink:Pink4sPig$$ ←
+
+Properties:
+Valid UTF8 Entropy: 4.45
 ```
 
 `ftp 192.168.56.130`:
