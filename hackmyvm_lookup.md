@@ -760,7 +760,7 @@ total 12
 
 ![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
-`pwncat -lp 4444`:
+`pwncat-cs -lp 4444`:
 ```
 [10:02:13] Welcome to pwncat 🐈!
 bound to 0.0.0.0:4444 ←
