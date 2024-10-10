@@ -23,7 +23,7 @@
 - Nikto
 - Nmap
 - pspy
-- pwncat
+- pwncat-cs
 
 #### Machine Writeup
 
