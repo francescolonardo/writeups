@@ -14,14 +14,10 @@
 
 #### Tools Used
 
-- crackmapexec (impacket)
 - curl
-- Gobuster
 - Netcat
 - Nmap
 - pwncat-cs
-- smbclient
-- WhatWeb
 
 #### Machine Writeup
 
