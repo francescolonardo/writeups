@@ -21,7 +21,7 @@
 - Netcat
 - Nikto
 - Nmap
-- pwncat
+- pwncat-cs
 - SearchSploit
 - Metasploit
 
