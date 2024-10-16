@@ -514,8 +514,8 @@ If you lose this password, and you have root access to the main fog server, you 
 | Interface                     | enp0s3                            |
 | Is Enabled                    | ✔                                |
 | Is Graph Enabled (On Dashboard)| ✔                                |
-| Management Username           | fogproject                        |
-| Management Password           | 84D1gia!8M9HSsR8gXau              |
+| Management Username           | fogproject ←                      |
+| Management Password           | 84D1gia!8M9HSsR8gXau ←            |
 
 `ssh fogproject@192.168.56.141`:
 ```
