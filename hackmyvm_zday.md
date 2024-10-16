@@ -141,6 +141,7 @@ Export list for 192.168.56.141:
 ```
 
 `mkdir ./nfs-images`
+
 `mkdir ./nfs-images-dev`
 
 `mount -t nfs 192.168.56.141:images ./nfs-images -o nolock`
