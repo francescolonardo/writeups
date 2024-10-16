@@ -10,7 +10,7 @@
 - Machine type: Linux VM <img src="https://hackmyvm.eu/img/linux.png" alt="Linux" width="20"/>
 - Machine difficulty: 🟥 Hard
 
-<img src="https://hackmyvm.eu/img/vm/zday.png" alt="Zday Machine Logo" width="150"/>
+<img src="https://hackmyvm.eu/img/vm/hrd.png" alt="Zday Machine Logo" width="150"/>
 
 #### Tools Used
 
