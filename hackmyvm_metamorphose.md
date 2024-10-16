@@ -597,7 +597,7 @@ total 24
 
 `cat ./user.txt`:
 ```
-aab176494645050f3e8a7b081d443d3b ←
+aab17*************************** ←
 ```
 
 ![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
@@ -1030,7 +1030,7 @@ total 288
 
 `cat ./root.txt`:
 ```
-ac7f9ad56c6a07f55cdfd71aec2e04d5 ←
+ac7f9*************************** ←
 ```
 
 <img src="https://hackmyvm.eu/img/correctflag.png" alt="Machine Hacked!" width="150"/>
