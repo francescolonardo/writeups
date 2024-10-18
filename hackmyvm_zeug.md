@@ -1048,7 +1048,7 @@ total 44
 
 `cat ./user.txt`:
 ```
-HMYVM{exia_1XZ2GUy6gwSRwXwFUKEkZC6cT}
+HMYVM******************************** ←
 ```
 
 `sudo -l`:
@@ -1235,7 +1235,7 @@ total 32
 
 `cat ./root.txt`:
 ```
-HMYVM{root_Ut9RX5o7iZVKXjrOgcGW3fxBq} ←
+HMYVM******************************** ←
 ```
 
 <img src="https://hackmyvm.eu/img/correctflag.png" alt="Machine Hacked!" width="150"/>
