@@ -733,8 +733,6 @@ getting file \Users\zximena448\Desktop\user.txt of size 33 as user.txt (1.1 Kilo
 smb: \Users\zximena448\Desktop\> exit
 ```
 
-![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
-
 `cat ./user.txt`:
 ```
 2fe79*************************** ←
