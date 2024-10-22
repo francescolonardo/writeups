@@ -702,8 +702,6 @@ SMB         192.168.56.103  445    DC01             NETLOGON        READ        
 SMB         192.168.56.103  445    DC01             SYSVOL          READ            Logon server share
 ```
 
-![Victim: zximena448](https://custom-icon-badges.demolab.com/badge/Victim-zximena448-64b5f6?logo=windows11&logoColor=white)
-
 `smbclient -U 'zximena448' --password='internet' //192.168.56.103/C$`:
 ```
 Try "help" to get a list of possible commands.
