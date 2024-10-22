@@ -219,10 +219,14 @@ crackmapexec smb <IP> -u 'username' -H '<HASH>' --shares #Guest user
 
 ![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
+<❌ Failed Step>
+
 `smbclient --no-pass -L 192.168.56.103`:
 ```
 session setup failed: NT_STATUS_ACCESS_DENIED ←
 ```
+
+</❌ Failed Step>
 
 `nmap -Pn -sS --script=ldap-rootdse -p389 192.168.56.103`:
 ```
