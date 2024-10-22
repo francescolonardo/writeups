@@ -20,6 +20,7 @@
 - impacket-secretsdump
 - impacket-smbserver
 - kerbrute
+- ldapdomaindump
 - ldapsearch
 - Nmap
 
