@@ -102,6 +102,46 @@ Service detection performed. Please report any incorrect results at https://nmap
 Nmap done: 1 IP address (1 host up) scanned in 151.50 seconds
 ```
 
+`nmap -Pn -sS --script=smb-protocols -p445 192.168.56.103`:
+```
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-09-03 10:45 EDT
+Nmap scan report for 192.168.56.103
+Host is up (0.0014s latency).
+
+PORT    STATE SERVICE
+445/tcp open  microsoft-ds
+MAC Address: 08:00:27:A2:2A:A6 (Oracle VirtualBox virtual NIC)
+
+Host script results:
+| smb-protocols: ←
+|   dialects:
+|     2:0:2
+|     2:1:0
+|     3:0:0
+|     3:0:2
+|_    3:1:1
+
+Nmap done: 1 IP address (1 host up) scanned in 0.53 seconds
+```
+
+`nmap -Pn -sS --script=smb2-security-mode -p445 192.168.56.103`:
+```
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-09-03 10:45 EDT
+Nmap scan report for 192.168.56.103
+Host is up (0.0045s latency).
+
+PORT    STATE SERVICE
+445/tcp open  microsoft-ds
+MAC Address: 08:00:27:A2:2A:A6 (Oracle VirtualBox virtual NIC)
+
+Host script results:
+| smb2-security-mode: 
+|   3:1:1: 
+|_    Message signing enabled and required ←
+
+Nmap done: 1 IP address (1 host up) scanned in 0.58 seconds
+```
+
 <🔄 Alternative Step>
 
 `crackmapexec smb 192.168.56.103`:
