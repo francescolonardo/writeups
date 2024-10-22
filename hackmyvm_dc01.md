@@ -14,16 +14,17 @@
 
 #### Tools Used
 
-- crackmapexec
-- evil-winrm
-- impacket-GetADUsers
-- impacket-GetUserSPNs
+- CrackMapExec
+- Evil-WinRM
+- impacket-GetNPUsers
 - impacket-lookupsid
+- impacket-reg
 - impacket-secretsdump
-- John the Ripper
+- impacket-smbserver
+- Kerbrute
+- LDAPDomainDump
 - ldapsearch
 - Nmap
-- psexec
 - smbclient
 
 #### Machine Writeup
