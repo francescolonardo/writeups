@@ -94,9 +94,9 @@ Nmap done: 1 IP address (1 host up) scanned in 819.89 seconds
 SMB         10.10.10.161    445    FOREST           [*] Windows Server 2016 Standard 14393 x64 (name:FOREST) (domain:htb.local) (signing:True) (SMBv1:True) ←
 ```
 
-`echo -e '10.10.10.161\tFOREST.htb.local' | sudo tee -a /etc/hosts`:
+`echo -e '10.10.10.161\tFOREST.htb.local\tFOREST\thtb.local' | tee -a /etc/hosts`:
 ```
-10.10.10.161    FOREST.htb.local ←
+10.10.10.161    FOREST.htb.local    FOREST    htb.local ←
 ```
 
 <❌ Failed Step>
@@ -198,7 +198,7 @@ PORT    STATE SERVICE
 |       supportedSASLMechanisms: GSS-SPNEGO
 |       supportedSASLMechanisms: EXTERNAL
 |       supportedSASLMechanisms: DIGEST-MD5
-|       dnsHostName: FOREST.htb.local
+|       dnsHostName: FOREST.htb.local ←
 |       ldapServiceName: htb.local:forest$@HTB.LOCAL
 |       serverName: CN=FOREST,CN=Servers,CN=Default-First-Site-Name,CN=Sites,CN=Configuration,DC=htb,DC=local
 |       supportedCapabilities: 1.2.840.113556.1.4.800
@@ -1222,11 +1222,6 @@ Impacket v0.9.19 - Copyright 2019 SecureAuth Corporation
 ```
 
 </❌ Failed Step>
-
-`echo -n '10.10.10.161\tforest' | tee -a /etc/hosts`:
-```
-10.10.10.161    forest
-```
 
 <❌ Failed Step>
 
