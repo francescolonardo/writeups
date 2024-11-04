@@ -1,6 +1,6 @@
 # CTF Penetration Testing
 
-## HackTheBox
+## Platform: HackTheBox
 
 ### Machine: [Intelligence](https://www.hackthebox.com/machines/Intelligence)
 
