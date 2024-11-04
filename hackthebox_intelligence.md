@@ -2,19 +2,14 @@
 
 ## HackTheBox
 
-### Machine: Intelligence
-
-#### Machine Description
-
-- Machine name: [Intelligence](https://www.hackthebox.com/machines/Intelligence)
-- Machine type: Windows VM <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="20"/>
-- Machine difficulty: 🟨 Medium
+### Machine: [Intelligence](https://www.hackthebox.com/machines/Intelligence)
 
 <img src="https://labs.hackthebox.com/storage/avatars/78c5d8511bae13864c72ba8df1329e8d.png" alt="Intelligence Machine Logo" width="150"/>
 
-#### Machine Synopsis
+- Machine type: Windows VM <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="20"/>
+- Machine difficulty: 🟨 Medium
 
-Intelligence is a medium difficulty Windows machine that showcases a number of common attacks in an Active Directory environment. After retrieving internal PDF documents stored on the web server (by brute-forcing a common naming scheme) and inspecting their contents and metadata, which reveal a default password and a list of potential AD users, password spraying leads to the discovery of a valid user account, granting initial foothold on the system. A scheduled PowerShell script that sends authenticated requests to web servers based on their hostname is discovered; by adding a custom DNS record, it is possible to force a request that can be intercepted to capture the hash of a second user, which is easily crackable. This user is allowed to read the password of a group managed service account, which in turn has constrained delegation access to the domain controller, resulting in a shell with administrative privileges.
+> Intelligence is a medium difficulty Windows machine that showcases a number of common attacks in an Active Directory environment. After retrieving internal PDF documents stored on the web server (by brute-forcing a common naming scheme) and inspecting their contents and metadata, which reveal a default password and a list of potential AD users, password spraying leads to the discovery of a valid user account, granting initial foothold on the system. A scheduled PowerShell script that sends authenticated requests to web servers based on their hostname is discovered; by adding a custom DNS record, it is possible to force a request that can be intercepted to capture the hash of a second user, which is easily crackable. This user is allowed to read the password of a group managed service account, which in turn has constrained delegation access to the domain controller, resulting in a shell with administrative privileges.
 
 #### Tools Used
 
