@@ -12,9 +12,9 @@
 
 <img src="https://labs.hackthebox.com/storage/avatars/7dedecb452597150647e73c2dd6c24c7.png" alt="Forest Machine Logo" width="150"/>
 
-| Machine Synopsis                                                                           | Machine Matrix                                                                                           |
-|--------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|
-| Forest is an easy difficulty Windows Domain Controller (DC) machine, in a domain with Exchange Server installed. The DC allows anonymous LDAP binds, used to enumerate domain objects. The password for a service account with Kerberos pre-authentication disabled can be cracked to gain a foothold. The service account is found to be a member of the Account Operators group, which can add users to privileged Exchange groups. This group membership is leveraged to gain DCSync privileges on the domain and dump the NTLM hashes. | <img src=".\assets\htb_matrices/matrix_forest.png" alt="Forest Machine Matrix" width="300"/> |
+| Machine Synopsis                                                                          | Machine Matrix                                                                                          |
+|:------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------|
+| Forest is an easy difficulty Windows Domain Controller (DC) machine, in a domain with Exchange Server installed. The DC allows anonymous LDAP binds, used to enumerate domain objects. The password for a service account with Kerberos pre-authentication disabled can be cracked to gain a foothold. The service account is found to be a member of the Account Operators group, which can add users to privileged Exchange groups. This group membership is leveraged to gain DCSync privileges on the domain and dump the NTLM hashes. | <img src="C:\Users\nabla\Documents\Obsidian\vault-default\ctf_penetration_testing\hackmyvm\assets\htb_matrices/matrix_forest.png" alt="Forest Machine Matrix" width="200"/> |
 
 #### Tools Used
 
