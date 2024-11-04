@@ -275,7 +275,6 @@ text: 000004DC: LdapErr: DSID-0C090A5C, comment: In order to perform this opera
 
 `crackmapexec smb 10.10.10.248 -d 'intelligence.htb' -u '' -p '' --users`:
 ```
-crackmapexec smb 10.10.10.248 -d 'intelligence.htb' -u '' -p '' --users
 SMB         10.10.10.248    445    DC               [*] Windows 10.0 Build 17763 x64 (name:DC) (domain:intelligence.htb) (signing:True) (SMBv1:False)
 SMB         10.10.10.248    445    DC               [+] intelligence.htb\: 
 SMB         10.10.10.248    445    DC               [*] Trying to dump local users with SAMRPC protocol
