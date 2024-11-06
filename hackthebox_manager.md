@@ -1034,7 +1034,7 @@ Mode                LastWriteTime         Length Name
 
 `type C://Users/raven/Desktop/user.txt`:
 ```
-284e52b71f22e909a3039b23a422acfd ←
+284e5*************************** ←
 ```
 
 `whoami /all`:
