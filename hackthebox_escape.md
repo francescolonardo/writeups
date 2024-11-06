@@ -22,6 +22,7 @@
 - Kerberos Authentication
 - [ESC1 attack](https://www.beyondtrust.com/blog/entry/esc1-attacks#domain-escalation--esc1)
 - NTLM Authentication
+- [Silver Ticket Attack](https://www.crowdstrike.com/en-us/cybersecurity-101/cyberattacks/silver-ticket-attack/)
 
 #### Tools Used
 
@@ -63,7 +64,7 @@ tun0: flags=4305<UP,POINTOPOINT,RUNNING,NOARP,MULTICAST>  mtu 1500
 10.10.11.202 is alive ←
 ```
 
-`nmap -Pn -sSV -p- -T5 10.10.11.202`:
+`sudo nmap -Pn -sSV -p- -T5 10.10.11.202`:
 ```
 Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-11-04 11:37 CET
 Nmap scan report for 10.10.11.202
@@ -191,7 +192,7 @@ user PublicUser and password GuestUserCantWrite1 . ←
 Refer to the previous guidelines and make sure to switch the "Windows Authentication" to "SQL Server Authentication".
 ```
 
-`nmap -Pn -sS --script=ldap-rootdse -p389 10.10.11.202`:
+`sudo nmap -Pn -sS --script=ldap-rootdse -p389 10.10.11.202`:
 ```
 Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-11-04 13:22 CET
 Nmap scan report for 10.10.11.202
@@ -365,7 +366,7 @@ ldap_bind: Strong(er) authentication required (8) ←
 ```
 ❌
 
-`nmap -sSV --script ssl-cert -p636,3269 10.10.11.202`:
+`sudo nmap -sSV --script ssl-cert -p636,3269 10.10.11.202`:
 ```
 Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-11-04 13:57 CET
 Nmap scan report for dc.sequel.htb (10.10.11.202)
@@ -580,7 +581,7 @@ execute as   database   permission_name   state_desc   grantee   grantor
 ----------   --------   ---------------   ----------   -------   -------   
 ```
 
-`responder -I tun0`:
+`sudo responder -I tun0`:
 ```
                                          __
   .----.-----.-----.-----.-----.-----.--|  |.-----.----.
@@ -1522,7 +1523,7 @@ Info: Establishing connection to remote endpoint
 ```
 ❌
 
-`nmap -Pn -sS -p5985,5986 10.10.11.202`:
+`sudo nmap -Pn -sS -p5985,5986 10.10.11.202`:
 ```
 Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-11-05 12:06 CET
 Nmap scan report for dc.sequel.htb (10.10.11.202)
@@ -1801,7 +1802,7 @@ Certipy v4.8.2 - by Oliver Lyak (ly4k)
 ```
 ❌
 
-`ntpdate 10.10.11.202`:
+`sudo ntpdate 10.10.11.202`:
 ```
 2024-11-05 20:36:53.776683 (+0100) +28795.759347 +/- 0.079190 10.10.11.202 s1 no-leap
 CLOCK: time stepped by 28795.759347
@@ -1979,7 +1980,7 @@ Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies
 ```
 ❌
 
-`ntpdate 10.10.11.202`:
+`sudo ntpdate 10.10.11.202`:
 ```
 2024-11-05 23:22:38.353373 (+0100) +28795.295712 +/- 0.028015 10.10.11.202 s1 no-leap
 CLOCK: time stepped by 28795.295712
