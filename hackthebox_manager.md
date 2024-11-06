@@ -59,7 +59,7 @@ tun0: flags=4305<UP,POINTOPOINT,RUNNING,NOARP,MULTICAST>  mtu 1500
 10.10.11.236 is alive ←
 ```
 
-`nmap -Pn -sSV -p- -T5 10.10.11.236`:
+`sudo nmap -Pn -sSV -p- -T5 10.10.11.236`:
 ```
 Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-11-05 18:20 CET
 Warning: 10.10.11.236 giving up on port because retransmission cap hit (2).
@@ -143,7 +143,7 @@ SMB         10.10.11.236    445    DC01             [*] Trying to dump local use
 ```
 ❌
 
-`nmap -Pn -sS --script=ldap-rootdse -p389 10.10.11.236`:
+`sudo nmap -Pn -sS --script=ldap-rootdse -p389 10.10.11.236`:
 ```
 Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-11-05 18:23 CET
 Nmap scan report for 10.10.11.236
@@ -343,7 +343,7 @@ text: 000004DC: LdapErr: DSID-0C090CF4, comment: In order to perform this opera
 ```
 ❌
 
-`nmap -sSV --script ssl-cert -p636,3269 10.10.11.236`:
+`sudo nmap -sSV --script ssl-cert -p636,3269 10.10.11.236`:
 ```
 Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-11-05 18:30 CET
 Nmap scan report for dc01.manager.htb (10.10.11.236)
