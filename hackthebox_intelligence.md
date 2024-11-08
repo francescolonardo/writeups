@@ -7,7 +7,7 @@
 <img src="https://labs.hackthebox.com/storage/avatars/78c5d8511bae13864c72ba8df1329e8d.png" alt="Intelligence Machine Logo" width="150"/>
 
 - Machine type: <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="17"/> Windows
-- Machine difficulty: 🟨 Medium
+- Machine difficulty: 🟨 Medium (<span style="color:#f4b03b;">5.0</span>)
 
 > Intelligence is a medium difficulty Windows machine that showcases a number of common attacks in an Active Directory environment. After retrieving internal PDF documents stored on the web server (by brute-forcing a common naming scheme) and inspecting their contents and metadata, which reveal a default password and a list of potential AD users, password spraying leads to the discovery of a valid user account, granting initial foothold on the system. A scheduled PowerShell script that sends authenticated requests to web servers based on their hostname is discovered; by adding a custom DNS record, it is possible to force a request that can be intercepted to capture the hash of a second user, which is easily crackable. This user is allowed to read the password of a group managed service account, which in turn has constrained delegation access to the domain controller, resulting in a shell with administrative privileges.
 
@@ -227,7 +227,7 @@ Service Info: Host: DC; OS: Windows
 Nmap done: 1 IP address (1 host up) scanned in 0.75 seconds
 ```
 
-`echo -e '10.10.10.248\tdc.intelligence.htb intelligence.htb' | tee -a /etc/hosts`:
+`echo -e '10.10.10.248\tdc.intelligence.htb intelligence.htb' | sudo tee -a /etc/hosts`:
 ```
 10.10.10.248    dc.intelligence.htb intelligence.htb ←
 ```
@@ -708,7 +708,7 @@ SPIDER_P... 10.10.10.248    445    DC               [*]     STATS_FLAG: True
 SPIDER_P... 10.10.10.248    445    DC               [*] EXCLUDE_FILTER: ['print$', 'ipc$']
 SPIDER_P... 10.10.10.248    445    DC               [*]   EXCLUDE_EXTS: ['ico', 'lnk']
 SPIDER_P... 10.10.10.248    445    DC               [*]  MAX_FILE_SIZE: 50 KB
-SPIDER_P... 10.10.10.248    445    DC               [*]  OUTPUT_FOLDER: /tmp/cme_spider_plus
+SPIDER_P... 10.10.10.248    445    DC               [*]  OUTPUT_FOLDER: /tmp/cme_spider_plus ←
 
 [...]
 
