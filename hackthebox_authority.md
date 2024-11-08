@@ -1273,8 +1273,6 @@ Mode                LastWriteTime         Length Name
 
 `type C://Users/svc_ldap/Desktop/user.txt`:
 ```
-2f59756c1292f54ee08eb3908d50b8b8
-
 2f597*************************** ←
 ```
 
@@ -1733,7 +1731,7 @@ Certificate Templates
                                           AUTHORITY.HTB\Enterprise Admins
                                           AUTHORITY.HTB\Administrator
     [!] Vulnerabilities
-      ESC1                              : 'AUTHORITY.HTB\\Domain Computers' can enroll, enrollee supplies subject and template allows client authentication ←
+      ESC1                              : 'AUTHORITY.HTB\Domain Computers' can enroll, enrollee supplies subject and template allows client authentication ←
 ```
 
 The output gives us some information about certificate templates and more specifically about a template called `CorpVPN`.
@@ -2251,9 +2249,7 @@ nt authority\system ←
 
 `type root.txt`:
 ```
-e8226de5f5e68cfc62666f4a87271af2
-
-5b01d*************************** ←
+e8226*************************** ←
 ```
 
 <img src="https://hackmyvm.eu/img/correctflag.png" alt="Machine Hacked!" width="150"/>
