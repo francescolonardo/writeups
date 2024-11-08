@@ -7,7 +7,7 @@
 <img src="https://labs.hackthebox.com/storage/avatars/5ca8f0c721a9eca6f1aeb9ff4b4bac60.png" alt="Manager Machine Logo" width="150"/>
 
 - Machine type: <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="17"/> Windows
-- Machine difficulty: 🟨 Medium
+- Machine difficulty: 🟨 Medium (<span style="color:#f4b03b;">4.9</span>)
 
 > Manager is a medium difficulty Windows machine which hosts an Active Directory environment with AD CS (Active Directory Certificate Services), a web server, and an SQL server. The foothold involves enumerating users using RID cycling and performing a password spray attack to gain access to the MSSQL service. The `xp_dirtree` procedure is then used to explore the filesystem, uncovering a website backup in the web-root. Extracting the backup reveals credentials that are reused to WinRM to the server. Finally, the attacker escalates privileges through AD CS via ESC7 exploitation.
 
@@ -51,7 +51,6 @@ tun0: flags=4305<UP,POINTOPOINT,RUNNING,NOARP,MULTICAST>  mtu 1500
         RX errors 0  dropped 0  overruns 0  frame 0
         TX packets 2096  bytes 941051 (918.9 KiB)
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-
 ```
 
 `fping 10.10.11.236`:
@@ -252,7 +251,7 @@ Service Info: Host: DC01; OS: Windows
 Nmap done: 1 IP address (1 host up) scanned in 0.45 seconds
 ```
 
-`echo -e '10.10.11.236\tdc01.manager.htb manager.htb manager' | tee -a /etc/hosts`:
+`echo -e '10.10.11.236\tdc01.manager.htb manager.htb manager' | sudo tee -a /etc/hosts`:
 ```
 10.10.11.236    dc01.manager.htb manager.htb manager ←
 ```
@@ -284,46 +283,6 @@ result: 0 Success
 ```
 
 `ldapsearch -x -H ldap://10.10.11.236/ -b "DC=manager,DC=htb" '(objectClass=*)'`:
-```
-# extended LDIF
-#
-# LDAPv3
-# base <DC=manager,DC=htb> with scope subtree
-# filter: (objectClass=*)
-# requesting: ALL
-#
-
-# search result
-search: 2
-result: 1 Operations error
-text: 000004DC: LdapErr: DSID-0C090CF4, comment: In order to perform this opera
- tion a successful bind must be completed on the connection., data 0, v4563
-
-# numResponses: 1
-```
-❌
-
-`ldapsearch -x -H ldap://10.10.11.236/ -D 'manager.htb\' -w '' -b "DC=manager,DC=htb" '(objectClass=*)'`:
-```
-# extended LDIF
-#
-# LDAPv3
-# base <DC=manager,DC=htb> with scope subtree
-# filter: (objectClass=*)
-# requesting: ALL
-#
-
-# search result
-search: 2
-result: 1 Operations error
-text: 000004DC: LdapErr: DSID-0C090CF4, comment: In order to perform this opera
- tion a successful bind must be completed on the connection., data 0, v4563
-
-# numResponses: 1
-```
-❌
-
-`ldapsearch -x -H ldap://10.10.11.236/ -D 'manager.htb\guest' -w '' -b "DC=manager,DC=htb" '(objectClass=*)'`:
 ```
 # extended LDIF
 #
