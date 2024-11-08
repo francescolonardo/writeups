@@ -7,7 +7,7 @@
 <img src="https://labs.hackthebox.com/storage/avatars/7dedecb452597150647e73c2dd6c24c7.png" alt="Forest Machine Logo" width="150"/>
 
 - Machine type: <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="17"/> Windows
-- Machine difficulty: 🟩 Easy
+- Machine difficulty: 🟩 Easy (<span style="color:#f4b03b;">4.8</span>)
 
 > Forest in an easy difficulty Windows Domain Controller (DC), for a domain in which Exchange Server has been installed. The DC is found to allow anonymous LDAP binds, which is used to enumerate domain objects. The password for a service account with Kerberos pre-authentication disabled can be cracked to gain a foothold. The service account is found to be a member of the Account Operators group, which can be used to add users to privileged Exchange groups. The Exchange group membership is leveraged to gain DCSync privileges on the domain and dump the NTLM hashes.
 
@@ -219,7 +219,7 @@ Service Info: Host: FOREST; OS: Windows
 Nmap done: 1 IP address (1 host up) scanned in 0.71 seconds
 ```
 
-`echo -e '10.10.10.161\tforest.htb.local forest htb.local' | tee -a /etc/hosts`:
+`echo -e '10.10.10.161\tforest.htb.local forest htb.local' | sudo tee -a /etc/hosts`:
 ```
 10.10.10.161    forest.htb.local forest htb.local ←
 ```
