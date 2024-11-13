@@ -7,7 +7,7 @@
 <img src="https://labs.hackthebox.com/storage/avatars/7c69c876f496cd729a077277757d219d.png" alt="Blackfield Machine Logo" width="150"/>
 
 - Machine type: <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="17"/> Windows
-- Machine difficulty: 🟥 Hard (<span style="color:#e63c35;">4.9</span>)
+- Machine difficulty: 🟥 Hard (<span style="color:#e63c35;">5.9</span>)
 
 > Backfield is a hard difficulty Windows machine featuring Windows and Active Directory misconfigurations. Anonymous / Guest access to an SMB share is used to enumerate users. Once user is found to have Kerberos pre-authentication disabled, which allows us to conduct an ASREPRoasting attack. This allows us to retrieve a hash of the encrypted material contained in the AS-REP, which can be subjected to an offline brute force attack in order to recover the plaintext password. With this user we can access an SMB share containing forensics artefacts, including an lsass process dump. This contains a username and a password for a user with WinRM privileges, who is also a member of the Backup Operators group. The privileges conferred by this privileged group are used to dump the Active Directory database, and retrieve the hash of the primary domain administrator.
 
