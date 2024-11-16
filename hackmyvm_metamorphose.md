@@ -777,7 +777,7 @@ This option can be give multiple times.
  0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]
 ```
 
-`mkdir ./patchelf && cd ./parchelf`
+`mkdir ./patchelf && cd ./patchelf`
 
 `cp /lib64/ld-linux-x86-64.so.2 ./`
 
