@@ -50,8 +50,8 @@ Linux:
 - searchsploit
 - smbclient
 - tshark
-- windapsearch
 - whatweb
+- windapsearch
 - wireshark
 
 Windows:
@@ -59,8 +59,8 @@ Windows:
 - cmdkey.exe
 - curl.exe
 - icacls.exe
-- net.exe
 - mimikatz.exe
+- net.exe
 - PowerView.ps1
 - reg.exe
 - runas.exe
