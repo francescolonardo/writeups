@@ -23,7 +23,7 @@
 
 - [Joomla Web Service Abuse](https://www.exploit-db.com/exploits/51334)
 - [Ruby Isolated Environment Setup](https://textplain.org/isolated-ruby)
-- [WireShark Packet Filtering](WireShark Packet Filtering)
+- [WireShark Packet Filtering](https://medium.com/@haircutfish/tryhackme-wireshark-the-basics-task-5-packet-filtering-task-6-conclusion-27f3fb3a2898)
 - Chisel Windows Building
 - [LibreOffice Registry Security](https://wiki.documentfoundation.org/Deployment_and_Migration#Examples)
 - [Abusing MS-BKRP for Password Decryption](https://posts.specterops.io/operational-guidance-for-offensive-user-dpapi-abuse-1fb7fac8b107)
