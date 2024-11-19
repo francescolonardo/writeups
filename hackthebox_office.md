@@ -59,6 +59,7 @@ Windows:
 - cmdkey.exe
 - curl.exe
 - icacls.exe
+- Invoke-PowerShellTcpOneLine.ps1
 - mimikatz.exe
 - net.exe
 - PowerView.ps1
