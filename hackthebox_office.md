@@ -76,7 +76,7 @@ Windows:
 `ifconfig tun0`:
 ```
 tun0: flags=4305<UP,POINTOPOINT,RUNNING,NOARP,MULTICAST>  mtu 1500
-        inet 10.10.14.22  netmask 255.255.254.0  destination 10.10.14.22 📌
+        inet 10.10.14.22 📌 netmask 255.255.254.0  destination 10.10.14.22
         inet6 dead:beef:2::1014  prefixlen 64  scopeid 0x0<global>
         inet6 fe80::2082:c6a0:3cb9:9a5a  prefixlen 64  scopeid 0x20<link>
         unspec 00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00  txqueuelen 500  (UNSPEC)
