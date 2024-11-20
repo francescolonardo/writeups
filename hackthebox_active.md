@@ -18,7 +18,7 @@
 #### Skills Learned
 
 - SMB enumeration techniques
-- Group Policy Preferences enumeration and exploitation
+- [Group Policy Preferences enumeration and exploitation](https://vk9-sec.com/exploiting-gpp-sysvol-groups-xml/)
 - Identification and exploitation of Kerberoastable accounts
 
 #### Tools Used
@@ -26,8 +26,11 @@
 Linux:
 - gpp-decrypt
 - hashcat
+- impacket-GetADUsers
 - impacket-GetUserSPNs
 - impacket-psexec
+- kerbrute
+- ldapsearch
 - netexec
 - nmap
 - smbclient
