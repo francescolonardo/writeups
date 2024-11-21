@@ -762,7 +762,7 @@ SVC-ALFRESCO ---(MemberOf)--- SERVICE ACCOUNTS ---(MemberOf)--- PRIVILEGED IT AC
 ACCOUNT OPERATORS ---(GenericAll)--- EXCHANGE WINDOWS PERMISSIONS ---(WriteDacl)--- HTB.LOCAL
 ```
 ```
-HTB.LOCAL ---(DSync)--- DOMAIN ADMINS
+HTB.LOCAL ---(DCSync)--- DOMAIN ADMINS
 ```
 
 One of the paths shows that the `Exchange Windows Permissions` group has `WriteDacl`
