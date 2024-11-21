@@ -92,9 +92,9 @@ Nmap done: 1 IP address (1 host up) scanned in 767.96 seconds
 
 There’s SMB, WinRM and MSSQL open among other common ports.
 
-`echo -e '10.10.10.125\tquerier.htb.local htb.local htb' | sudo tee -a /etc/hosts`:
+`echo -e '10.10.10.125\tquerier.htb.local querier htb.local' | sudo tee -a /etc/hosts`:
 ```
-10.10.10.125    querier.htb.local htb.local htb
+10.10.10.125    querier.htb.local querier htb.local
 ```
 
 `netexec smb 10.10.10.125`:
