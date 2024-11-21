@@ -270,9 +270,9 @@ Service Info: Host: AUTHORITY; OS: Windows
 Nmap done: 1 IP address (1 host up) scanned in 0.51 seconds
 ```
 
-`echo -e '10.10.11.222\tauthority.authority.htb authority.htb authority' | sudo tee -a /etc/hosts`:
+`echo -e '10.10.11.222\tauthority.authority.htb authority authority.htb' | sudo tee -a /etc/hosts`:
 ```
-10.10.11.222    authority.authority.htb authority.htb authority ←
+10.10.11.222    authority.authority.htb authority authority.htb ←
 ```
 
 `ldapsearch -x -H ldap://10.10.11.222/ -s 'base' 'namingContexts'`:
