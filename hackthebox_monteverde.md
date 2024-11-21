@@ -201,9 +201,9 @@ Service Info: Host: MONTEVERDE; OS: Windows
 Nmap done: 1 IP address (1 host up) scanned in 0.68 seconds
 ```
 
-`echo -e '10.10.10.172\tmonteverde.megabank.local megabank.local megabank' | sudo tee -a /etc/hosts`:
+`echo -e '10.10.10.172\tmonteverde.megabank.local monteverde megabank.local' | sudo tee -a /etc/hosts`:
 ```
-10.10.10.172    monteverde.megabank.local megabank.local megabank
+10.10.10.172    monteverde.megabank.local monteverde megabank.local
 ```
 
 A good first step is to check for LDAP anonymous binds or SMB null sessions, as this would allow us to enumerate the domain without credentials.
