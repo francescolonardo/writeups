@@ -234,9 +234,9 @@ Service Info: Host: DC; OS: Windows
 Nmap done: 1 IP address (1 host up) scanned in 0.45 seconds
 ```
 
-`echo -e '10.10.11.3\tdc.office.htb office.htb office' | sudo tee -a /etc/hosts`:
+`echo -e '10.10.11.3\tdc.office.htb dc office.htb' | sudo tee -a /etc/hosts`:
 ```
-10.10.11.3      dc.office.htb office.htb office
+10.10.11.3      dc.office.htb dc office.htb
 ```
 
 `ldapsearch -x -H ldap://10.10.11.3/ -s 'base' 'namingContexts'`:
