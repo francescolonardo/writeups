@@ -227,9 +227,9 @@ Service Info: Host: DC; OS: Windows
 Nmap done: 1 IP address (1 host up) scanned in 0.75 seconds
 ```
 
-`echo -e '10.10.10.248\tdc.intelligence.htb intelligence.htb' | sudo tee -a /etc/hosts`:
+`echo -e '10.10.10.248\tdc.intelligence.htb dc intelligence.htb' | sudo tee -a /etc/hosts`:
 ```
-10.10.10.248    dc.intelligence.htb intelligence.htb ←
+10.10.10.248    dc.intelligence.htb dc intelligence.htb ←
 ```
 
 `ldapsearch -x -H ldap://10.10.10.248/ -s 'base' 'namingContexts'`:
