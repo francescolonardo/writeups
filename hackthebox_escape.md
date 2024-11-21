@@ -301,7 +301,7 @@ Service Info: Host: DC; OS: Windows
 Nmap done: 1 IP address (1 host up) scanned in 0.62 seconds
 ```
 
-`echo -e '10.10.11.202\tdc.sequel.htb sequel.htb sequel' | sudo tee -a /etc/hosts`:
+`echo -e '10.10.11.202\tdc.sequel.htb dc sequel.htb' | sudo tee -a /etc/hosts`:
 ```
 10.10.11.202    dc.sequel.htb dc sequel.htb ←
 ```
