@@ -202,9 +202,9 @@ Service Info: Host: DC01; OS: Windows
 Nmap done: 1 IP address (1 host up) scanned in 0.63 seconds
 ```
 
-`echo -e '10.10.10.192\tdc01.blackfield.local blackfield.local blackfield' | sudo tee -a /etc/hosts`:
+`echo -e '10.10.10.192\tdc01.blackfield.local dc01 blackfield.local' | sudo tee -a /etc/hosts`:
 ```
-10.10.10.192    dc01.blackfield.local blackfield.local blackfield ←
+10.10.10.192    dc01.blackfield.local dc01 blackfield.local ←
 ```
 
 `ldapsearch -x -H ldap://10.10.10.192/ -s 'base' 'namingContexts'`:
