@@ -458,9 +458,9 @@ ldapdomaindump
 1 directory, 17 files
 ```
 
-![ldapdomaindump - domain_users_by_group.html 1](./assets/hackthebox_administrator_ldapdomaindump_1.png)
+![ldapdomaindump - domain_users_by_group.html 1](./assets/screenshots/hackthebox_administrator_ldapdomaindump_1.png)
 
-![ldapdomaindump - domain_users_by_group.html 2](./assets/hackthebox_administrator_ldapdomaindump_2.png)
+![ldapdomaindump - domain_users_by_group.html 2](./assets/screenshots/hackthebox_administrator_ldapdomaindump_2.png)
 
 `sudo ntpdate 10.10.11.42`:
 ```
@@ -653,7 +653,7 @@ Session completed.
 
 `pwsafe ./Backup.psafe3`
 
-![pwsafe - Backup.psafe3](./assets/hackthebox_administrator_pwsafe.png)
+![pwsafe - Backup.psafe3](./assets/screenshots/hackthebox_administrator_pwsafe.png)
 
 `netexec smb 10.10.11.42 -u 'emily' -p 'UXLCI5iETUsIBoFVTj8yQFKoHjXmb'`:
 ```
