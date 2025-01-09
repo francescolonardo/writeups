@@ -9,7 +9,7 @@
 - Machine type: <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="17"/> Windows
 - Machine difficulty: 🟩 Easy (<span style="color:#f4b03b;">4.7</span>)
 
-> Heist is an easy difficulty Windows box with an "issues" portal accessible on the web server, from which it is possible to gain Cisco password hashes. These hashes are cracked, and subsequently RID bruteforce and password spraying are used to gain a foothold on the box. The user is found to be running Firefox. The "firefox.exe" process can be dumped and searched for the administrator's password.
+> Heist is an easy difficulty Windows box with an "issues" portal accessible on the web server, from which it is possible to gain Cisco password hashes. These hashes are cracked, and subsequently RID bruteforce and password spraying are used to gain a foothold on the box. The user is found to be running Firefox. The `firefox.exe` process can be dumped and searched for the administrator's password.
 
 #### Tools Used
 
