@@ -4,7 +4,7 @@
 
 ### Machine: [Administrator](https://www.hackthebox.com/machines/Administrator)
 
-<img src="https://labs.hackthebox.com/storage/avatars/9d232b1558b7543c7cb85f2774687363.png" alt="Administrator Machine Logo" width="150"/>
+<img src="https://labs.hackthebox.com/storage/avatars/9d232b1558b7543c7cb85f2774687363.png" alt="Machine Logo" width="150"/>
 
 - Machine type: <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="17"/> Windows
 - Machine difficulty: 🟨 Medium (<span style="color:#f4b03b;">3.7</span>)
