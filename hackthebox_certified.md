@@ -4,10 +4,10 @@
 
 ### Machine: [Certified](https://www.hackthebox.com/machines/Certified)
 
-<img src="https://labs.hackthebox.com/storage/avatars/28b71ec11bb839b5b58bdfc555006816.png" alt="Certified Machine Logo" width="150"/>
+<img src="https://labs.hackthebox.com/storage/avatars/28b71ec11bb839b5b58bdfc555006816.png" alt="Machine Logo" width="150"/>
 
 - Machine type: <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="17"/> Windows
-- Machine difficulty: 🟨 Medium (<span style="color:#e63c35;">4.7</span>)
+- Machine difficulty: 🟨 Medium (<span style="color:#f4b03b;">4.7</span>)
 
 > As is common in Windows pentests, you will start the Certified box with credentials for the following account: Username: "judith.mader" Password: "judith09".
 
