@@ -9,6 +9,8 @@
 - Machine type: <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="17"/> Windows
 - Machine difficulty: 🟩 Easy (<span style="color:#f4b03b;">4.7</span>)
 
+> Heist is an easy difficulty Windows box with an "issues" portal accessible on the web server, from which it is possible to gain Cisco password hashes. These hashes are cracked, and subsequently RID bruteforce and password spraying are used to gain a foothold on the box. The user is found to be running Firefox. The "firefox.exe" process can be dumped and searched for the administrator's password.
+
 #### Tools Used
 
 **Linux**:
@@ -51,7 +53,7 @@ tun0: flags=4305<UP,POINTOPOINT,RUNNING,NOARP,MULTICAST>  mtu 1500
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 ```
 
-`fping 10.10.11.149`:
+`fping 10.10.10.149`:
 ```
 10.10.10.149 is alive
 ```
@@ -95,7 +97,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 Nmap done: 1 IP address (1 host up) scanned in 64.69 seconds
 ```
 
-`netexec smb 10.10.11.41`:
+`netexec smb 10.10.10.149`:
 ```
 SMB         10.10.10.149    445    SUPPORTDESK      [*] Windows 10 / Server 2019 Build 17763 x64 (name:SUPPORTDESK) (domain:SupportDesk) (signing:False) (SMBv1:False)📌
 ```
