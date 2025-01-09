@@ -53,7 +53,7 @@ tun0: flags=4305<UP,POINTOPOINT,RUNNING,NOARP,MULTICAST>  mtu 1500
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 ```
 
-`fping 10.10.11.149`:
+`fping 10.10.10.149`:
 ```
 10.10.10.149 is alive
 ```
@@ -97,7 +97,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 Nmap done: 1 IP address (1 host up) scanned in 64.69 seconds
 ```
 
-`netexec smb 10.10.11.41`:
+`netexec smb 10.10.10.149`:
 ```
 SMB         10.10.10.149    445    SUPPORTDESK      [*] Windows 10 / Server 2019 Build 17763 x64 (name:SUPPORTDESK) (domain:SupportDesk) (signing:False) (SMBv1:False)📌
 ```
