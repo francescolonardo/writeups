@@ -33,7 +33,7 @@
 
 #### Skills Required
 
-- Enumeration
+- AD Enumeration
 - Kerberos Authentication
 - Source Code Review
 - Reverse Engineering
