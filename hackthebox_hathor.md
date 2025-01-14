@@ -1,0 +1,12 @@
+# CTF Penetration Testing
+
+## Platform: HackTheBox
+
+### Machine: [Hathor](https://www.hackthebox.com/machines/Hathor)
+
+<img src="https://labs.hackthebox.com/storage/avatars/7915a4df832e458fea0828ed8e0134fb.png" alt="Machine Logo" width="150"/>
+
+- Machine type: <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="17"/> Windows
+- Machine difficulty: ⬜ Insane (<span style="color:#e63c35;">7.5</span>)
+
+> Hathor is an Insane Windows Active Directory machine that starts with a webpage that is currently under construction. The CMS used for the webpage is the `mojoPortal` CMS. Since the CMS is open source, an attacker is able to find the default credentials used in the Admin panel straight away. It turns out that the credentials have not been modified on the remote machine and the attacker gets access to the Admin panel. There, it is discovered that any file with the extension `.txt` can be uploaded on the remote server. So, an attacker could leverage this and upload a webshell with the `.txt` extension. Then, the `Copy` option allows the attacker to switch back the extension to `.aspx` and execute the webshell. Now, the attacker has access to the remote machine. Enumerating the remote environment, it is discovered that AppLocker is enabled and that there are some strict firewall rules. Further enumeration reveals a folder with the project [Get-bADpasswords](https://github.com/improsec/Get-bADpasswords). Inside the folder, the hash of the user `BeatriceMill` can be recovered and cracked to reveal a clear text password. Afterwards, it is discovered that NTLM authentication is disabled, so a Kerberos ticket needs to be created in order to access the SMB service as the user `beatricemill`. The user `beatricemill` can overwrite a DLL file that is used by a periodically spawning process. Thus, an attacker is able to overwrite the DLL file with a malicious one that contains a proper payload to get a reverse shell as the user ginawild . The newly compromised user has a certificate in her Recycle Bin issued to the user Administrator for code signing purposes. Furthermore, `ginawild` is able to overwrite the contents of `Get-bADpasswords.ps1` a script that can query the DC for password hashes of all users. So, the attacker can alter the contents of the script to request the hash of the `Administrator`, sign it with the certificate and get the NT hash of the `Administrator`. With this hash, a Kerberos ticket can be retrieved that allows access to the remote machine through WinRM as the user `Adminsitrator`.
