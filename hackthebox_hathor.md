@@ -21,6 +21,7 @@
 - impacket-wmiexec
 - john
 - kerbrute
+- nc
 - netexec
 - nmap
 - openssl
