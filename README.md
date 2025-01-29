@@ -6,7 +6,7 @@ The writeups are designed to provide a clear understanding of each step, includi
 
 By sharing these writeups, I hope to improve my skills while contributing to the community by providing insights into my approach to different problems. Whether you're a beginner or looking to expand your knowledge, I hope these solutions offer value.
 
-<div style="text-align: right;">
+<div align="right">
   <img src="./assets/logo_hackthebox.png" alt="HackTheBox Logo" height="32" style="width:auto; margin-left: 10px;">
   <img src="./assets/logo_hackmyvm.png" alt="HackMyVM Logo" height="32" style="width:auto; margin-left: 10px;">
   <img src="./assets/logo_vulnyx.png" alt="VulNyx Logo" height="32" style="width:auto;">
