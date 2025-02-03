@@ -19,10 +19,10 @@ By sharing these writeups, I hope to improve my skills while contributing to the
 - [x] <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="15"/> [HackTheBox: Blackfield](./hackthebox_blackfield.md) 🟥 Hard (<span style="color:#e63c35;">5.9</span>) | OSCP
 
 | Status | Platform | Machine | OS | Difficulty | Certifications |
-|--------|----------|---------|----|------------|----------------|
+|:-------|:---------|:--------|:---|:-----------|:---------------|
 | ✅ | <img src="./assets/logo_hackthebox.png" alt="HackTheBox Logo" width="15"> HackTheBox | [Absolute](./hackthebox_absolute.md) | <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="15"/> | ⬜ Insane (<span style="color:#e63c35;">7.6</span>) | OSCP/OSEP |
-| ✅ | HackTheBox | [Active](./hackthebox_active.md) | <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="15"/> | 🟩 Easy (<span style="color:#f4b03b;">4.0</span>) | OSCP |
-| ✅ | HackTheBox | [Administrator](./hackthebox_administrator.md) | <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="15"/> | 🟨 Medium (<span style="color:#f4b03b;">3.7</span>) | OSCP |
-| ✅ | HackTheBox | [Authority](./hackthebox_authority.md) | <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="15"/> | 🟨 Medium (<span style="color:#f4b03b;">5.4</span>) | OSCP |
-| ✅ | HackTheBox | [Blackfield](./hackthebox_blackfield.md) | <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="15"/> | 🟥 Hard (<span style="color:#e63c35;">5.9</span>) | OSCP |
+| ✅ | <img src="./assets/logo_hackthebox.png" alt="HackTheBox Logo" width="15"> HackTheBox | [Active](./hackthebox_active.md) | <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="15"/> | 🟩 Easy (<span style="color:#f4b03b;">4.0</span>) | OSCP |
+| ✅ | <img src="./assets/logo_hackthebox.png" alt="HackTheBox Logo" width="15"> HackTheBox | [Administrator](./hackthebox_administrator.md) | <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="15"/> | 🟨 Medium (<span style="color:#f4b03b;">3.7</span>) | OSCP |
+| ✅ | <img src="./assets/logo_hackthebox.png" alt="HackTheBox Logo" width="15"> HackTheBox | [Authority](./hackthebox_authority.md) | <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="15"/> | 🟨 Medium (<span style="color:#f4b03b;">5.4</span>) | OSCP |
+| ✅ | <img src="./assets/logo_hackthebox.png" alt="HackTheBox Logo" width="15"> HackTheBox | [Blackfield](./hackthebox_blackfield.md) | <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="15"/> | 🟥 Hard (<span style="color:#e63c35;">5.9</span>) | OSCP |
 
