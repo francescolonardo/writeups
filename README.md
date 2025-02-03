@@ -6,6 +6,8 @@ The writeups are designed to provide a clear understanding of each step, includi
 
 By sharing these writeups, I hope to improve my skills while contributing to the community by providing insights into my approach to different problems. Whether you're a beginner or looking to expand your knowledge, I hope these solutions offer value.
 
+## CTF Penetration Testing Progress Tracker
+
 | Status | Platform | Machine | OS | Difficulty | Certifications |
 |:-------|:---------|:--------|:---|:-----------|:---------------|
 | ❌ | <img src="./assets/logo_hackthebox.png" alt="HackTheBox Logo" width="15"> HackTheBox | [Absolute](./hackthebox_absolute.md) | <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="15"/> | ⬜ Insane (<span style="color:#e63c35;">7.6</span>) | OSCP/OSEP |
