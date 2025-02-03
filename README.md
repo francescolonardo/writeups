@@ -6,6 +6,12 @@ The writeups are designed to provide a clear understanding of each step, includi
 
 By sharing these writeups, I hope to improve my skills while contributing to the community by providing insights into my approach to different problems. Whether you're a beginner or looking to expand your knowledge, I hope these solutions offer value.
 
+<div align="right">
+  <img src="./assets/logo_hackthebox.png" alt="HackTheBox Logo" height="32" style="width:auto; margin-left: 10px;">
+  <img src="./assets/logo_hackmyvm.png" alt="HackMyVM Logo" height="32" style="width:auto; margin-left: 10px;">
+  <img src="./assets/logo_vulnyx.png" alt="VulNyx Logo" height="32" style="width:auto;">
+</div>
+
 ## CTF Penetration Testing Progress Tracker
 
 | Status | Platform | Machine | OS | Difficulty | Certifications |
@@ -31,9 +37,3 @@ By sharing these writeups, I hope to improve my skills while contributing to the
 | ✔️ | <img src="./assets/logo_hackthebox.png" alt="HackTheBox Logo" width="15"> HackTheBox | [Scrambled](./hackthebox_scrambled.md) | <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="15"/> | 🟨 Medium (<span style="color:#f4b03b;">5.7</span>) | OSCP/OSEP |
 | ✔️ | <img src="./assets/logo_hackthebox.png" alt="HackTheBox Logo" width="15"> HackTheBox | [Sizzle](./hackthebox_sizzle.md) | <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="15"/> | ⬜ Insane (<span style="color:#e63c35;">7.1</span>) | OSCP/OSEP |
 | ✔️ | <img src="./assets/logo_hackthebox.png" alt="HackTheBox Logo" width="15"> HackTheBox | [Support](./hackthebox_support.md) | <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="15"/> | 🟩 Easy (<span style="color:#f4b03b;">4.7</span>) | OSCP/OSEP |
-
-<div align="right">
-  <img src="./assets/logo_hackthebox.png" alt="HackTheBox Logo" height="32" style="width:auto; margin-left: 10px;">
-  <img src="./assets/logo_hackmyvm.png" alt="HackMyVM Logo" height="32" style="width:auto; margin-left: 10px;">
-  <img src="./assets/logo_vulnyx.png" alt="VulNyx Logo" height="32" style="width:auto;">
-</div>
