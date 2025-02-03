@@ -1,6 +1,6 @@
 # CTF Penetration Testing Writeups
 
-This repository contains writeups of machines I’ve completed on CTF platforms like <img src="./assets/logo_hackthebox.png" alt="HackTheBox Logo" height="16" style="width:auto"> **HackTheBox**, <img src="./assets/logo_hackmyvm.png" alt="HackMyVM Logo" height="16" style="width:auto"> **HackMyVM**, and <img src="./assets/logo_vulnyx.png" alt="VulNyx Logo" height="16" style="width:auto;"> **VulNyx**. It includes detailed steps for identifying vulnerabilities, exploiting them, and achieving privilege escalation or post-exploitation when applicable.
+This repository contains writeups of machines I’ve completed on CTF platforms like **HackTheBox**, **HackMyVM**, and **VulNyx**. It includes detailed steps for identifying vulnerabilities, exploiting them, and achieving privilege escalation or post-exploitation when applicable.
 
 The writeups are designed to provide a clear understanding of each step, including both the *input commands* and their corresponding *output*. This allows readers to follow along without needing to launch the virtual machine or run the commands themselves.
 
