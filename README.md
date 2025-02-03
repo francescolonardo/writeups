@@ -12,4 +12,9 @@ By sharing these writeups, I hope to improve my skills while contributing to the
   <img src="./assets/logo_vulnyx.png" alt="VulNyx Logo" height="32" style="width:auto;">
 </div>
 
-- <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="17"/> [HackTheBox: Absolute](./hackthebox_absolute.md) ⬜ Insane (<span style="color:#e63c35;">7.6</span>)
+- <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="15"/> [HackTheBox: Absolute](./hackthebox_absolute.md) ⬜ Insane (<span style="color:#e63c35;">7.6</span>) | OSCP/OSEP
+- <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="15"/> [HackTheBox: Active](./hackthebox_active.md) 🟩 Easy (<span style="color:#f4b03b;">4.0</span>) | OSCP
+- <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="15"/> [HackTheBox: Administrator](./hackthebox_administrator.md) 🟨 Medium (<span style="color:#f4b03b;">3.7</span>)
+- <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="15"/> [HackTheBox: Authority](./hackthebox_authority.md) 🟨 Medium (<span style="color:#f4b03b;">5.4</span>) | OSCP
+- <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="15"/> [HackTheBox: Blackfield](./hackthebox_blackfield.md) 🟥 Hard (<span style="color:#e63c35;">5.9</span>) | OSCP
+- 
