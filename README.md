@@ -12,4 +12,4 @@ By sharing these writeups, I hope to improve my skills while contributing to the
   <img src="./assets/logo_vulnyx.png" alt="VulNyx Logo" height="32" style="width:auto;">
 </div>
 
-- [HackTheBox: Absolute](./hackthebox_absolute.md) | <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="13"/> | ⬜ Insane (<span style="color:#e63c35;">7.6</span>)
+- [HackTheBox: Absolute](./hackthebox_absolute.md) <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="15"/> ⬜ Insane (<span style="color:#e63c35;">7.6</span>)
