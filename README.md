@@ -44,4 +44,5 @@ By sharing these writeups, I hope to improve my skills while contributing to the
 | ❌ | <img src="./assets/logo_hackthebox.png" alt="HackTheBox Logo" width="15"> HackTheBox | StreamIO | <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="15"/> | 🟥 Hard (<span style="color:#e63c35;">6.0</span>) | OSCP/OSEP |
 | ✔️ | <img src="./assets/logo_hackthebox.png" alt="HackTheBox Logo" width="15"> HackTheBox | [Support](./hackthebox_support.md) | <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="15"/> | 🟩 Easy (<span style="color:#f4b03b;">4.7</span>) | OSCP/OSEP |
 | ❌ | <img src="./assets/logo_hackthebox.png" alt="HackTheBox Logo" width="15"> HackTheBox | Timelapse | <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="15"/> | 🟩 Easy (<span style="color:#f4b03b;">4.0</span>) | OSCP |
+| ❌ | <img src="./assets/logo_vulnyx.png" alt="VulNyx Logo" width="15"> VulNyx | Swamp | <img src="https://hackmyvm.eu/img/linux.png" alt="Linux" width="15"/> | 🟩 Easy | CBBH/CPTS |
 
