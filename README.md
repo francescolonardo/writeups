@@ -49,4 +49,6 @@ By sharing these writeups, I hope to improve my skills while contributing to the
 | ✔️ | <img src="./assets/logo_vulnyx.png" alt="VulNyx Logo" width="15"> VulNyx | Bola | <img src="https://hackmyvm.eu/img/linux.png" alt="Linux" width="15"/> | 🟨 Medium | CBBH/CPTS |
 | ✔️ | <img src="./assets/logo_vulnyx.png" alt="VulNyx Logo" width="15"> VulNyx | JarJar | <img src="https://hackmyvm.eu/img/linux.png" alt="Linux" width="15"/> | 🟨 Medium | CBBH/CPTS |
 | ✔️ | <img src="./assets/logo_vulnyx.png" alt="VulNyx Logo" width="15"> VulNyx | Future | <img src="https://hackmyvm.eu/img/linux.png" alt="Linux" width="15"/> | 🟨 Medium | CBBH/CPTS |
-
+| ❌ | <img src="./assets/logo_vulnyx.png" alt="VulNyx Logo" width="15"> VulNyx | Jerry | <img src="https://hackmyvm.eu/img/linux.png" alt="Linux" width="15"/> | 🟥 Hard | CBBH/CPTS |
+| ❌ | <img src="./assets/logo_vulnyx.png" alt="VulNyx Logo" width="15"> VulNyx | Gattaca | <img src="https://hackmyvm.eu/img/linux.png" alt="Linux" width="15"/> | 🟥 Hard | CBBH/CPTS |
+| ❌ | <img src="./assets/logo_vulnyx.png" alt="VulNyx Logo" width="15"> VulNyx | Lost | <img src="https://hackmyvm.eu/img/linux.png" alt="Linux" width="15"/> | 🟥 Hard | CBBH/CPTS |
