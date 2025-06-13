@@ -12,7 +12,7 @@ By sharing these writeups, I hope to improve my skills while contributing to the
   <img src="./assets/logo_vulnyx.png" alt="VulNyx Logo" height="32" style="width:auto;">
 </div>
 
-## CTF Penetration Testing Progress Tracker
+## Machines Progress Tracker
 
 | Status | Platform | Machine | OS | Category | Difficulty | Certifications |
 |:-------|:---------|:--------|:---|:---------|:-----------|:---------------|
