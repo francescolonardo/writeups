@@ -47,7 +47,7 @@ tun0: flags=4305<UP,POINTOPOINT,RUNNING,NOARP,MULTICAST>  mtu 1500
 
 ```
 ┌──(nabla㉿kali)-[~]
-└─$ sudo nmap -Pn -sS -p- 10.10.11.100 -T5 --min-rate=10000
+└─$ sudo nmap -Pn -sS -p- 10.10.11.100 -T5
 
 [SNIP]
 
