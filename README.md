@@ -1,6 +1,11 @@
-# CTF Penetration Testing Writeups
+# Penetration Testing CTF Machine Writeups
 
-This repository contains writeups of machines I've completed on CTF platforms like **HackTheBox**, **HackMyVM**, and **VulNyx**. It includes detailed steps for identifying vulnerabilities, exploiting them, and achieving privilege escalation or post-exploitation when applicable.
+<p align="center">
+  <img src="https://img.shields.io/github/stars/francescolonardo/pentest-machine-writeups?style=social">
+  <img src="https://img.shields.io/github/last-commit/francescolonardo/pentest-machine-writeups?label=updated&color=blue">
+</p>
+
+This repository contains penetration testing writeups of machines I've completed on CTF platforms like **HackTheBox**, **HackMyVM**, and **VulNyx**. It includes detailed steps for identifying vulnerabilities, exploiting them, and achieving privilege escalation or post-exploitation when applicable.
 
 The writeups are designed to provide a clear understanding of each step, including both the *input commands* and their corresponding *output*. This allows readers to follow along without needing to launch the virtual machine or run the commands themselves.
 
