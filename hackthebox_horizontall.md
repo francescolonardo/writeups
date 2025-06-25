@@ -7,7 +7,7 @@
 <img src="https://labs.hackthebox.com/storage/avatars/e4ec7d8504fdb58b5e6b7ddc82aafc77.png" alt="Horizontall Machine Logo" width="150"/>
 
 - Machine type: <img src="https://hackmyvm.eu/img/linux.png" alt="Linux" width="17"/> Linux
-- Machine difficulty: 🟩 Easy (<span style="color:#f4b03b;">3.9</span>)
+- Machine difficulty: 🟩 Easy (3.9)
 
 > **Horizontall** is an easy difficulty Linux machine were only HTTP and SSH services are exposed. Enumeration of the website reveals that it is built using the Vue JS framework. Reviewing the source code of the JavaScript file, a new virtual host is discovered. This host contains the `Strapi Headless CMS` which is vulnerable to two CVEs allowing potential attackers to gain remote code execution on the system as the `strapi` user. Then, after enumerating services listening only on localhost on the remote machine, a Laravel instance is discovered. In order to access the port that Laravel is listening on, SSH tunnelling is used. The Laravel framework installed is outdated and running on debug mode. Another CVE can be exploited to gain remote code execution through Laravel as `root`.
 
