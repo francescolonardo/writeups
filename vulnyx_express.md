@@ -207,7 +207,7 @@ drwxr-xr-x  3 root root 4096 Feb 12  2024 .local
 drwx------  2 root root 4096 Feb 12  2024 .ssh
 
 cat /root/r00t.txt
-17a0c0830e9c71623d17b30f5a2fc40a 🚩
+17a0c*************************** 🚩
 
 ls -la /home
 total 16
@@ -227,7 +227,7 @@ lrwxrwxrwx 1 root  root     9 Oct 22  2024 .bash_history -> /dev/null
 -r-------- 1 root  root    33 Oct 18  2024 user.txt
 
 cat /home/jesss/user.txt
-969dadb2e8f4aadb8291a496e6c75b35 🚩
+969da*************************** 🚩
 ```
 
 <img src="https://hackmyvm.eu/img/correctflag.png" alt="Machine Hacked!" width="150"/>
