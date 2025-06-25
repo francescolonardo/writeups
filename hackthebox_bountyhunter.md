@@ -7,7 +7,7 @@
 <img src="https://labs.hackthebox.com/storage/avatars/a24c032885e56a17a6c74cc58b63e8f4.png" alt="BountyHunter Machine Logo" width="150"/>
 
 - Machine type: <img src="https://hackmyvm.eu/img/linux.png" alt="Linux" width="17"/> Linux
-- Machine difficulty: 🟩 Easy (<span style="color:#f4b03b;">4.0</span>)
+- Machine difficulty: 🟩 Easy (4.0)
 
 > **BountyHunter** is an easy Linux machine that uses XML external entity injection to read system files. Being able to read a PHP file where credentials are leaked gives the opportunity to get a foothold on system as development user. A message from John mentions a contract with Skytrain Inc and states about a script that validates tickets. Auditing the source code of the python script reveals that it uses the eval function on ticket code, which can be injected, and as the python script can be run as root with `sudo` by the development user it is possible to get a root shell.
 
