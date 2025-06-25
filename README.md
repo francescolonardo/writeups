@@ -1,5 +1,11 @@
 # Penetration Testing CTF Machine Writeups
 
+<div align="left">
+  <img src="https://custom-icon-badges.demolab.com/github/stars/francescolonardo/pentest-machine-writeups?logo=star&style=social&logoColor=black"><br>
+  <img src="https://custom-icon-badges.demolab.com/github/last-commit/francescolonardo/pentest-machine-writeups?logo=history&logoColor=white&label=updated&color=007ec6&labelColor=007ec6&style=flat">
+</div>
+<br>
+
 This repository contains penetration testing writeups of machines I've completed on CTF platforms like **HackTheBox**, **HackMyVM**, and **VulNyx**. It includes detailed steps for identifying vulnerabilities, exploiting them, and achieving privilege escalation or post-exploitation when applicable.
 
 The writeups are designed to provide a clear understanding of each step, including both the *input commands* and their corresponding *output*. This allows readers to follow along without needing to launch the virtual machine or run the commands themselves.
@@ -13,12 +19,6 @@ By sharing these writeups, I hope to improve my skills while contributing to the
 </div>
 
 ## Machines Progress Tracker
-
-<div align="left">
-  <img src="https://custom-icon-badges.demolab.com/github/stars/francescolonardo/pentest-machine-writeups?logo=star&style=social&logoColor=black"><br>
-  <img src="https://custom-icon-badges.demolab.com/github/last-commit/francescolonardo/pentest-machine-writeups?logo=history&logoColor=white&label=updated&color=007ec6&labelColor=007ec6&style=flat">
-</div>
-<br>
 
 | Status | Platform | Machine | OS | Category | Difficulty | Certifications |
 |:-------|:---------|:--------|:---|:---------|:-----------|:---------------|
