@@ -14,7 +14,7 @@ By sharing these writeups, I hope to improve my skills while contributing to the
 
 <div align="left">
   <img src="https://img.shields.io/github/stars/francescolonardo/pentest-machine-writeups?style=social">
-  <img src="[https://img.shields.io/github/stars/francescolonardo/pentest-machine-writeups?style=social](https://custom-icon-badges.demolab.com/github/stars/DenverCoder1/custom-icon-badges?logo=star&style=social&logoColor=white)">
+  <img src="https://custom-icon-badges.demolab.com/github/stars/DenverCoder1/custom-icon-badges?logo=star&style=social&logoColor=white">
   <img src="https://img.shields.io/github/last-commit/francescolonardo/pentest-machine-writeups?label=updated&color=blue">
 </div>
 
