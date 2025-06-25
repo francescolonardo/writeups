@@ -2,7 +2,7 @@
 
 <div align="left">
   <img src="https://custom-icon-badges.demolab.com/github/stars/francescolonardo/pentest-machine-writeups?logo=star&style=social&logoColor=black"><br>
-  <img src="https://custom-icon-badges.demolab.com/github/last-commit/francescolonardo/pentest-machine-writeups?logo=history&logoColor=white&label=updated&color=007ec6&labelColor=007ec6&style=flat">
+  <img src="https://custom-icon-badges.demolab.com/github/last-commit/francescolonardo/pentest-machine-writeups?logo=history&logoColor=white&label=updated&color=5D95F6&labelColor=5D95F6&style=flat">
 </div>
 <br>
 
