@@ -268,7 +268,7 @@ drwx------ 2 marty.mcfly marty.mcfly 4096 Mar 24  2024 .ssh
 
 marty.mcfly@future:~$ cat /home/marty.mcfly/user.txt
 
-fe12df45c64c362ec68abd9c27467e35 🚩
+fe12d*************************** 🚩
 ```
 
 **Linux Privilege Escalation**
@@ -313,7 +313,7 @@ drwx------  2 root root 4096 Feb 12  2024 .ssh
 
 # cat /root/root.txt
 
-69c965c53f43ec68d503247796604b3d 🚩
+69c96*************************** 🚩
 ```
 
 <img src="https://hackmyvm.eu/img/correctflag.png" alt="Machine Hacked!" width="150"/>
