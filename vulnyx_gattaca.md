@@ -292,7 +292,7 @@ i.cassini
 ```
 cat /home/i.cassini/user.txt
 
-d3eca2e0a0755197605edc2eaa6be710 🚩
+d3eca2************************** 🚩
 ```
 
 **Linux Privilege Escalation**
@@ -341,7 +341,7 @@ root
 ```
 cat /root/root.txt
 
-bd1061ef36aca528a49f69c00f1feb66 🚩
+bd106*************************** 🚩
 ```
 
 <img src="https://hackmyvm.eu/img/correctflag.png" alt="Machine Hacked!" width="150"/>
