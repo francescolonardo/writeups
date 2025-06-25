@@ -230,7 +230,7 @@ drwxr-xr-x 3 d4t4s3c d4t4s3c 4096 Feb  2 14:49 .local
 
 d4t4s3c@bola:~$ cat user.txt
 
-4e62a268197ebd869b7bafe859e35d00 🚩
+4e62a*************************** 🚩
 ```
 
 ```
@@ -382,7 +382,7 @@ drwx------  2 root root 4096 Feb 12  2024 .ssh
 
 cat /root/root.txt
 
-8930fba2c5f4da4e76ceb626f8f5454a 🚩
+8930f*************************** 🚩
 ```
 
 <img src="https://hackmyvm.eu/img/correctflag.png" alt="Machine Hacked!" width="150"/>
