@@ -16,7 +16,7 @@ By sharing these writeups, I hope to improve my skills while contributing to the
   <img src="https://img.shields.io/github/stars/francescolonardo/pentest-machine-writeups?style=social">
   <img src="https://custom-icon-badges.demolab.com/github/stars/francescolonardo/pentest-machine-writeups?logo=star&style=social&logoColor=black">
   <img src="https://img.shields.io/github/last-commit/francescolonardo/pentest-machine-writeups?label=updated&color=blue">
-  <img src="https://custom-icon-badges.demolab.com/github/last-commit/francescolonardo/pentest-machine-writeups?logo=history&logoColor=black">
+  <img src="https://custom-icon-badges.demolab.com/github/last-commit/francescolonardo/pentest-machine-writeups?logo=history&logoColor=white&label=updated&color=007ec6&labelColor=007ec6&style=flat">
 </div>
 
 ## Machines Progress Tracker
