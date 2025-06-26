@@ -77,6 +77,6 @@ By sharing these writeups, I hope to improve my skills while contributing to the
 | ✔️ | <img src="./assets/logo_hackthebox.png" alt="HackTheBox Logo" width="15"> HackTheBox | [Sizzle](./hackthebox_sizzle.md) | <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="15"/> | Active Directory | ⬜ Insane (7.1) | OSCP/OSEP |
 | ❌ | <img src="./assets/logo_hackthebox.png" alt="HackTheBox Logo" width="15"> HackTheBox | Sekhmet | <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="15"/> | | ⬜ Insane (7.3) | CPTS/OSCP/OSEP |
 | ✔️ | <img src="./assets/logo_hackthebox.png" alt="HackTheBox Logo" width="15"> HackTheBox | [Hathor](./hackthebox_hathor.md) | <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="15"/> | Active Directory | ⬜ Insane (7.5) | OSCP/OSEP |
-| ❌ | <img src="./assets/logo_hackthebox.png" alt="HackTheBox Logo" width="15"> HackTheBox | Reddish | <img src="https://hackmyvm.eu/img/linux.png" alt="Linux" width="15"/> | | ⬜ Insane (7.9) | CPTS/OSCP/OSEP |
 | 🚧 | <img src="./assets/logo_hackthebox.png" alt="HackTheBox Logo" width="15"> HackTheBox | [Absolute](./hackthebox_absolute.md) | <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="15"/> | Active Directory | ⬜ Insane (7.6) | OSCP/OSEP |
+| ❌ | <img src="./assets/logo_hackthebox.png" alt="HackTheBox Logo" width="15"> HackTheBox | Reddish | <img src="https://hackmyvm.eu/img/linux.png" alt="Linux" width="15"/> | | ⬜ Insane (7.9) | CPTS/OSCP/OSEP |
 
