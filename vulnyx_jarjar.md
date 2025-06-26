@@ -236,7 +236,7 @@ drwx------ 2 jarjar jarjar 4096 Jul 22  2024 .ssh
 
 jarjar@jarjar:~$ cat user.txt 
 
-cd3afd21332e0ea7c8a47ff6a26387e1 🚩
+cd3af*************************** 🚩
 ```
 
 **Linux Privilege Escalation**
@@ -333,7 +333,7 @@ drwx------  2 root root 4096 Feb 12  2024 .ssh
 
 root@jarjar:/home/jarjar# cat /root/r00t.txt
 
-322f07d15f30d1c4e3009dc5f2decb0f 🚩
+322f0*************************** 🚩
 ```
 
 <img src="https://hackmyvm.eu/img/correctflag.png" alt="Machine Hacked!" width="150"/>
