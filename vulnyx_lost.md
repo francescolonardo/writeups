@@ -266,7 +266,7 @@ jackshephard@lost:~$ whoami
 jackshephard
 
 jackshephard@lost:~$ cat /home/jackshephard/user.txt
-df5ea29924d39c3be8785734f13169c6 🚩
+df5ea*************************** 🚩
 ```
 
 ```php
@@ -355,7 +355,7 @@ home            mnt             sys
 initrd.img      opt             tmp
 
 /mnt/root # cat root/root.txt
-74cc1c60799e0a786ac7094b532f01b1 🚩
+74cc1*************************** 🚩
 ```
 
 <img src="https://hackmyvm.eu/img/correctflag.png" alt="Machine Hacked!" width="150"/>
