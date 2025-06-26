@@ -14,7 +14,7 @@
 #### Skills Learned
 
 - **JavaScript Deobfuscation**
-- **CVE-2019-18818 + CVE-2019-19609**
+- **CVE-2019-18818;CVE-2019-19609**
 - **Port Forwarding**
 - **CVE-2021-3129**
 
@@ -25,7 +25,7 @@ Linux:
 - `whatweb`
 - `ffuf`
 - `searchsploit`
-- `CVE-2019-18818` + `CVE-2019-19609` POC
+- `CVE-2019-18818;CVE-2019-19609` POC
 - `CVE-2021-3129` POC
 
 #### Machine Writeup
@@ -137,7 +137,7 @@ init                    [Status: 200, Size: 144, Words: 1, Lines: 1, Duration: 1
 {"data":{"uuid":"a55da3bd-9693-4a08-9279-f9df57fd1817","currentEnvironment":"development","autoReload":false,"strapiVersion":"3.0.0-beta.17.4"}}
 ```
 
-**CVE-2019-18818 + CVE-2019-19609**
+**CVE-2019-18818;CVE-2019-19609**
 
 ```
 ┌──(nabla㉿kali)-[~]
