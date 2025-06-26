@@ -343,7 +343,7 @@ elaine@jerry:~$
 ```
 elaine@jerry:~$ cat /home/elaine/user.txt
 
-676ced18c8f480a80ddb4351d66d5f28 🚩
+676ce*************************** 🚩
 ```
 
 **Linux Privilege Escalation**
@@ -454,7 +454,7 @@ cat /root/root.txt
                         I hope you liked my machine! 
                              By J4ckie0x17
 
-4948a57231e2aed713664e3ed2659f99 🚩
+4948a*************************** 🚩
 ```
 
 <img src="https://hackmyvm.eu/img/correctflag.png" alt="Machine Hacked!" width="150"/>
