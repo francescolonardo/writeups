@@ -23,6 +23,7 @@
 Linux:
 - `nmap`
 - `whatweb`
+- [UnPacker](https://matthewfl.com/unPacker.html)
 - `ffuf`
 - `searchsploit`
 
