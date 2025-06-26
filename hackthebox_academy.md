@@ -13,9 +13,9 @@
 
 #### Skills Learned
 
-- ****
+- **Insecure Direct Object Reference (IDOR) / Parameter Tampering**
 - **CVE-2018-15133;CVE-2017-16894**
-- ****
+- **Credentials Harvesting** - `/var/log/audit/audit.log`,`/var/www/html/*/.env`
 - **Linux Privilege Escalation** - `sudo` Rights Abuse
 
 #### Tools Used
@@ -119,6 +119,8 @@ admin.php               [Status: 200, Size: 2633, Words: 668, Lines: 142, Durati
 ```
 
 ![Burp Suite - POST Register 1](./assets/screenshots/hackthebox_academy_burpsuite_post_register_1.png)
+
+**Insecure Direct Object Reference (IDOR) / Parameter Tampering**
 
 ```http
 POST /register.php HTTP/1.1
@@ -242,7 +244,7 @@ www-data@academy:/var/www$ cat /etc/passwd | grep `whoami`
 www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin ❌
 ```
 
-****
+**Credentials Harvesting**
 
 ```
 www-data@academy:/var/www$ cat /var/www/html/academy/.env
@@ -361,7 +363,7 @@ cry0l1t3@academy:~$ groups
 cry0l1t3 adm
 ```
 
-****
+**Credentials Harvesting**
 
 ```
 cry0l1t3@academy:~$ cat linpeas.output
