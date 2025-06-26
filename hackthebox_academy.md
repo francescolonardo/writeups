@@ -324,11 +324,11 @@ SSH         10.10.10.215    22     academy.htb      [+] cry0l1t3:mySup3rP4s5w0rd
 
 ```yaml
 credentials:
-	username: cry0l1t3
-	password: mySup3rP4s5w0rd!!
-	protocol: ssh
-	host: academy.htb
-	port: 22
+  username: cry0l1t3
+  password: mySup3rP4s5w0rd!!
+  protocol: ssh
+  host: academy.htb
+  port: 22
 ```
 
 ```
@@ -394,11 +394,11 @@ NOTE - using built-in logs: /var/log/audit/audit.log
 
 ```yaml
 credentials:
-	username: mrb3n
-	password: mrb3n_Ac@d3my!
-	protocol: ssh
-	host: academy.htb
-	port: 22
+  username: mrb3n
+  password: mrb3n_Ac@d3my!
+  protocol: ssh
+  host: academy.htb
+  port: 22
 ```
 
 ```
