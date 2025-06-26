@@ -24,6 +24,7 @@ Linux:
 - `nmap`
 - `whatweb`
 - `ffuf`
+- `searchsploit`
 - `CVE-2019-18818` + `CVE-2019-19609` POC
 - `CVE-2021-3129` POC
 
