@@ -6,7 +6,7 @@
 
 <img src="https://labs.hackthebox.com/storage/avatars/defa149ea7e259a4709a03a5825e970d.png" alt="Return Machine Logo" width="150"/>
 
-- Machine type: <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="17"/> Linux
+- Machine type: <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="17"/> Windows
 - Machine difficulty: 🟩 Easy (3.0)
 
 > **Return** is an easy difficulty Windows machine featuring a network printer administration panel that stores LDAP credentials. These credentials can be captured by inputting a malicious LDAP server which allows obtaining foothold on the server through the WinRM service. User found to be part of a privilege group which further exploited to gain system access.
@@ -21,7 +21,6 @@
 Linux:
 - `nmap`
 - `whatweb`
-- `ffuf`
 - `burpsuite`
 - `msfvenom`
 - `msfconsole`
