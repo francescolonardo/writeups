@@ -20,9 +20,11 @@ By sharing these writeups, I hope to improve my skills while contributing to the
 
 ## Machines Progress Tracker
 
+<!--
 ✔️ Completed: `33`  
 ❌ Not Yet: `33`  
 🚧 In Progress: `1`
+-->
 
 | Status | Platform | Machine | OS | Category | Difficulty | Certifications |
 |:-------|:---------|:--------|:---|:---------|:-----------|:---------------|
