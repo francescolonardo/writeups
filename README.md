@@ -20,6 +20,10 @@ By sharing these writeups, I hope to improve my skills while contributing to the
 
 ## Machines Progress Tracker
 
+✔️ Completed: `33`  
+❌ Not Yet: `33`  
+🚧 In Progress: `1`
+
 | Status | Platform | Machine | OS | Category | Difficulty | Certifications |
 |:-------|:---------|:--------|:---|:---------|:-----------|:---------------|
 | ✔️ | <img src="./assets/logo_vulnyx.png" alt="VulNyx Logo" width="15"> VulNyx | [Swamp](./vulnyx_swamp.md) | <img src="https://hackmyvm.eu/img/linux.png" alt="Linux" width="15"/> | Web Exploitation | 🟩 Easy | CBBH/CPTS |
