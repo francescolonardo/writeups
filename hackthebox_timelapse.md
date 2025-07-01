@@ -287,7 +287,7 @@ exit
 credentials:
     username: timelapse.htb/svc_deploy
     password: "E3R$Q62^12p7PLlC%KWaxuaV"
-    protocol: winrm
+    protocol: smb,winrm
     host: DC01.timelapse.htb
     port: 445,5985
 ```
@@ -343,7 +343,7 @@ LAPS        10.129.227.113  389    DC01             Computer:DC01$ User:        
 credentials:
     username: timelapse.htb/administrator
     password: "f4]W2[hO4z-H$1;jw]UW+@a7"
-    protocol: winrm
+    protocol: smb,winrm
     host: DC01.timelapse.htb
     port: 445,5985
 ```
