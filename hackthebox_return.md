@@ -21,6 +21,7 @@
 Linux:
 - `nmap`
 - `whatweb`
+- `nc`
 - `burpsuite`
 - `msfvenom`
 - `msfconsole`
