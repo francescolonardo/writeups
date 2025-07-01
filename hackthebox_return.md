@@ -26,6 +26,7 @@ Linux:
 - `msfconsole`
 - `netexec`
 - `evil-winrm`
+Windows:
 - `net.exe`
 - `sc.exe`
 
